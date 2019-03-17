@@ -4,13 +4,19 @@
   "license": "MIT",
   "scripts": {
     "dev": "next",
-    "start": "next"
+    "start": "NODE_ENV=production node server.js",
+    "build": "next build"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "brace": "^0.11.1",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
     "next": "^6.1.1",
     "react": "^16.4.1",
-    "react-ace-editor": "^0.0.2",
+    "react-ace": "^6.4.0",
+    "react-ace-editor": "0.0.3",
     "react-dom": "^16.4.1"
   }
 }
