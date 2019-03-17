@@ -30,6 +30,10 @@ class CodeEditor extends Component {
         mode="java"
         theme="monokai"
         name="editor1"
+        value={`public static void main (String[] args) {
+  /* code */
+}`
+        }
         onChange={this.onChange}
         setReadOnly={false}
         showGutter={true}
