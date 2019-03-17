@@ -39,7 +39,7 @@ class CodeEditor extends Component {
         showGutter={true}
         showPrintMargin={true}
         highlightActiveLine={true}
-        style={{ height: '600px' }}
+        style={{ height: '400px' }}
         ref={instance => { this.ace = instance; }} // Let's put things into scope
         editorProps={{$blockScrolling: Infinity}}
         setOptions={{
