@@ -1,3 +1,22 @@
+## Install Dependencies
+
+```
+npm i
+```
+
+## Run in local environtment
+
+```
+npm run dev
+```
+
+
+## Build instructions
+
+```
+npm run build
+```
+
 ## License
 
 Copyright 2018 Bellini & Lobo
