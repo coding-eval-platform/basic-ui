@@ -17,6 +17,6 @@
     "react": "^16.4.1",
     "react-ace": "^6.4.0",
     "react-ace-editor": "0.0.3",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.8.4"
   }
 }
