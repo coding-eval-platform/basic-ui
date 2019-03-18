@@ -4,8 +4,8 @@
   "license": "MIT",
   "author": "lobo",
   "scripts": {
-    "dev": "next",
-    "start": "next start -p 8000",
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js",
     "build": "next build"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "classnames": "^2.2.6",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "latest",
     "prop-types": "^15.7.2",
     "react": "^16.4.1",
