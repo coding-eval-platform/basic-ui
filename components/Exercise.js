@@ -37,18 +37,21 @@ function Exercise(props) {
 		<div>
 
 			<TextField
-          id="outlined-multiline-static"
-					label="Enunciado"
-					multiline
-					rows="4"
-					defaultValue="Lorem ipsum dolor sit amet, 
-					consectetur adipiscing elit, sed do eiusmod tempor 
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          className={classes.textField}
-          margin="normal"
-					variant="outlined"
-					style ={{width: '100%'}}
+				id="outlined-multiline-static"
+				label="Enunciado"
+				multiline
+				rows="4"
+				defaultValue="Lorem ipsum dolor sit amet, 
+				consectetur adipiscing elit, sed do eiusmod tempor 
+				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+				className={classes.textField}
+				margin="normal"
+				variant="outlined"
+				InputProps={{
+					readOnly: true,
+				}}
+				style ={{width: '100%'}}
         />
 
   	  <CodeEditor/>
@@ -65,7 +68,6 @@ function Exercise(props) {
 	</div>
 	);
 }
-
 
 Exercise.propTypes = {
   classes: PropTypes.object.isRequired,
