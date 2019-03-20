@@ -10,12 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core';
 import Exercise from './Exercise';
 
-const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
-}
-
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
