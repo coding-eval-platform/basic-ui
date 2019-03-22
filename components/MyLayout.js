@@ -12,9 +12,11 @@ render the content we put inside the Layout element
 */
 
 const Layout = props => (
-  <div style={layoutStyle}>
+  <div>
     <Header />
-    {props.children}
+    <div style={layoutStyle}>
+      {props.children}
+    </div>
   </div>
 )
 
