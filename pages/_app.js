@@ -19,7 +19,7 @@ export default class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>Examen</title>
+          <title>Coding Evaluation Platform</title>
         </Head>
         <Component {...pageProps} />
       </Container>

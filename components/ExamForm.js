@@ -136,7 +136,7 @@ class ExamForm extends React.Component {
                 className={classes.button}
                 onClick={this.handleSubmit}
               >
-                Create exam
+                Crear examen
                 <SendIcon className={classes.rightIcon} />
               </Button>
             </Grid>

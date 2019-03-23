@@ -20,7 +20,6 @@ const ButtonLink = ({ className, href, hrefAs, children, prefetch }) => (
 const RenderButton = props => (
   <Button 
     component={ButtonLink} 
-    textColor='#ffffff'
     href={props.href}>
     {props.content}
   </Button>

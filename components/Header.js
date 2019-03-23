@@ -33,7 +33,7 @@ function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Examen
+            Coding Evaluation Platform
           </Typography>
           <RenderButton href='/' content='Home'/>
           <RenderButton href='/about' content='About'/>
