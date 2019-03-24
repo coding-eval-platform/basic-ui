@@ -17,6 +17,12 @@ npm run dev
 npm run build
 ```
 
+## Micro deploy (to test)
+
+```
+now
+```
+
 ## License
 
 Copyright 2018 Bellini & Lobo
