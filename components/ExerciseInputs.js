@@ -3,6 +3,8 @@ import React from "react"
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
 
 
 const ExerciseInputs = (props) => {
@@ -12,12 +14,21 @@ const ExerciseInputs = (props) => {
       
       return (
         <div key={idx}>
-          <label htmlFor={exerciseId}>{`Ejercicio #${idx + 1}`}</label>
-          <input
-            type="text"
-            value={props.exercises[idx].name} 
-            className="name"
-          />
+          <Grid container spacing={24}>
+            <Grid item xs={8}>
+              <TextField
+                id="filled-full-width"
+                label={`Ejercicio #${idx + 1}`}
+                style={{ margin: 8 }}
+                margin-top="normal"
+                variant="filled"
+                multiline
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          </Grid>
         </div>
       )
     })
