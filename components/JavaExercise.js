@@ -30,7 +30,7 @@ const styles = theme => ({
 });
 
 
-function Exercise(props) {
+function JavaExercise(props) {
 	const { classes } = props;
 	
 	return (
@@ -69,8 +69,8 @@ function Exercise(props) {
 	);
 }
 
-Exercise.propTypes = {
+JavaExercise.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Exercise);
+export default withStyles(styles)(JavaExercise);

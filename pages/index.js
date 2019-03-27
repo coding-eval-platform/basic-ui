@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Layout from '../components/MyLayout.js'
-import Exercise from '../components/Exercise.js'
+import JavaExercise from '../components/JavaExercise.js'
 
 export default () => {
   return (
@@ -13,7 +13,7 @@ export default () => {
       */}
 
       {/*<CodeEditor value={"for (var i=0; i < 10; i++) {\n  console.log(i)\n}"} />*/}
-      <Exercise />
+      <JavaExercise />
     </Layout>
   )
 }
