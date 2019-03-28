@@ -1,6 +1,13 @@
 import React from "react"
 import ExerciseInputs from "./ExerciseInputs"
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,12 +21,11 @@ const styles = theme => ({
   },
 });
 
-
 class TestForm extends React.Component {
   state = {
     exercises: [{description:""}],
     owner: "",
-    description: ""
+		description: ""
 	}
 	
 	handleChange = (e) => {
@@ -46,10 +52,16 @@ class TestForm extends React.Component {
 		
 		return (
 			<form onSubmit={this.handleSubmit} onChange={this.handleChange} >
-				<Button variant="contained" size="small" color="primary" className={classes.margin} onClick={this.addExercise}>
-					Agregar ejercicio
-        </Button>
-				<ExerciseInputs exercises={exercises} />
+				<Grid container spacing={24}>
+					<Grid item xs={8}>
+						<ExerciseInputs exercises={exercises} />
+					</Grid>
+					<Grid item xs={4}>
+						<Button variant="contained" size="small" color="primary" className={classes.margin} onClick={this.addExercise}>
+							Agregar ejercicio
+						</Button>
+					</Grid>
+				</Grid>
 			</form>
 		)
 	}

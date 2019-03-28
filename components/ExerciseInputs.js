@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+import TestCaseDialog from './TestCaseDialog'
+
 
 
 const ExerciseInputs = (props) => {
@@ -22,12 +24,17 @@ const ExerciseInputs = (props) => {
                 style={{ margin: 8 }}
                 margin-top="normal"
                 variant="filled"
+                fullWidth
                 multiline
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             </Grid>
+            <Grid item xs={4}>
+                <TestCaseDialog/>
+            </Grid>
+
           </Grid>
         </div>
       )

@@ -9,6 +9,8 @@ import SendIcon from '@material-ui/icons/Send';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
 
 const styles = theme => ({
   button: {
@@ -35,37 +37,40 @@ function Exercise(props) {
 	
 	return (
 		<div>
+			<Grid container spacing={24}>
+				<Grid item xs={12}>
+					<TextField
+						id="outlined-multiline-static"
+						label="Enunciado"
+						multiline
+						rows="4"
+						defaultValue="Lorem ipsum dolor sit amet, 
+						consectetur adipiscing elit, sed do eiusmod tempor 
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+						className={classes.textField}
+						margin="normal"
+						variant="outlined"
+						InputProps={{
+							readOnly: true,
+						}}
+						style ={{width: '100%'}}
+						/>
 
-			<TextField
-				id="outlined-multiline-static"
-				label="Enunciado"
-				multiline
-				rows="4"
-				defaultValue="Lorem ipsum dolor sit amet, 
-				consectetur adipiscing elit, sed do eiusmod tempor 
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				InputProps={{
-					readOnly: true,
-				}}
-				style ={{width: '100%'}}
-        />
+					<CodeEditor/>
+				
+					<Button variant="contained" color="primary" className={classes.button}>
+						Execute code inside editor
+						<SendIcon className={classes.rightIcon} />
+					</Button>
 
-  	  <CodeEditor/>
-		
-			<Button variant="contained" color="primary" className={classes.button}>
-				Execute code inside editor
-        <SendIcon className={classes.rightIcon} />
-      </Button>
-
-			<Button variant="contained" size="small" className={classes.button}>
-        Submit my answer
-        <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-      </Button>
-	</div>
+					<Button variant="contained" size="small" className={classes.button}>
+						Submit my answer
+						<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+					</Button>
+				</Grid>
+			</Grid>
+		</div>
 	);
 }
 
