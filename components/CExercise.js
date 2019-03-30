@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
+
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
@@ -54,17 +56,43 @@ function CExercise(props) {
 				style ={{width: '100%'}}
 			/>*/}
 
-  	  <CEditor/>
-		
-			<Button variant="contained" color="primary" className={classes.button}>
-				Execute code inside editor
-        <SendIcon className={classes.rightIcon} />
-      </Button>
+			<Grid container spacing={12}>
+				<Grid item xs={6}>
+  	  		<CEditor/>
+				</Grid>
 
-			<Button variant="contained" size="small" className={classes.button}>
-        Submit my answer
-        <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-      </Button>
+				<Grid item xs={6}>
+					<TextField
+						id="outlined-full-width"
+						label="Ouput of the C editor"
+						style={{ margin: 8 }}
+						multiline
+						placeholder="You will see the output of the editor here..."
+						//helperText="Full width!"
+						fullWidth
+						margin="normal"
+						variant="outlined"
+						InputLabelProps={{
+							shrink: true,
+						}}
+					/>
+				</Grid>
+
+				<Grid item xs={3}>
+					<Button variant="contained" color="primary" className={classes.button}>
+						Execute code inside editor
+        		<SendIcon className={classes.rightIcon} />
+      		</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button variant="contained" size="small" className={classes.button}>
+    		    Submit my answer
+        		<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+      		</Button>
+				</Grid>
+
+				
+			</Grid>
 	</div>
 	);
 }
