@@ -36,7 +36,7 @@ function RubyExercise(props) {
 	return (
 		<div>
 
-			<TextField
+			{/* <TextField
 				id="outlined-multiline-static"
 				label="Enunciado"
 				multiline
@@ -52,7 +52,7 @@ function RubyExercise(props) {
 					readOnly: true,
 				}}
 				style ={{width: '100%'}}
-        />
+			/>*/}
 
   	  <RubyEditor/>
 		

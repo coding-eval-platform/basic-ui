@@ -37,6 +37,7 @@ function Header(props) {
           </Typography>
           <RenderButton href='/' content='Home'/>
           <RenderButton href='/about' content='About'/>
+          <RenderButton href='/playground' content='Playground'/>
           <RenderButton href='/test' content='Test Page'/>
         </Toolbar>
       </AppBar>

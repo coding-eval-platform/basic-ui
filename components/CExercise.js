@@ -36,7 +36,7 @@ function CExercise(props) {
 	return (
 		<div>
 
-			<TextField
+			{/* <TextField
 				id="outlined-multiline-static"
 				label="Enunciado"
 				multiline
@@ -52,7 +52,7 @@ function CExercise(props) {
 					readOnly: true,
 				}}
 				style ={{width: '100%'}}
-        />
+			/>*/}
 
   	  <CEditor/>
 		

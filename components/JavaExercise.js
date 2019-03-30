@@ -36,7 +36,7 @@ function JavaExercise(props) {
 	return (
 		<div>
 
-			<TextField
+			{/* <TextField
 				id="outlined-multiline-static"
 				label="Enunciado"
 				multiline
@@ -52,7 +52,7 @@ function JavaExercise(props) {
 					readOnly: true,
 				}}
 				style ={{width: '100%'}}
-        />
+			/>*/}
 
   	  <JavaEditor/>
 		
