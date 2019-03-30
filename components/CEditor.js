@@ -49,7 +49,7 @@ int main()
         showGutter={true}
         showPrintMargin={true}
         highlightActiveLine={true}
-        style={{ height: '400px' }}
+        style={{ height: '400px', width: '95%' }}
         ref={instance => { this.ace = instance; }} // Let's put things into scope
         editorProps={{$blockScrolling: Infinity}}
         setOptions={{
