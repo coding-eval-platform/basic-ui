@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
 import Divider from '@material-ui/core';
-import Exercise from './Exercise';
+import JavaExercise from './JavaExercise.js';
 
 function TabContainer(props) {
   return (
@@ -58,13 +58,13 @@ class Exam extends React.Component {
             </Tabs>
           </AppBar>
           {value === 0 && <TabContainer>
-            <Exercise/>
+            <JavaExercise/>
           </TabContainer>}
           {value === 1 && <TabContainer>
-            <Exercise/>
+            <JavaExercise/>
           </TabContainer>}
           {value === 2 && <TabContainer>
-            <Exercise/>
+            <JavaExercise/>
           </TabContainer>}
         </div>
       </NoSsr>

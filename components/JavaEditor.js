@@ -10,7 +10,7 @@ import 'brace/ext/language_tools';
 
 
 
-class CodeEditor extends Component {
+class JavaEditor extends Component {
 
   constructor() {
     super();
@@ -54,4 +54,4 @@ class CodeEditor extends Component {
     );
   }
 }
-export default CodeEditor
+export default JavaEditor

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import dynamic from 'next/dynamic'
-const CodeEditor = dynamic(import('./codeEditor'), {ssr: false})
+const RubyEditor = dynamic(import('./RubyEditor'), {ssr: false})
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -30,7 +30,7 @@ const styles = theme => ({
 });
 
 
-function Exercise(props) {
+function RubyExercise(props) {
 	const { classes } = props;
 	
 	return (
@@ -54,7 +54,7 @@ function Exercise(props) {
 				style ={{width: '100%'}}
         />
 
-  	  <CodeEditor/>
+  	  <RubyEditor/>
 		
 			<Button variant="contained" color="primary" className={classes.button}>
 				Execute code inside editor
@@ -69,8 +69,8 @@ function Exercise(props) {
 	);
 }
 
-Exercise.propTypes = {
+RubyExercise.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Exercise);
+export default withStyles(styles)(RubyExercise);
