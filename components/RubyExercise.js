@@ -67,6 +67,7 @@ function RubyExercise(props) {
 						label="Ouput of the Ruby editor"
 						style={{ margin: 8 }}
 						multiline
+						rows='18'
 						placeholder="You will see the output of the editor here..."
 						//helperText="Full width!"
 						fullWidth
