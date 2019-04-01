@@ -31,71 +31,88 @@ const styles = theme => ({
   },
 });
 
+class RubyExercise extends Component {
 
-function RubyExercise(props) {
-	const { classes } = props;
+	state = {
+		outputValue: ''
+	}
+
+	sendCodeinSandBox = () => {
+		this.setState({
+			outputValue: 'tuvieja'
+		});
+	}
+
+	handleChange = variable => event => {
+    this.setState({ [variable]: event.target.value });
+  };
+
+  
+  render() {
+		const { classes } = this.props;
+
+    return (
+			<div>
 	
-	return (
-		<div>
-
-			{/* <TextField
-				id="outlined-multiline-static"
-				label="Enunciado"
-				multiline
-				rows="4"
-				defaultValue="Lorem ipsum dolor sit amet, 
-				consectetur adipiscing elit, sed do eiusmod tempor 
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				InputProps={{
-					readOnly: true,
-				}}
-				style ={{width: '100%'}}
-			/>*/}
-
-			<Grid container spacing={12}>
-				<Grid item xs={6}>
-  	  		<RubyEditor/>
+				{/* <TextField
+					id="outlined-multiline-static"
+					label="Enunciado"
+					multiline
+					rows="4"
+					defaultValue="Lorem ipsum dolor sit amet, 
+					consectetur adipiscing elit, sed do eiusmod tempor 
+					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+					className={classes.textField}
+					margin="normal"
+					variant="outlined"
+					InputProps={{
+						readOnly: true,
+					}}
+					style ={{width: '100%'}}
+				/>*/}
+	
+				<Grid container spacing={12}>
+					<Grid item xs={6}>
+						<RubyEditor/>
+					</Grid>
+	
+					<Grid item xs={6}>
+						<TextField
+							id="outlined-full-width"
+							label="Ouput of the Ruby editor"
+							style={{ margin: 8 }}
+							multiline
+							rows='18'
+							placeholder="You will see the output of the editor here..."
+							//helperText="Full width!"
+							value={this.state.outputValue}
+							onChange={this.handleChange('outputValue')}
+							fullWidth
+							margin="normal"
+							variant="outlined"
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+					</Grid>
+	
+					<Grid item xs={3}>
+						<Button variant="contained" color="primary" className={classes.button} onClick={this.sendCodeinSandBox}>
+							Execute code inside editor
+							<SendIcon className={classes.rightIcon} />
+						</Button>
+					</Grid>
+					<Grid item xs={3}>
+						<Button variant="contained" size="small" className={classes.button}>
+							Submit my answer
+							<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+						</Button>
+					</Grid>
 				</Grid>
-
-				<Grid item xs={6}>
-					<TextField
-						id="outlined-full-width"
-						label="Ouput of the Ruby editor"
-						style={{ margin: 8 }}
-						multiline
-						rows='18'
-						placeholder="You will see the output of the editor here..."
-						//helperText="Full width!"
-						fullWidth
-						margin="normal"
-						variant="outlined"
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-				</Grid>
-
-				<Grid item xs={3}>
-					<Button variant="contained" color="primary" className={classes.button}>
-						Execute code inside editor
-        		<SendIcon className={classes.rightIcon} />
-      		</Button>
-				</Grid>
-				<Grid item xs={3}>
-					<Button variant="contained" size="small" className={classes.button}>
-    		    Submit my answer
-        		<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-      		</Button>
-				</Grid>
-
-				
-			</Grid>
-	</div>
-	);
+		</div>
+		);
+  }
 }
 
 RubyExercise.propTypes = {
