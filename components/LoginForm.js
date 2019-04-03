@@ -35,7 +35,7 @@ class LoginTab extends React.Component {
                 <Fingerprint />
             </Grid>
             <Grid item md={true} sm={true} xs={true}>
-                <TextField id="username" label="Password" type="password" fullWidth required />
+                <TextField id="password" label="Password" type="password" fullWidth required />
             </Grid>
           </Grid>
          
