@@ -11,7 +11,7 @@ const styles = theme => ({
     }
 });
 
-class LoginForm extends React.Component {
+class SignUpForm extends React.Component {
   render() {
     const { classes } = this.props;
 
@@ -38,6 +38,15 @@ class LoginForm extends React.Component {
                 <TextField id="password" label="Password" type="password" fullWidth required />
             </Grid>
           </Grid>
+
+          <Grid container spacing={8} alignItems="flex-end">
+            <Grid item>
+                <Fingerprint />
+            </Grid>
+            <Grid item md={true} sm={true} xs={true}>
+                <TextField id="password-confirmation" label="Re-enter password" type="password" fullWidth required />
+            </Grid>
+          </Grid>
          
          {/* Remember me */}
          {/* 
@@ -58,7 +67,7 @@ class LoginForm extends React.Component {
             </Grid>
              */}
           <Grid container justify="center" style={{ marginTop: '10px' }}>
-              <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Login</Button>
+              <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Sign Up</Button>
           </Grid>
 
       {/* </Paper> */}
@@ -67,4 +76,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(SignUpForm);
