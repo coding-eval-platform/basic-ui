@@ -7,8 +7,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import Divider from '@material-ui/core';
-import JavaExercise from './JavaExercise.js';
+import JavaExercise from './Editors/JavaExercise.js';
 
 function TabContainer(props) {
   return (

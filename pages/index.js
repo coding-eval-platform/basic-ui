@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Layout from '../components/MyLayout.js'
-import RubyExercise from '../components/RubyExercise.js'
+import RubyExercise from '../components/Editors/RubyExercise.js'
 
 export default () => {
   return (
