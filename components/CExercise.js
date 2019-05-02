@@ -11,6 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
 
 const styles = theme => ({
   button: {
@@ -37,64 +39,41 @@ function CExercise(props) {
 	
 	return (
 		<div>
-
-			{/* <TextField
-				id="outlined-multiline-static"
-				label="Enunciado"
-				multiline
-				rows="4"
-				defaultValue="Lorem ipsum dolor sit amet, 
-				consectetur adipiscing elit, sed do eiusmod tempor 
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				InputProps={{
-					readOnly: true,
-				}}
-				style ={{width: '100%'}}
-			/>*/}
-
-			<Grid container spacing={12}>
-				<Grid item xs={6}>
-  	  		<CEditor/>
-				</Grid>
-
-				<Grid item xs={6}>
+			<Grid container spacing={24}>
+				<Grid item xs={12}>
 					<TextField
-						id="outlined-full-width"
-						label="Ouput of the C editor"
-						style={{ margin: 8 }}
+						id="outlined-multiline-static"
+						label="Enunciado"
 						multiline
-						rows='18'
-						placeholder="You will see the output of the editor here..."
-						//helperText="Full width!"
-						fullWidth
+						rows="4"
+						defaultValue="Lorem ipsum dolor sit amet, 
+						consectetur adipiscing elit, sed do eiusmod tempor 
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+						className={classes.textField}
 						margin="normal"
 						variant="outlined"
-						InputLabelProps={{
-							shrink: true,
+						InputProps={{
+							readOnly: true,
 						}}
-					/>
-				</Grid>
+						style ={{width: '100%'}}
+						/>
 
-				<Grid item xs={3}>
+					<CodeEditor/>
+				
 					<Button variant="contained" color="primary" className={classes.button}>
 						Execute code inside editor
-        		<SendIcon className={classes.rightIcon} />
-      		</Button>
-				</Grid>
-				<Grid item xs={3}>
-					<Button variant="contained" size="small" className={classes.button}>
-    		    Submit my answer
-        		<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-      		</Button>
-				</Grid>
+						<SendIcon className={classes.rightIcon} />
+					</Button>
 
-				
+					<Button variant="contained" size="small" className={classes.button}>
+						Submit my answer
+						<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+					</Button>
+				</Grid>
 			</Grid>
-	</div>
+		</div>
+
 	);
 }
 

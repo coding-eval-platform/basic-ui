@@ -28,6 +28,7 @@ const styles = theme => ({
 class ExamForm extends React.Component {
   state = {
     title: "Ingrese aquí el título del examen",
+    date: null,
     exam_state: null,
     duration: 0,
     number_of_exercises: 0
@@ -117,10 +118,10 @@ class ExamForm extends React.Component {
             <Grid item xs={6}>
               <TextField
                 id="filled-full-width"
-                label="Reglas generales del examen"
+                label="Comentarios generales sobre examen"
                 style={{ margin: 8 }}
                 className={classes.formControl}
-                placeholder="Ingrese las reglas del examen"
+                placeholder="Ingrese los comentarios sobre el examen"
                 multiline
                 margin="normal"
                 variant="filled"
@@ -130,7 +131,7 @@ class ExamForm extends React.Component {
               />
             </Grid>
             <Grid item xs={3}>
-              <Button 
+              {/*<Button 
                 variant="contained" 
                 color="primary" 
                 className={classes.button}
@@ -139,6 +140,7 @@ class ExamForm extends React.Component {
                 Crear examen
                 <SendIcon className={classes.rightIcon} />
               </Button>
+              */}
             </Grid>
           </Grid>
         </div>
