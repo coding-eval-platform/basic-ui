@@ -39,6 +39,12 @@ class TeacherDashboard extends React.Component {
       });
   }
 
+  deleteExamHandler = (index, event) => {
+    const items = Object.assign([], this.state.items);
+    items.splice(index, 1);
+    this.setState({items: items});
+  }
+  
   render() {
     const { classes } = this.props;
     console.log(this.state.isLoaded);
@@ -63,9 +69,9 @@ class TeacherDashboard extends React.Component {
             </TableHead>
             <TableBody>
 
-              {this.state.items.map(item => (
+              {this.state.items.map((item, index) => (
                 <ExamRow
-                  // delEvent={this.deleteExam.bind(this,index)}
+                  deleteEvent={this.deleteExamHandler.bind(this,index)}
                   id={item.id}
                   description={item.description}
                   startingAt={item.startingAt}

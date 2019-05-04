@@ -30,9 +30,9 @@ function ExamRow(props) {
       <TableCell align="center">{props.state}</TableCell>
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
       <TableCell align="center">{props.actualDuration}</TableCell>
-      <IconButton aria-label="Delete" className={classes.margin} align="center">
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+      <IconButton aria-label="Delete" className={classes.margin} onClick={props.deleteEvent}>
+        <DeleteIcon fontSize="small" />
+      </IconButton>
     </TableRow>
   )
 }
