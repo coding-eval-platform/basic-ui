@@ -64,7 +64,7 @@ class TeacherDashboard extends React.Component {
                 <TableCell align="center">State</TableCell>
                 <TableCell align="center">Actual Starting Moment</TableCell>
                 <TableCell align="center">Actual Duration</TableCell>
-                <TableCell align="center">Actions</TableCell>
+                <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
