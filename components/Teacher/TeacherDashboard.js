@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import ExamRow from './ExamRow.js'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -50,27 +52,30 @@ class TeacherDashboard extends React.Component {
             <TableHead>
               <TableRow>
                 <TableCell>Exam Identifier</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Starting At</TableCell>
-                <TableCell align="right">Duration</TableCell>
-                <TableCell align="right">State</TableCell>
-                <TableCell align="right">Actual Starting Moment</TableCell>
-                <TableCell align="right">Actual Duration</TableCell>
+                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">Starting At</TableCell>
+                <TableCell align="center">Duration</TableCell>
+                <TableCell align="center">State</TableCell>
+                <TableCell align="center">Actual Starting Moment</TableCell>
+                <TableCell align="center">Actual Duration</TableCell>
+                <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+
               {this.state.items.map(item => (
-                <TableRow key={item.id}>
-                  <TableCell component="th" scope="item">
-                    {item.id}
-                  </TableCell>
-                  <TableCell align="right">{item.description}</TableCell>
-                  <TableCell align="right">{item.startingAt}</TableCell>
-                  <TableCell align="right">{item.duration}</TableCell>
-                  <TableCell align="right">{item.state}</TableCell>
-                  <TableCell align="right">{item.actualStartingMoment}</TableCell>
-                  <TableCell align="right">{item.actualDuration}</TableCell>
-                </TableRow>
+                <ExamRow
+                  // delEvent={this.deleteExam.bind(this,index)}
+                  id={item.id}
+                  description={item.description}
+                  startingAt={item.startingAt}
+                  duration={item.duration}
+                  state={item.state}
+                  actualStartingMoment={item.actualStartingMoment}
+                  actualDuration={item.actualDuration}
+                // changeEvent={this.changeUserName.bind(this, user.description)}
+                // key={user.id }
+                />
               ))}
             </TableBody>
           </Table>

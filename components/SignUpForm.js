@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Face, Fingerprint } from '@material-ui/icons'
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     margin: {
@@ -18,7 +19,6 @@ class SignUpForm extends React.Component {
     return (
       <div className={classes.margin}>
       {/* <Paper className={classes.padding}> */}
-
           {/* Username */}
           <Grid container spacing={8} alignItems="flex-end">
             <Grid item>
@@ -39,6 +39,7 @@ class SignUpForm extends React.Component {
             </Grid>
           </Grid>
 
+          {/* Confirm Password */}
           <Grid container spacing={8} alignItems="flex-end">
             <Grid item>
                 <Fingerprint />
