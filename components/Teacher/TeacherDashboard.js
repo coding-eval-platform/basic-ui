@@ -41,10 +41,22 @@ class TeacherDashboard extends React.Component {
 
   deleteExamHandler = (index, event) => {
     const items = Object.assign([], this.state.items);
+    console.log('Deleting exam with ID: ', items[index].id);
+
+    const url = 'http://localhost:8000/exams/' + items[index].id.toString()
+
     items.splice(index, 1);
-    this.setState({items: items});
+    this.setState({ items: items });
+
+    // then hit the API 
+    fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.text()) // OR res.json()
+      .then(res => console.log(res))
   }
-  
+
   render() {
     const { classes } = this.props;
     console.log(this.state.isLoaded);
@@ -64,14 +76,14 @@ class TeacherDashboard extends React.Component {
                 <TableCell align="center">State</TableCell>
                 <TableCell align="center">Actual Starting Moment</TableCell>
                 <TableCell align="center">Actual Duration</TableCell>
-                <TableCell align="center">Action</TableCell>
+                <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
 
               {this.state.items.map((item, index) => (
                 <ExamRow
-                  deleteEvent={this.deleteExamHandler.bind(this,index)}
+                  deleteEvent={this.deleteExamHandler.bind(this, index)}
                   id={item.id}
                   description={item.description}
                   startingAt={item.startingAt}
