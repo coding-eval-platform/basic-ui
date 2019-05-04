@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import RenderButton from './RenderButton';
@@ -40,6 +39,7 @@ function Header(props) {
           <RenderButton href='/signup' content='Sign Up'/>
           <RenderButton href='/login' content='Login'/>
           <RenderButton href='/playground' content='Playground'/>
+          <RenderButton href='/teacher_dashboard' content='Teacher'/>
           <RenderButton href='/test' content='Test Page'/>
         </Toolbar>
       </AppBar>

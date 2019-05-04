@@ -1,0 +1,87 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 700,
+  },
+});
+
+class TeacherDashboard extends React.Component {
+
+  state = {
+    items: [],
+    isLoaded: false,
+  }
+
+  componentDidMount = () => {
+    fetch('http://localhost:8000/exams?size=10&page=0&sort=description,asc')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          items: json,
+        })
+      });
+  }
+
+  render() {
+    const { classes } = this.props;
+    console.log(this.state.isLoaded);
+    if (!this.state.isLoaded) {
+      return <div>Loading...</div>
+    }
+    else {
+      return (
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Exam Identifier</TableCell>
+                <TableCell align="right">Description</TableCell>
+                <TableCell align="right">Starting At</TableCell>
+                <TableCell align="right">Duration</TableCell>
+                <TableCell align="right">State</TableCell>
+                <TableCell align="right">Actual Starting Moment</TableCell>
+                <TableCell align="right">Actual Duration</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.items.map(item => (
+                <TableRow key={item.id}>
+                  <TableCell component="th" scope="item">
+                    {item.id}
+                  </TableCell>
+                  <TableCell align="right">{item.description}</TableCell>
+                  <TableCell align="right">{item.startingAt}</TableCell>
+                  <TableCell align="right">{item.duration}</TableCell>
+                  <TableCell align="right">{item.state}</TableCell>
+                  <TableCell align="right">{item.actualStartingMoment}</TableCell>
+                  <TableCell align="right">{item.actualDuration}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      )
+    }
+  }
+}
+
+TeacherDashboard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(TeacherDashboard);
