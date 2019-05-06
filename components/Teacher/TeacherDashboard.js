@@ -5,6 +5,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
+
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
@@ -57,9 +58,36 @@ class TeacherDashboard extends React.Component {
       .then(res => console.log(res))
   }
 
+  // handleDescriptionChange = (index, event) => {
+  //   const items = Object.assign([], this.state.items);
+  //   console.log(items);
+    
+  //   console.log('Updating exam, old description is: ', items[index].description);
+  //   items[index].description = event.target.value;
+  //   console.log('Updating exam, new description is: ', items[index].description);
+
+  //   this.setState({ items: items });
+
+  //   const url = 'http://localhost:8000/exams/' + items[index].id.toString()
+
+  //   // then hit the API 
+  //   fetch(url, {
+  //     method: 'PUT',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       description: items[index].description, 
+  //     })
+  //   })
+  //     .then(res => res.text()) // OR res.json()
+  //     .then(res => console.log(res))
+
+  // }
+  
+
+
+
   render() {
     const { classes } = this.props;
-    console.log(this.state.isLoaded);
     if (!this.state.isLoaded) {
       return <div>Loading...</div>
     }
@@ -91,6 +119,7 @@ class TeacherDashboard extends React.Component {
                   state={item.state}
                   actualStartingMoment={item.actualStartingMoment}
                   actualDuration={item.actualDuration}
+                  // onDescriptionChange={this.handleDescriptionChange.bind(this, index)}
                 // changeEvent={this.changeUserName.bind(this, user.description)}
                 // key={user.id }
                 />
