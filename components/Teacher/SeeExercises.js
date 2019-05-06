@@ -166,6 +166,8 @@ class SeeExercises extends React.Component {
             Add exercise
           </Button>
           <Dialog
+            fullWidth
+            maxWidth="lg"
             open={this.state.openModal}
             onClose={this.handleCloseExerciseModal}
             aria-labelledby="form-dialog-title"
