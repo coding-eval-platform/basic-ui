@@ -1,8 +1,6 @@
 // src/components/ExerciseInputs.js
 import React from "react"
 import TextField from '@material-ui/core/TextField';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import TestCaseDialog from './Exams/TestCaseDialog'
@@ -12,7 +10,6 @@ import TestCaseDialog from './Exams/TestCaseDialog'
 const ExerciseInputs = (props) => {
   return (
     props.exercises.map((val, idx)=> {
-      let exerciseId = `exercise-${idx}`
       
       return (
         <div key={idx}>

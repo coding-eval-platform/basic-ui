@@ -37,7 +37,7 @@ const CreateExamForm = (props) => {
               label="Título del Examen"
               style={{ margin: 8 }}
               className={classes.formControl}
-              placeholder="Inserte el titulod el examen aqui"
+              placeholder="Inserte el titulo el examen aqui"
               value={props.data.description}
               name="description"
               onChange={props.handleChange}
