@@ -54,6 +54,26 @@ class SeeExercises extends React.Component {
     this.setState({ open: false });
   };
 
+  handleDeleteExercise = (index, event) => {
+    const exercises = Object.assign([], this.state.exercises);
+    console.log('Deleting exercise with ID: ', this.props.id);
+
+    const url = 'http://localhost:8000/exams/' +
+      this.props.id +
+      '/exercises'
+
+    exercises.splice(index, 1);
+    this.setState({ exercises: exercises });
+
+    // then hit the API 
+    fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.text()) // OR res.json()
+      .then(res => console.log(res))
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -89,14 +109,15 @@ class SeeExercises extends React.Component {
 
             {this.state.exercises.map((exercise, index) => (
               <ListItem button>
-                <ListItemText 
-                primary={"Question number: " + exercise.id} 
-                secondary={exercise.question} />
+                <ListItemText
+                  primary={"Question number: " + exercise.id}
+                  secondary={exercise.question} />
+                <Button color="inherit" onClick={this.handleDeleteExercise}>
+                  Delete exercise
+                  </Button>
               </ListItem>
-              // <Divider />
-
-              ))
-              }
+            ))}
+            
           </List>
         </Dialog>
       </div>
