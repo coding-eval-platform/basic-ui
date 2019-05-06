@@ -10,7 +10,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 
-import EditExam from './EditExam';
+import EditExam from './SeeExercises';
+import SeeExercises from './SeeExercises';
 
 const styles = theme => ({
   margin: {
@@ -43,7 +44,7 @@ function ExamRow(props) {
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
-        <EditExam />
+        <SeeExercises id={props.id} description={props.description}/>
         <Tooltip title="Delete this exam">
           <IconButton aria-label="Delete" onClick={props.deleteEvent}>
             <DeleteIcon />
