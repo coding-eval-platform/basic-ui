@@ -146,7 +146,7 @@ class SeeExercises extends React.Component {
           <List>
 
             {this.state.exercises.map((exercise, index) => (
-              <ListItem button>
+              <ListItem button key={index}>
                 <ListItemText
                   primary={"Question number: " + exercise.id}
                   secondary={exercise.question}

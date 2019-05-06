@@ -111,6 +111,7 @@ class TeacherDashboard extends React.Component {
 
               {this.state.items.map((item, index) => (
                 <ExamRow
+                  key={index}
                   deleteEvent={this.deleteExamHandler.bind(this, index)}
                   id={item.id}
                   description={item.description}
