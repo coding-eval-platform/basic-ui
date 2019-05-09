@@ -122,7 +122,7 @@ class SeeExercises extends React.Component {
           variant="outlined"
           color="primary"
           onClick={this.handleClickOpen}>
-          See exercises
+          Edit
         </Button>
         <Dialog
           fullScreen

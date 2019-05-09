@@ -11,6 +11,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
+import Button from '@material-ui/core/Button';
+
 
 
 import SeeExercises from './SeeExercises';
@@ -26,6 +28,9 @@ const styles = theme => ({
 
 
 function ExamRow(props) {
+
+  const { classes } = props;
+
 
   return (
     <TableRow key={props.id}>
@@ -47,10 +52,33 @@ function ExamRow(props) {
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             <SeeExercises id={props.id} description={props.description} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
+            <Tooltip title="Start this exam">
+              <Button
+                size="small"
+                className={classes.margin}
+                variant="outlined"
+                color="primary">
+                Play
+            </Button>
+            </Tooltip>
+          </Grid>
+          <Grid item xs={3}>
+            <Tooltip title="Stop this exam">
+              <Button
+                size="small"
+                className={classes.margin}
+                variant="outlined"
+                color="primary">
+                Stop
+            </Button>
+            </Tooltip>
+          </Grid>
+          <Grid item xs={3}>
+
             <Tooltip title="Delete this exam">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
