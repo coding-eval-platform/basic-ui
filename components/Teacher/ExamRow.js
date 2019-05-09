@@ -9,8 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
-import EditExam from './SeeExercises';
+
+
 import SeeExercises from './SeeExercises';
 
 const styles = theme => ({
@@ -36,7 +38,7 @@ function ExamRow(props) {
           onChange={props.onDescriptionChange}   // it gets handler function from prop too!
           margin="normal"
         />
-        
+
       </TableCell>
       <TableCell align="center">{props.startingAt}</TableCell>
       <TableCell align="center">{props.duration}</TableCell>
@@ -44,12 +46,18 @@ function ExamRow(props) {
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
-        <SeeExercises id={props.id} description={props.description}/>
-        <Tooltip title="Delete this exam">
-          <IconButton aria-label="Delete" onClick={props.deleteEvent}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <Grid container spacing={24}>
+          <Grid item xs={6}>
+            <SeeExercises id={props.id} description={props.description} />
+          </Grid>
+          <Grid item xs={6}>
+            <Tooltip title="Delete this exam">
+              <IconButton aria-label="Delete" onClick={props.deleteEvent}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </TableCell>
     </TableRow>
   )

@@ -151,6 +151,9 @@ class SeeExercises extends React.Component {
                   primary={"Question number: " + exercise.id}
                   secondary={exercise.question}
                 />
+                <Button color="inherit">
+                  Test Cases
+                </Button>
                 <Button color="inherit" onClick={this.handleDeleteExercise}>
                   Delete exercise
                 </Button>
