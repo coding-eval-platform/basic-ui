@@ -37,7 +37,8 @@ class SeeExercises extends React.Component {
   state = {
     exercises: [],
     open: false,
-    openModal: false,
+    openNewExerciseModal: false,
+    openEditExerciseModal: false,
   };
 
   handleClickOpen = () => {
@@ -56,7 +57,7 @@ class SeeExercises extends React.Component {
         })
       });
   };
-  
+
   handleClose = () => {
     this.setState({ open: false });
   };
@@ -103,14 +104,41 @@ class SeeExercises extends React.Component {
       .then(res => console.log(res))
   }
 
-  handleClickOpenExerciseModal = () => {
-    this.setState({ openModal: true });
+  openNewExerciseModal = () => {
+    this.setState({ openNewExerciseModal: true });
   };
 
-  handleCloseExerciseModal = () => {
-    this.setState({ openModal: false });
+  closeNewExerciseModal = () => {
+    this.setState({ openNewExerciseModal: false });
   };
 
+  openEditExerciseModal = () => {
+    this.setState({ openEditExerciseModal: true });
+  };
+
+  closeEditExerciseModal = () => {
+    this.setState({ openEditExerciseModal: false });
+  };
+
+  editQuestion = exerciseId => {
+    this.setState(state => {
+      const exercises = state.exercises.map(item => {
+        if (item.id === exerciseId) {
+          item.question = 'hola!';
+          // hit API endpoint here
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      console.log(exercises);
+
+      return {
+        exercises,
+      };
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -139,10 +167,14 @@ class SeeExercises extends React.Component {
                 Exam: {this.props.description}
               </Typography>
               <Button color="inherit" onClick={this.handleClose}>
-                save
+                Save
               </Button>
             </Toolbar>
           </AppBar>
+
+
+
+
           <List>
 
             {this.state.exercises.map((exercise, index) => (
@@ -151,9 +183,47 @@ class SeeExercises extends React.Component {
                   primary={"Question number: " + exercise.id}
                   secondary={exercise.question}
                 />
-                <Button color="inherit">
-                  Test Cases
+                {/* <Button color="inherit" onClick={this.editQuestion.bind(this, exercise.id)}> */}
+                <Button color="inherit" onClick={this.openEditExerciseModal}>
+                
+                  Edit question
                 </Button>
+
+                <Dialog
+                  fullWidth
+                  maxWidth="lg"
+                  open={this.state.openEditExerciseModal}
+                  onClose={this.closeEditExerciseModal}
+                  aria-labelledby="form-dialog-title"
+                >
+                  <DialogTitle id="form-dialog-title">Edit the exercise</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Edit all the details of this exercise
+            </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Question"
+                      type="text"
+                      fullWidth
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.closeEditExerciseModal} color="primary">
+                      Cancel changes
+            </Button>
+                    <Button onClick={this.closeEditExerciseModal} color="primary">
+                      Update
+            </Button>
+                  </DialogActions>
+                </Dialog>
+
+
+
+
+
                 <Button color="inherit" onClick={this.handleDeleteExercise}>
                   Delete exercise
                 </Button>
@@ -161,18 +231,28 @@ class SeeExercises extends React.Component {
             ))}
 
           </List>
+
+
+
+
+
+
+
+
+
+          {/* CREATE A NEW EXERCISE */}
           <Button
             color="primary"
             variant="outlined"
-            onClick={this.handleClickOpenExerciseModal}
+            onClick={this.openNewExerciseModal}
           >
             Add exercise
           </Button>
           <Dialog
             fullWidth
             maxWidth="lg"
-            open={this.state.openModal}
-            onClose={this.handleCloseExerciseModal}
+            open={this.state.openNewExerciseModal}
+            onClose={this.closeNewExerciseModal}
             aria-labelledby="form-dialog-title"
           >
             <DialogTitle id="form-dialog-title">Create a new exercise</DialogTitle>
@@ -190,10 +270,10 @@ class SeeExercises extends React.Component {
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleCloseExerciseModal} color="primary">
+              <Button onClick={this.closeNewExerciseModal} color="primary">
                 Cancel
             </Button>
-              <Button onClick={this.handleCloseExerciseModal} color="primary">
+              <Button onClick={this.closeNewExerciseModal} color="primary">
                 Create
             </Button>
             </DialogActions>
