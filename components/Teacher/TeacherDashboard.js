@@ -160,13 +160,13 @@ class TeacherDashboard extends React.Component {
             '/finish'
 
           // Change the exam here
-          exam.state = 'STOPPED'
+          exam.state = 'FINISHED'
 
           fetch(url, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              description: 'STOPPED',
+              description: 'FINISHED',
               startingAt: "2019-10-06T15:00:00",
               duration: "PT150M"
             })
