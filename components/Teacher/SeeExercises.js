@@ -22,6 +22,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import EditIcon from '@material-ui/icons/Edit';
+
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit,
@@ -150,14 +152,15 @@ class SeeExercises extends React.Component {
     return (
       <div>
         <Tooltip title="Edit exercises">
-          <Button
+          <IconButton
+            className={classes.button}
+            // className={classes.margin}
+            aria-label="Edit"
             size="small"
-            className={classes.margin}
-            variant="outlined"
-            color="primary"
-            onClick={this.handleClickOpen}>
-            Edit
-        </Button>
+            onClick={this.handleClickOpen}
+            color="primary">
+            <EditIcon/>
+          </IconButton>
         </Tooltip>
         <Dialog
           fullScreen
