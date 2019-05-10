@@ -61,7 +61,7 @@ class TeacherDashboard extends React.Component {
   // handleDescriptionChange = (index, event) => {
   //   const items = Object.assign([], this.state.items);
   //   console.log(items);
-    
+
   //   console.log('Updating exam, old description is: ', items[index].description);
   //   items[index].description = event.target.value;
   //   console.log('Updating exam, new description is: ', items[index].description);
@@ -82,8 +82,91 @@ class TeacherDashboard extends React.Component {
   //     .then(res => console.log(res))
 
   // }
-  
 
+
+
+  startExam = examId => {
+    const items = Object.assign([], this.state.items);
+    console.log(items);
+
+    this.setState(state => {
+      const items = state.items.map(item => {
+        if (item.id === examId) {
+          console.log('el exam es: ', item);
+          // hit API endpoint here
+
+          let url = 'http://localhost:8000/exams/' +
+            item.id.toString() +
+            '/start'
+
+          fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              description: 'STARTED',
+              startingAt: "2019-10-06T15:00:00",
+              duration: "PT150M"
+            })
+          })
+            .then(res => res.text()) // OR res.json()
+            .then(res => console.log(res))
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      // SEE NEW STATE
+      console.log(items);
+      // CHANGE THE STATE
+      return {
+        items,
+      };
+    });
+
+  }
+
+
+  stopExam = examId => {
+    const items = Object.assign([], this.state.items);
+    console.log(items);
+
+    this.setState(state => {
+      const items = state.items.map(item => {
+        if (item.id === examId) {
+          console.log('el exam es: ', item);
+          // hit API endpoint here
+
+          let url = 'http://localhost:8000/exams/' +
+            item.id.toString() +
+            '/stop'
+
+          fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              description: 'STOPPED',
+              startingAt: "2019-10-06T15:00:00",
+              duration: "PT150M"
+            })
+          })
+            .then(res => res.text()) // OR res.json()
+            .then(res => console.log(res))
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      // SEE NEW STATE
+      console.log(items);
+      // CHANGE THE STATE
+      return {
+        items,
+      };
+    });
+
+  }
 
 
   render() {
@@ -120,7 +203,9 @@ class TeacherDashboard extends React.Component {
                   state={item.state}
                   actualStartingMoment={item.actualStartingMoment}
                   actualDuration={item.actualDuration}
-                  // onDescriptionChange={this.handleDescriptionChange.bind(this, index)}
+                  startExam={this.startExam.bind(this, item.id)}
+                  stopExam={this.startExam.bind(this, item.id)}
+                // onDescriptionChange={this.handleDescriptionChange.bind(this, index)}
                 // changeEvent={this.changeUserName.bind(this, user.description)}
                 // key={user.id }
                 />

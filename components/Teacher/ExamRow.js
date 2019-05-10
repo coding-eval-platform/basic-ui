@@ -61,6 +61,7 @@ function ExamRow(props) {
                 size="small"
                 className={classes.margin}
                 variant="outlined"
+                onClick={props.startExam}
                 color="primary">
                 Play
             </Button>
@@ -72,6 +73,7 @@ function ExamRow(props) {
                 size="small"
                 className={classes.margin}
                 variant="outlined"
+                onClick={props.stopExam}
                 color="primary">
                 Stop
             </Button>
