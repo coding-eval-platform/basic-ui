@@ -142,7 +142,7 @@ class TeacherDashboard extends React.Component {
 
           let url = 'http://localhost:8000/exams/' +
             exam.id.toString() +
-            '/stop'
+            '/finish'
 
             // Change the exam here
           exam.state = 'STOPPED'
