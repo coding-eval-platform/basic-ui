@@ -17,9 +17,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
-  table: {
-    minWidth: 700,
-  },
 });
 
 class TeacherDashboard extends React.Component {
@@ -58,30 +55,48 @@ class TeacherDashboard extends React.Component {
       .then(res => console.log(res))
   }
 
-  // handleDescriptionChange = (index, event) => {
-  //   const items = Object.assign([], this.state.items);
-  //   console.log(items);
+  handleDescriptionChange = (exam, event) => {
+    const items = Object.assign([], this.state.items);
+    console.log('event is: ', event);
+    console.log('exam is: ', exam);
 
-  //   console.log('Updating exam, old description is: ', items[index].description);
-  //   items[index].description = event.target.value;
-  //   console.log('Updating exam, new description is: ', items[index].description);
 
-  //   this.setState({ items: items });
+    this.setState(state => {
+      const items = state.items.map(exam_item => {
+        if (exam_item.id === exam.id) {
+          console.log('changing the description of...: ', exam_item.id);
+          // hit API endpoint here
 
-  //   const url = 'http://localhost:8000/exams/' + items[index].id.toString()
+          let url = 'http://localhost:8000/exams/' +
+            exam_item.id.toString()
 
-  //   // then hit the API 
-  //   fetch(url, {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       description: items[index].description, 
-  //     })
-  //   })
-  //     .then(res => res.text()) // OR res.json()
-  //     .then(res => console.log(res))
+          fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              description: 'HOLAA',
+              startingAt: exam.startingAt,
+              duration: exam.duration
+            })
+          })
+            .then(res => res.text()) // OR res.json()
+            .then(res => console.log(res))
 
-  // }
+          return exam_item;
+        } else {
+          return exam_item;
+        }
+      });
+
+      // CHANGE THE STATE
+      console.log(items);
+      
+      return {
+        items,
+      };
+    });
+
+  }
 
 
 
@@ -144,7 +159,7 @@ class TeacherDashboard extends React.Component {
             exam.id.toString() +
             '/finish'
 
-            // Change the exam here
+          // Change the exam here
           exam.state = 'STOPPED'
 
           fetch(url, {
@@ -188,7 +203,7 @@ class TeacherDashboard extends React.Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Exam Identifier</TableCell>
+                <TableCell align="center" style={{ maxWidth: "2px" }}>Exam Identifier</TableCell>
                 <TableCell align="center">Description</TableCell>
                 <TableCell align="center">Starting At</TableCell>
                 <TableCell align="center">Duration</TableCell>
@@ -213,7 +228,7 @@ class TeacherDashboard extends React.Component {
                   actualDuration={item.actualDuration}
                   startExam={this.startExam.bind(this, item.id)}
                   stopExam={this.stopExam.bind(this, item.id)}
-                // onDescriptionChange={this.handleDescriptionChange.bind(this, index)}
+                  onDescriptionChange={this.handleDescriptionChange.bind(this, item)}
                 // changeEvent={this.changeUserName.bind(this, user.description)}
                 // key={user.id }
                 />

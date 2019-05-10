@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
+import Tooltip from '@material-ui/core/Tooltip';
+
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -144,14 +146,16 @@ class SeeExercises extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Button
-          size="small"
-          className={classes.margin}
-          variant="outlined"
-          color="primary"
-          onClick={this.handleClickOpen}>
-          Edit
+        <Tooltip title="Edit exercises">
+          <Button
+            size="small"
+            className={classes.margin}
+            variant="outlined"
+            color="primary"
+            onClick={this.handleClickOpen}>
+            Edit
         </Button>
+        </Tooltip>
         <Dialog
           fullScreen
           open={this.state.open}
@@ -167,7 +171,7 @@ class SeeExercises extends React.Component {
                 Exam: {this.props.description}
               </Typography>
               <Button color="inherit" onClick={this.handleClose}>
-                Save
+                Close
               </Button>
             </Toolbar>
           </AppBar>
@@ -185,7 +189,7 @@ class SeeExercises extends React.Component {
                 />
                 {/* <Button color="inherit" onClick={this.editQuestion.bind(this, exercise.id)}> */}
                 <Button color="inherit" onClick={this.openEditExerciseModal}>
-                
+
                   Edit question
                 </Button>
 

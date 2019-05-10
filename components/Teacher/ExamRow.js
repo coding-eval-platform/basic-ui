@@ -34,20 +34,24 @@ function ExamRow(props) {
 
   return (
     <TableRow key={props.id}>
-      <TableCell component="th" scope="item">{props.id}</TableCell>
+      <TableCell align="center" component="th" scope="item">{props.id}</TableCell>
       <TableCell align="center">
         <TextField
           fullWidth
           id="standard-name"
           value={props.description}
-          onChange={props.onDescriptionChange}   // it gets handler function from prop too!
+          onChange={props.onDescriptionChange} 
           margin="normal"
         />
 
       </TableCell>
       <TableCell align="center">{props.startingAt}</TableCell>
       <TableCell align="center">{props.duration}</TableCell>
-      <TableCell align="center">{props.state}</TableCell>
+      <TableCell align="center">
+        <Button variant="outlined" disabled className={classes.button}>
+          {props.state}
+        </Button>
+      </TableCell>
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
