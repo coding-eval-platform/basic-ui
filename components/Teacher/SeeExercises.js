@@ -22,14 +22,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const styles = {
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit,
+  },
   appBar: {
     position: 'relative',
   },
   flex: {
     flex: 1,
   },
-};
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
