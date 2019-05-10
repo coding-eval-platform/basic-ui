@@ -13,6 +13,10 @@ import Button from '@material-ui/core/Button';
 
 import Moment from 'react-moment';
 
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
+
+
 
 
 import SeeExercises from './SeeExercises';
@@ -52,26 +56,28 @@ function ExamRow(props) {
           </Grid>
           <Grid item xs={3}>
             <Tooltip title="Start this exam">
-              <Button
+              <IconButton
+                className={classes.button}
+                // className={classes.margin}
+                aria-label="Play"
                 size="small"
-                className={classes.margin}
-                variant="outlined"
                 onClick={props.startExam}
                 color="primary">
-                Play
-            </Button>
+                <PlayIcon />
+              </IconButton>
             </Tooltip>
           </Grid>
           <Grid item xs={3}>
             <Tooltip title="Stop this exam">
-              <Button
+              <IconButton
+                className={classes.button}
+                // className={classes.margin}
+                aria-label="Play"
                 size="small"
-                className={classes.margin}
-                variant="outlined"
                 onClick={props.stopExam}
                 color="primary">
-                Stop
-            </Button>
+                <StopIcon />
+              </IconButton>
             </Tooltip>
           </Grid>
           <Grid item xs={3}>
