@@ -8,10 +8,10 @@ import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-
 import Button from '@material-ui/core/Button';
+
+import Moment from 'react-moment';
 
 
 
@@ -36,7 +36,11 @@ function ExamRow(props) {
     <TableRow key={props.id}>
       <TableCell align="center" component="th" scope="item">{props.id}</TableCell>
       <TableCell align="center">{props.description}</TableCell>
-      <TableCell align="center">{props.startingAt}</TableCell>
+      <TableCell align="center">
+        <Moment format="LLL">
+          {props.startingAt}
+        </Moment>
+      </TableCell>
       <TableCell align="center">{props.duration}</TableCell>
       <TableCell align="center">{props.state}</TableCell>
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
