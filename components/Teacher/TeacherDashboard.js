@@ -90,14 +90,17 @@ class TeacherDashboard extends React.Component {
     console.log(items);
 
     this.setState(state => {
-      const items = state.items.map(item => {
-        if (item.id === examId) {
-          console.log('el exam es: ', item);
+      const items = state.items.map(exam => {
+        if (exam.id === examId) {
+          console.log('el exam es: ', exam);
           // hit API endpoint here
 
           let url = 'http://localhost:8000/exams/' +
-            item.id.toString() +
+            exam.id.toString() +
             '/start'
+
+          // Change the exam here
+          exam.state = 'IN_PROGRESS';
 
           fetch(url, {
             method: 'PUT',
@@ -110,9 +113,9 @@ class TeacherDashboard extends React.Component {
           })
             .then(res => res.text()) // OR res.json()
             .then(res => console.log(res))
-          return item;
+          return exam;
         } else {
-          return item;
+          return exam;
         }
       });
 
@@ -132,14 +135,17 @@ class TeacherDashboard extends React.Component {
     console.log(items);
 
     this.setState(state => {
-      const items = state.items.map(item => {
-        if (item.id === examId) {
-          console.log('el exam es: ', item);
+      const items = state.items.map(exam => {
+        if (exam.id === examId) {
+          console.log('el exam es: ', exam);
           // hit API endpoint here
 
           let url = 'http://localhost:8000/exams/' +
-            item.id.toString() +
+            exam.id.toString() +
             '/stop'
+
+            // Change the exam here
+          exam.state = 'STOPPED'
 
           fetch(url, {
             method: 'PUT',
@@ -152,9 +158,11 @@ class TeacherDashboard extends React.Component {
           })
             .then(res => res.text()) // OR res.json()
             .then(res => console.log(res))
-          return item;
+
+
+          return exam;
         } else {
-          return item;
+          return exam;
         }
       });
 
@@ -204,7 +212,7 @@ class TeacherDashboard extends React.Component {
                   actualStartingMoment={item.actualStartingMoment}
                   actualDuration={item.actualDuration}
                   startExam={this.startExam.bind(this, item.id)}
-                  stopExam={this.startExam.bind(this, item.id)}
+                  stopExam={this.stopExam.bind(this, item.id)}
                 // onDescriptionChange={this.handleDescriptionChange.bind(this, index)}
                 // changeEvent={this.changeUserName.bind(this, user.description)}
                 // key={user.id }
