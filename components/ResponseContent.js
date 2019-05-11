@@ -4,41 +4,41 @@ import TextField from '@material-ui/core/TextField';
 
 var ResponseContent = React.createClass({
 
-    getInitialState: function() {
-        return {
-            textFieldValue: ''
-        };
-    },
+  getInitialState: function() {
+    return {
+      textFieldValue: ''
+    };
+  },
 
-    _handleTextFieldChange: function(e) {
-        this.setState({
-            textFieldValue: e.target.value
-        });
-    },
+  _handleTextFieldChange: function(e) {
+    this.setState({
+      textFieldValue: e.target.value
+    });
+  },
 
-    render: function() {
-        return (
-            <div>
-                <TextField
-                    id="outlined-full-width"
-                    label="Ouput of the Ruby editor"
-                    style={{ margin: 8 }}
-                    multiline
-                    rows='18'
-                    value={this.state.textFieldValue}
-                    onChange={this._handleTextFieldChange}
-                    placeholder="You will see the output of the editor here..."
-                    //helperText="Full width!"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-					/>
-            </div>
-        )
-    }
+  render: function() {
+      return (
+        <div>
+          <TextField
+            id="outlined-full-width"
+            label="Ouput of the Ruby editor"
+            style={{ margin: 8 }}
+            multiline
+            rows='18'
+            value={this.state.textFieldValue}
+            onChange={this._handleTextFieldChange}
+            placeholder="You will see the output of the editor here..."
+            //helperText="Full width!"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{
+                shrink: true,
+            }}
+      />
+        </div>
+      )
+  }
 
 });
 
