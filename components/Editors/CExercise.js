@@ -38,7 +38,7 @@ function CExercise(props) {
 	
 	return (
 		<div>
-			<Grid container spacing={12}>
+			<Grid container spacing={24}>
 				<Grid item xs={6}>
   	  		<CEditor/>
 				</Grid>

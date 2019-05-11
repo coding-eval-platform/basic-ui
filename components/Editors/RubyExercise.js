@@ -72,7 +72,7 @@ class RubyExercise extends Component {
 					style ={{width: '100%'}}
 				/>*/}
 	
-				<Grid container spacing={12}>
+				<Grid container spacing={24}>
 					<Grid item xs={6}>
 						<RubyEditor/>
 					</Grid>

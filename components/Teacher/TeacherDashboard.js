@@ -203,10 +203,10 @@ class TeacherDashboard extends React.Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell align="center" style={{ maxWidth: "2px" }}>Exam Identifier</TableCell>
-                <TableCell align="center">Description</TableCell>
-                <TableCell align="center">Starting At</TableCell>
-                <TableCell align="center">Duration</TableCell>
+                <TableCell align="center" style={{ maxWidth: "2px" }}>Exam ID</TableCell>
+                <TableCell align="center">Title</TableCell>
+                <TableCell align="center">Starting Date & Time</TableCell>
+                <TableCell align="center">Expected Duration</TableCell>
                 <TableCell align="center">State</TableCell>
                 <TableCell align="center">Actual Starting Moment</TableCell>
                 <TableCell align="center">Actual Duration</TableCell>
@@ -218,7 +218,6 @@ class TeacherDashboard extends React.Component {
               {this.state.items.map((item, index) => (
                 <ExamRow
                   key={index}
-                  deleteEvent={this.deleteExamHandler.bind(this, index)}
                   id={item.id}
                   description={item.description}
                   startingAt={item.startingAt}
@@ -226,6 +225,8 @@ class TeacherDashboard extends React.Component {
                   state={item.state}
                   actualStartingMoment={item.actualStartingMoment}
                   actualDuration={item.actualDuration}
+                  
+                  deleteEvent={this.deleteExamHandler.bind(this, index)}
                   startExam={this.startExam.bind(this, item.id)}
                   stopExam={this.stopExam.bind(this, item.id)}
                   onDescriptionChange={this.handleDescriptionChange.bind(this, item)}
