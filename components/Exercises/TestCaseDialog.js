@@ -31,11 +31,10 @@ export default class FormDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Create a new test case</DialogTitle> 
           <DialogContent>
             <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
+              Please insert all the details about the test case for this exercise.
             </DialogContentText>
             <TextField
               autoFocus

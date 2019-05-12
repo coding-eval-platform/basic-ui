@@ -19,7 +19,6 @@ const styles = theme => ({
 class ExercisesForm extends React.Component {
   state = {
     exercises: [{description:""}],
-    owner: "",
 		description: ""
 	}
 	
