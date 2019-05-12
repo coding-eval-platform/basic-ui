@@ -35,7 +35,7 @@ class Step1 extends React.Component {
       startingAt: "2019-10-06T15:00:00",
       // exam_state: null,
       duration: "",
-      exercises: []
+      // exercises: []
     }
   }
 
@@ -61,7 +61,7 @@ class Step1 extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state.data)
     })
-      .then((res) => res.json)
+      .then((res) => console.log('RESPONSE IS: ', res.headers))
       .catch((err) => console.log(err))
   }
 

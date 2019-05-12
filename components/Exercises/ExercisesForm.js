@@ -1,16 +1,11 @@
 import React from "react"
-import ExerciseInputs from "./ExerciseInputs"
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
-
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+
+import ExerciseInputs from "./ExerciseInputs"
 
 const styles = theme => ({
   margin: {
@@ -21,7 +16,7 @@ const styles = theme => ({
   },
 });
 
-class TestForm extends React.Component {
+class ExercisesForm extends React.Component {
   state = {
     exercises: [{description:""}],
     owner: "",
@@ -38,7 +33,7 @@ class TestForm extends React.Component {
 		}
 	}
 
-	addExercise = (e) => {
+	addExercise = () => {
 		this.setState((prevState) => ({
 			exercises: [...prevState.exercises, {description:""}],
 		}));
@@ -48,7 +43,7 @@ class TestForm extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		let {owner, description, exercises} = this.state
+		let {exercises} = this.state
 		
 		return (
 			<form onSubmit={this.handleSubmit} onChange={this.handleChange} >
@@ -67,8 +62,8 @@ class TestForm extends React.Component {
 	}
 }
 
-TestForm.propTypes = {
+ExercisesForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TestForm);
+export default withStyles(styles)(ExercisesForm);

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TestForm from '../TestForm.js'
+
+import ExercisesForm from './ExercisesForm.js'
 
 
 const styles = theme => ({
@@ -21,14 +21,9 @@ const styles = theme => ({
   },
 });
 
-class Step2 extends React.Component {
+class CreateExercises extends React.Component {
 	
   render() {
-    const { classes } = this.props;
-		
-    if (this.props.currentStep !== 2) {
-			return null
-		} 
 		
 		return(
 			<div className="form-group">
@@ -41,14 +36,14 @@ class Step2 extends React.Component {
 					value={this.props.username}
 					onChange={this.props.handleChange}
 				/>*/}
-				<TestForm/>
+				<ExercisesForm/>
 			</div>
 		);
 	}
 }
 
-Step2.propTypes = {
+CreateExercises.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Step2);
+export default withStyles(styles)(CreateExercises);

@@ -3,7 +3,7 @@ import React from "react"
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import TestCaseDialog from './Exams/TestCaseDialog'
+import TestCaseDialog from './TestCaseDialog'
 
 
 
@@ -17,7 +17,8 @@ const ExerciseInputs = (props) => {
             <Grid item xs={8}>
               <TextField
                 id="filled-full-width"
-                label={`Ejercicio #${idx + 1}`}
+                label={`Question #${idx + 1}`}
+                placeholder="Insert the question description here."
                 style={{ margin: 8 }}
                 margin-top="normal"
                 variant="filled"

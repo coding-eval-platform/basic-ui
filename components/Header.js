@@ -41,6 +41,7 @@ function Header(props) {
           <RenderButton href='/playground' content='Playground'/>
           <RenderButton href='/teacher_dashboard' content='Teacher'/>
           <RenderButton href='/create_exam' content='Create Exam'/>
+          <RenderButton href='/create_exercises' content='Create Exercises'/>
         </Toolbar>
       </AppBar>
     </div>

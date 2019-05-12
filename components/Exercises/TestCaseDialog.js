@@ -24,7 +24,7 @@ export default class FormDialog extends React.Component {
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Agregar Test Case
+          Add Test Case
         </Button>
         <Dialog
           open={this.state.open}
@@ -51,7 +51,7 @@ export default class FormDialog extends React.Component {
               Cancel
             </Button>
             <Button onClick={this.handleClose} color="primary">
-              Subscribe
+              Create test case
             </Button>
           </DialogActions>
         </Dialog>
