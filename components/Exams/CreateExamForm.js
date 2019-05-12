@@ -31,7 +31,6 @@ const CreateExamForm = (props) => {
         <Grid container spacing={24}>
           <Grid item xs={6}>
 
-            {/* DESCRIPTION */}
             <TextField
               id="filled-full-width"
               label="Título del Examen"
@@ -49,19 +48,29 @@ const CreateExamForm = (props) => {
             />
           </Grid>
           <Grid item xs={6}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={props.createExamHandler}
+            >
+              Crear examen
+      </Button>
+
+          </Grid>
+          <Grid item xs={3}>
             <TextField
               id="datetime-local"
               label="Fecha y hora de comienzo del examen"
               type="datetime-local"
               defaultValue="2017-05-24T10:30"
-              value={props.data.exam_time}
+              value={props.data.startingAt}
               className={classes.formControl}
               InputLabelProps={{
                 shrink: true,
               }}
             />
+
           </Grid>
-          {/* DURATION */}
           <Grid item xs={3}>
             <TextField
               id="filled-full-width"
@@ -77,57 +86,8 @@ const CreateExamForm = (props) => {
               variant="filled"
             />
           </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="filled-number"
-              label="Cantidad de ejercicios"
-              // value={props.data.number_of_exercises}
-              // onChange={props.handleChange('number_of_exercises')}
-              type="number"
-              className={classes.formControl}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
-              variant="filled"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              id="filled-full-width"
-              label="Comentarios generales sobre examen"
-              style={{ margin: 8 }}
-              className={classes.formControl}
-              placeholder="Ingrese los comentarios sobre el examen"
-              multiline
-              margin="normal"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            {/*<Button 
-                variant="contained" 
-                color="primary" 
-                className={classes.button}
-                onClick={this.handleSubmit}
-              >
-                Crear examen
-                <SendIcon className={classes.rightIcon} />
-              </Button>
-              */}
-          </Grid>
-        </Grid>
 
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={props.createExamHandler}
-        >
-          Crear examen
-      </Button>
+        </Grid>
       </div>
 
     </form>

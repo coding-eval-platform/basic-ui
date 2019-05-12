@@ -40,7 +40,7 @@ function Header(props) {
           <RenderButton href='/login' content='Login'/>
           <RenderButton href='/playground' content='Playground'/>
           <RenderButton href='/teacher_dashboard' content='Teacher'/>
-          <RenderButton href='/test' content='Test Page'/>
+          <RenderButton href='/create_exam' content='Create Exam'/>
         </Toolbar>
       </AppBar>
     </div>

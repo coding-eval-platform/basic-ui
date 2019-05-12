@@ -114,7 +114,7 @@ class MasterForm extends React.Component {
 		
     return (
       <React.Fragment>
-      <p>Paso de creación de examen: {this.state.currentStep} </p> 
+      <h3>Paso de creación de examen: {this.state.currentStep} </h3> 
 
       <form onSubmit={this.handleSubmit}>
       {/* 
