@@ -51,16 +51,23 @@ const ExerciseInputs = (props) => {
             <Grid item xs={4}>
               <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend">Language</FormLabel>
-                <RadioGroup
+                <RadioGroup 
+                  row
                   aria-label="language"
                   name="language"
                   className={classes.group}
                 // value={this.state.value}
                 // onChange={this.handleChange}
                 >
-                  <FormControlLabel value="java" control={<Radio />} label="Java" />
-                  <FormControlLabel value="ruby" control={<Radio />} label="Ruby" />
-                  <FormControlLabel value="c" control={<Radio />} label="C" />
+                  <FormControlLabel 
+                    value="java" 
+                    control={<Radio />} label="Java" />
+                  <FormControlLabel 
+                    value="ruby" 
+                    control={<Radio />} label="Ruby" />
+                  <FormControlLabel 
+                    value="c" 
+                    control={<Radio />} label="C" />
                 </RadioGroup>
               </FormControl>
             </Grid>
