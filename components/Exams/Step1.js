@@ -5,6 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
+
+import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
+import MomentUtils from "@date-io/moment";
+
 import Link from 'next/link'
 
 
@@ -93,19 +97,17 @@ class Step1 extends React.Component {
             />
           </Grid>
           <Grid item xs={6}>
-            <Link href="/teacher_dashboard">
-              <Button
-                variant="contained"
-                className={classes.button}
-                onClick={this.createExamHandler}
-              >
-                Crear examen
-      </Button>
-            </Link>
-
           </Grid>
           <Grid item xs={3}>
-            <TextField
+
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                label="Fecha y hora de comienzo del examen"
+                value={this.state.date}
+                onChange={this.handleDateChange}
+              />
+            </MuiPickersUtilsProvider>
+            {/* <TextField
               id="datetime-local"
               label="Fecha y hora de comienzo del examen"
               type="datetime-local"
@@ -115,7 +117,7 @@ class Step1 extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
+            /> */}
 
           </Grid>
           <Grid item xs={3}>
@@ -132,6 +134,19 @@ class Step1 extends React.Component {
               margin="normal"
               variant="filled"
             />
+          </Grid>
+          <Grid item xs={6}>
+          </Grid>
+          <Grid item xs={6}>
+            <Link href="/create_exercises">
+              <Button
+                variant="contained"
+                className={classes.button}
+                onClick={this.createExamHandler}
+              >
+                Crear examen
+      </Button>
+            </Link>
           </Grid>
 
         </Grid>

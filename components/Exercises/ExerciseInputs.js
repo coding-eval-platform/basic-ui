@@ -71,7 +71,7 @@ const ExerciseInputs = (props) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} >
               <TestCaseDialog />
             </Grid>
 
