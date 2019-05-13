@@ -61,7 +61,7 @@ class Step1 extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state.data)
     })
-      .then((res) => console.log('RESPONSE IS: ', res.headers))
+      .then((res) => console.log('RESPONSE IS: ', res.headers.get('Location')))
       .catch((err) => console.log(err))
   }
 

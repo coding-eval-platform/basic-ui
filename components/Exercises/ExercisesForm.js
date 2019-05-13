@@ -47,10 +47,10 @@ class ExercisesForm extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit} onChange={this.handleChange} >
 				<Grid container spacing={24}>
-					<Grid item xs={8}>
+					<Grid item xs={11}>
 						<ExerciseInputs exercises={exercises} />
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={1}>
 						<Button variant="contained" size="small" color="primary" className={classes.margin} onClick={this.addExercise}>
 							Agregar ejercicio
 						</Button>
