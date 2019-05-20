@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
+import Router from 'next/router'
 
 import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
@@ -33,6 +34,7 @@ const styles = theme => ({
 class Step1 extends React.Component {
 
   state = {
+    // exam_id: "",
     data: {
       description: "",
       // startingAt: "2019-10-06T15:00:00",
@@ -60,12 +62,23 @@ class Step1 extends React.Component {
 
   createExamHandler = () => {
     console.log('POST sent this: ', this.state.data);
+
     fetch('http://localhost:8000/exams', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state.data)
     })
-      .then((res) => console.log('RESPONSE IS: ', res.headers.get('Location')))
+      .then((res) => {
+        console.log('RESPONSE IS: ', res.headers.get('Location'))
+        let exam_id = res.headers.get('Location').split('/');
+        exam_id = exam_id[exam_id.length-1];
+        console.log('EXAM_ID IS: ', exam_id)
+        // this.setState({
+        //   exam_id
+        // });
+        // this.props.history.push(`/create_exercises/${exam_id}/`);  
+        Router.push(`/create_exercises?exam_id=${exam_id}`);
+      })
       .catch((err) => console.log(err))
   }
 
@@ -138,7 +151,7 @@ class Step1 extends React.Component {
           <Grid item xs={6}>
           </Grid>
           <Grid item xs={6}>
-            <Link href="/create_exercises">
+            {/* <Link href={`/create_exercises/${this.state.exam_id}`}> */}
               <Button
                 variant="contained"
                 className={classes.button}
@@ -146,7 +159,7 @@ class Step1 extends React.Component {
               >
                 Crear examen
       </Button>
-            </Link>
+            {/* </Link> */}
           </Grid>
 
         </Grid>

@@ -5,27 +5,26 @@ import ExercisesForm from './ExercisesForm.js'
 
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  formControl: {
+	root: {
+		flexGrow: 1,
+	},
+	formControl: {
 		margin: theme.spacing.unit,
-    width: '100%',
-    align: 'center'
+		width: '100%',
+		align: 'center'
 	},
 	button: {
-    margin: theme.spacing.unit,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
+		margin: theme.spacing.unit,
+	},
+	rightIcon: {
+		marginLeft: theme.spacing.unit,
+	},
 });
 
 class CreateExercises extends React.Component {
-	
-  render() {
-		
-		return(
+
+	render() {
+		return (
 			<div className="form-group">
 				{/*<input
 					className="form-control"
@@ -36,14 +35,14 @@ class CreateExercises extends React.Component {
 					value={this.props.username}
 					onChange={this.props.handleChange}
 				/>*/}
-				<ExercisesForm/>
+				<ExercisesForm />
 			</div>
 		);
 	}
 }
 
 CreateExercises.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(CreateExercises);
