@@ -91,13 +91,6 @@ function JavaExercise(props) {
       		</Button>
 				</Grid>
 
-				{/* SUBMIT */}
-				<Grid item xs={3}>
-					<Button variant="contained" size="small" className={classes.button}>
-    		    Submit my answer
-        		<SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-      		</Button>
-				</Grid>
 			</Grid>
 	</div>
 	);
