@@ -29,10 +29,16 @@ const styles = theme => ({
 
 
 class TestCaseDialog extends React.Component {
+
   state = {
     open: false,
+    userInput: '',
+    inputList: [],
+    userOutput: '',
+    outputList: [],
     visibility: ""
   };
+  
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -42,8 +48,22 @@ class TestCaseDialog extends React.Component {
     this.setState({ open: false });
   };
 
+  handleSubmit() {
+    const inputsArray = this.state.userInput.split(',');
+    const outputsArray = this.state.userOutput.split(',');
+
+    this.setState({
+      inputList: inputsArray,
+      outputList: outputsArray
+    });
+  }
+
   handleChange = event => {
-    this.setState({ visibility: event.target.value });
+    this.setState({ userInput: event.target.value });
+  };
+
+  handleInputChange = event => {
+    this.setState({ userInput: event.target.value });
   };
 
   render() {
@@ -67,10 +87,13 @@ class TestCaseDialog extends React.Component {
               Please insert all the details about the test case for this exercise.
             </DialogContentText>
             <TextField
+              value={this.state.userInput}
+              placeholder="Separate inputs with commas"
+              onChange={this.HandleInputChange}
               autoFocus
               margin="dense"
               id="name"
-              label="Email Address"
+              label="Accepted inputs"
               type="email"
               fullWidth
             />
@@ -84,8 +107,8 @@ class TestCaseDialog extends React.Component {
                 value={this.state.value}
                 onChange={this.handleChange}
               >
-                <FormControlLabel value="public" control={<Radio />} label="Public visibility" />
-                <FormControlLabel value="private" control={<Radio />} label="Private visibility" />
+                <FormControlLabel value="PUBLIC" control={<Radio />} label="Public visibility" />
+                <FormControlLabel value="PRIVATE" control={<Radio />} label="Private visibility" />
               </RadioGroup>
             </FormControl>
             
