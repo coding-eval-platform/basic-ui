@@ -59,8 +59,8 @@ class TestCaseDialog extends React.Component {
     });
   }
 
-  handleChange = event => {
-    this.setState({ userInput: event.target.value });
+  handleVisibilityChange = event => {
+    this.setState({ visibility: event.target.value });
   };
 
   handleInputChange = event => {
@@ -111,8 +111,8 @@ class TestCaseDialog extends React.Component {
                 aria-label="visibility"
                 name="visibility"
                 className={classes.group}
-                value={this.state.value}
-                onChange={this.handleChange}
+                value={this.state.visibility}
+                onChange={this.handleVisibilityChange}
               >
                 <FormControlLabel value="PUBLIC" control={<Radio />} label="Public test case" />
                 <FormControlLabel value="PRIVATE" control={<Radio />} label="Private test case" />
