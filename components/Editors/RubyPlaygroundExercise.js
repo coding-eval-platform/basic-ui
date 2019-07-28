@@ -34,12 +34,22 @@ const styles = theme => ({
 class RubyExercise extends Component {
 
 	state = {
-		outputValue: ''
+		code: '',
+		timeout: 1000,
+		language: 'RUBY',
+		inputs:	[
+			"Hola",
+			"Como",
+			"andas?",
+			"Re bien!",
+			"ñoño",
+			"人物"
+		],
 	}
 
 	sendCodeinSandBox = () => {
 		this.setState({
-			outputValue: 'tuvieja'
+			code: 'tuvieja'
 		});
 	}
 
@@ -89,8 +99,8 @@ class RubyExercise extends Component {
 							rows='18'
 							placeholder="You will see the output of the editor here..."
 							//helperText="Full width!"
-							value={this.state.outputValue}
-							onChange={this.handleChange('outputValue')}
+							value={this.state.code}
+							onChange={this.handleChange('code')}
 							fullWidth
 							margin="normal"
 							variant="outlined"
