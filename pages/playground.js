@@ -1,18 +1,14 @@
 import Layout from '../components/MyLayout.js'
-import RubyExercise from '../components/Editors/RubyExercise.js'
+import RubyPlaygroundExercise from '../components/Editors/RubyPlaygroundExercise.js'
 import JavaPlaygroundExercise from '../components/Editors/JavaPlaygroundExercise.js'
-import CExercise from '../components/Editors/CExercise.js'
+import CPlaygroundExercise from '../components/Editors/CPlaygroundExercise.js'
 
 export default () => (
   <Layout>
-      <RubyExercise />
+      <RubyPlaygroundExercise />
       
-      {/* <Divider/> */}
-
       <JavaPlaygroundExercise />
 
-      {/* <Divider/> */}
-
-      <CExercise />
+      <CPlaygroundExercise />
   </Layout>
 )
