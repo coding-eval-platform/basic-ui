@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
-//import ReactAce from 'react-ace-editor';
+import React, { Component } from "react";
 
-import AceEditor from 'react-ace';
-import 'brace/mode/ruby';
-import 'brace/theme/monokai';
-import 'brace/snippets/ruby';
-import 'brace/ext/language_tools';
-
-
-
+import AceEditor from "react-ace";
+import "brace/mode/ruby";
+import "brace/theme/monokai";
+import "brace/snippets/ruby";
+import "brace/ext/language_tools";
 
 class RubyEditor extends Component {
-
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -23,6 +18,7 @@ class RubyEditor extends Component {
     const editor = this.ace.editor; // The editor object is from Ace's API
     console.log(editor.getValue()); // Outputs the value of the editor
   }
+
   render() {
     return (
       <AceEditor
@@ -31,16 +27,17 @@ class RubyEditor extends Component {
         theme="monokai"
         name="editor1"
         value={`# Insert some code here, like:
-puts "Hello World!"`
-        }
+puts "Hello World!"`}
         onChange={this.onChange}
         setReadOnly={false}
         showGutter={true}
         showPrintMargin={true}
         highlightActiveLine={true}
-        style={{ height: '400px', width: '95%' }}
-        ref={instance => { this.ace = instance; }} // Let's put things into scope
-        editorProps={{$blockScrolling: Infinity}}
+        style={{ height: "400px", width: "95%" }}
+        ref={instance => {
+          this.ace = instance;
+        }} // Let's put things into scope
+        editorProps={{ $blockScrolling: Infinity }}
         setOptions={{
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
@@ -49,8 +46,7 @@ puts "Hello World!"`
           tabSize: 2
         }}
       />
-      
     );
   }
 }
-export default RubyEditor
+export default RubyEditor;

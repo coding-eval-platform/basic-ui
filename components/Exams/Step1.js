@@ -69,10 +69,10 @@ class Step1 extends React.Component {
       body: JSON.stringify(this.state.data)
     })
       .then((res) => {
-        console.log('RESPONSE IS: ', res.headers.get('Location'))
+        console.log('RESPONSE IS: ', res.headers.get('Location'));
         let exam_id = res.headers.get('Location').split('/');
         exam_id = exam_id[exam_id.length-1];
-        console.log('EXAM_ID IS: ', exam_id)
+        console.log('EXAM_ID IS: ', exam_id);
         // this.setState({
         //   exam_id
         // });

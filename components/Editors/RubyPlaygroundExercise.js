@@ -1,131 +1,120 @@
-import React, { Component } from 'react';
-import dynamic from 'next/dynamic'
-const RubyEditor = dynamic(import('./RubyEditor'), {ssr: false})
+import React, { Component } from "react";
+import dynamic from "next/dynamic";
+const RubyEditor = dynamic(import("./RubyEditor"), { ssr: false });
 
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Button from '@material-ui/core/Button'
-import SendIcon from '@material-ui/icons/Send';
-import SaveIcon from '@material-ui/icons/Save';
-import { withStyles } from '@material-ui/core/styles';
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import SendIcon from "@material-ui/icons/Send";
+import { withStyles } from "@material-ui/core/styles";
 
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-	},
-	leftIcon: {
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
-	},
-	iconSmall: {
-    fontSize: 20,
+    marginLeft: theme.spacing.unit
   },
-	textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+  iconSmall: {
+    fontSize: 20
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  }
 });
 
 class RubyExercise extends Component {
+  state = {
+    code: "ARGV.each do |a|\n\tputs a\nend\n",
+    timeout: 1000,
+    language: "RUBY",
+    inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
+	};
+	
+  sendCodeinSandBox = () => {
+    console.log("POST sent this: ", this.state.code);
 
-	state = {
-		code: '',
-		timeout: 1000,
-		language: 'RUBY',
-		inputs:	[
-			"Hola",
-			"Como",
-			"andas?",
-			"Re bien!",
-			"ñoño",
-			"人物"
-		],
-	}
+    fetch("http://localhost:8000/execution-requests", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(this.state)
+    })
+      .then(res => {
+        console.log("RESPONSE IS: ", res.headers.get("Location"));
+        let result_id = res.headers.get("Location").split("/");
+        result_id = result_id[result_id.length - 1];
+        console.log("RESULT_ID IS: ", result_id);
+        // this.setState({
+        //   exam_id
+        // });
+        // this.props.history.push(`/create_exercises/${exam_id}/`);
+        //Router.push(`/create_exercises?exam_id=${exam_id}`);
+      })
+      .catch(err => console.log(err));
+  };
 
-	sendCodeinSandBox = () => {
-		this.setState({
-			code: 'tuvieja'
-		});
-	}
-
-	handleChange = variable => event => {
+  handleChange = variable => event => {
     this.setState({ [variable]: event.target.value });
   };
 
-  
   render() {
-		const { classes } = this.props;
+    const { classes } = this.props;
 
     return (
-			<div>
-	
-				{/* <TextField
-					id="outlined-multiline-static"
-					label="Enunciado"
-					multiline
-					rows="4"
-					defaultValue="Lorem ipsum dolor sit amet, 
-					consectetur adipiscing elit, sed do eiusmod tempor 
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-					className={classes.textField}
-					margin="normal"
-					variant="outlined"
-					InputProps={{
-						readOnly: true,
-					}}
-					style ={{width: '100%'}}
-				/>*/}
-	
-				<Grid container spacing={24}>
+      <div>
+        <Grid container spacing={24}>
+          {/* RUBY EDITOR */}
+          <Grid item xs={6}>
+            <RubyEditor />
+          </Grid>
 
-          {/* RUBY EDITOR */}        
-					<Grid item xs={6}>
-						<RubyEditor/>
-					</Grid>
-	
           {/* RUBY OUTPUT */}
-					<Grid item xs={6}>
-						<TextField
-							id="outlined-full-width"
-							label="Ouput of the Ruby editor"
-							style={{ margin: 8 }}
-							multiline
-							rows='18'
-							placeholder="You will see the output of the editor here..."
-							//helperText="Full width!"
-							value={this.state.code}
-							onChange={this.handleChange('code')}
-							fullWidth
-							margin="normal"
-							variant="outlined"
-							InputLabelProps={{
-								shrink: true,
-							}}
-						/>
-					</Grid>
-	
-          {/* EXECUTE */}
-					<Grid item xs={3}>
-						<Button variant="contained" color="primary" className={classes.button} onClick={this.sendCodeinSandBox}>
-							Execute code inside editor
-							<SendIcon className={classes.rightIcon} />
-						</Button>
-					</Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="outlined-full-width"
+              label="Ouput of the Ruby editor"
+              style={{ margin: 8 }}
+              multiline
+              rows="18"
+              placeholder="You will see the output of the editor here..."
+              //helperText="Full width!"
+              value={this.state.code}
+              onChange={this.handleChange("code")}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
 
-				</Grid>
-		</div>
-		);
+          {/* EXECUTE */}
+          <Grid item xs={3}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={this.sendCodeinSandBox}
+            >
+              Execute code inside editor
+              <SendIcon className={classes.rightIcon} />
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
+    );
   }
 }
 
 RubyExercise.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(RubyExercise);
