@@ -49,12 +49,13 @@ class TestCaseDialog extends React.Component {
   };
 
   handleSubmit() {
-    const inputsArray = this.state.userInput.split(',');
+    const inputsArray = this.state.userInput.split(',');``
     const outputsArray = this.state.userOutput.split(',');
 
     this.setState({
       inputList: inputsArray,
-      outputList: outputsArray
+      outputList: outputsArray,
+      open: false
     });
   }
 
@@ -64,6 +65,10 @@ class TestCaseDialog extends React.Component {
 
   handleInputChange = event => {
     this.setState({ userInput: event.target.value });
+  };
+
+  handleOutputChange = event => {
+    this.setState({ userOutput: event.target.value });
   };
 
   render() {
@@ -83,9 +88,10 @@ class TestCaseDialog extends React.Component {
 
           <DialogContent>
 
-            <DialogContentText>
+            {/* INPUTS */}
+            {/* <DialogContentText>
               Please insert all the details about the test case for this exercise.
-            </DialogContentText>
+            </DialogContentText> */}
             <TextField
               value={this.state.userInput}
               placeholder="Separate inputs with commas"
@@ -98,6 +104,7 @@ class TestCaseDialog extends React.Component {
               fullWidth
             />
 
+            {/* VISIBILITY */}
             <FormControl component="fieldset" className={classes.formControl}>
               <FormLabel component="legend">Visibility of this test case</FormLabel>
               <RadioGroup
@@ -107,19 +114,33 @@ class TestCaseDialog extends React.Component {
                 value={this.state.value}
                 onChange={this.handleChange}
               >
-                <FormControlLabel value="PUBLIC" control={<Radio />} label="Public visibility" />
-                <FormControlLabel value="PRIVATE" control={<Radio />} label="Private visibility" />
+                <FormControlLabel value="PUBLIC" control={<Radio />} label="Public test case" />
+                <FormControlLabel value="PRIVATE" control={<Radio />} label="Private test case" />
               </RadioGroup>
             </FormControl>
-            
+
+            {/* INPUTS */}
+            <TextField
+              value={this.state.userInput}
+              placeholder="Separate outputs with commas"
+              onChange={this.HandleOutputChange}
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Accepted outputs"
+              type="email"
+              fullWidth
+            />
+
           </DialogContent>
+
 
 
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleSubmit} color="primary">
               Create test case
             </Button>
           </DialogActions>
