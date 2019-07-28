@@ -71,7 +71,7 @@ class RubyExercise extends Component {
         <Grid container spacing={24}>
           {/* RUBY EDITOR */}
           <Grid item xs={6}>
-            <RubyEditor codeToRun={this.code} />
+            <RubyEditor codeToRun={this.state.code} />
           </Grid>
 
           {/* RUBY OUTPUT */}
