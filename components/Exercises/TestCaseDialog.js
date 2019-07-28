@@ -36,7 +36,8 @@ class TestCaseDialog extends React.Component {
     inputList: [],
     userOutput: '',
     outputList: [],
-    visibility: ""
+    visibility: "",
+    timeout: 600
   };
   
 
@@ -99,7 +100,7 @@ class TestCaseDialog extends React.Component {
               autoFocus
               margin="dense"
               id="name"
-              label="Accepted inputs"
+              label="Insert list of inputs here"
               type="text"
               fullWidth
             />
@@ -127,7 +128,7 @@ class TestCaseDialog extends React.Component {
               autoFocus
               margin="dense"
               id="name"
-              label="Accepted outputs"
+              label="Insert list of outputs here"
               type="text"
               fullWidth
             />
