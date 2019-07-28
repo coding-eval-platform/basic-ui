@@ -119,9 +119,9 @@ class TestCaseDialog extends React.Component {
               </RadioGroup>
             </FormControl>
 
-            {/* INPUTS */}
+            {/* OUTPUTS */}
             <TextField
-              value={this.state.userInput}
+              value={this.state.userOutput}
               placeholder="Separate outputs with commas"
               onChange={this.HandleOutputChange}
               autoFocus
