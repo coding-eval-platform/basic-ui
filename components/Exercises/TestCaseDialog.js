@@ -100,7 +100,7 @@ class TestCaseDialog extends React.Component {
               margin="dense"
               id="name"
               label="Accepted inputs"
-              type="email"
+              type="text"
               fullWidth
             />
 
@@ -128,7 +128,7 @@ class TestCaseDialog extends React.Component {
               margin="dense"
               id="name"
               label="Accepted outputs"
-              type="email"
+              type="text"
               fullWidth
             />
 
