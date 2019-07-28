@@ -35,8 +35,8 @@ class RubyExercise extends Component {
     timeout: 1000,
     language: "RUBY",
     inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
-	};
-	
+  };
+
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
 
@@ -71,7 +71,7 @@ class RubyExercise extends Component {
         <Grid container spacing={24}>
           {/* RUBY EDITOR */}
           <Grid item xs={6}>
-            <RubyEditor />
+            <RubyEditor codeToRun={this.code} />
           </Grid>
 
           {/* RUBY OUTPUT */}

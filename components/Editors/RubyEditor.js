@@ -20,14 +20,16 @@ class RubyEditor extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <AceEditor
-        placeholder="Placeholder Text"
+        placeholder={`# Insert some code here, like:
+        puts "Hello World!"`}
         mode="ruby"
         theme="monokai"
         name="editor1"
-        value={`# Insert some code here, like:
-puts "Hello World!"`}
+        value={this.props.codeToRun}
         onChange={this.onChange}
         setReadOnly={false}
         showGutter={true}
