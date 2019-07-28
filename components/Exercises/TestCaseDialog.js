@@ -60,17 +60,7 @@ class TestCaseDialog extends React.Component {
     });
   }
 
-  handleVisibilityChange = event => {
-    this.setState({ visibility: event.target.value });
-  };
-
-  handleInputChange = event => {
-    this.setState({ userInput: event.target.value });
-  };
-
-  handleOutputChange = event => {
-    this.setState({ userOutput: event.target.value });
-  };
+  onChange = e => this.setState({ [e.target.name]: e.target.value })
 
   render() {
     const { classes } = this.props;
@@ -96,7 +86,7 @@ class TestCaseDialog extends React.Component {
             <TextField
               value={this.state.userInput}
               placeholder="Separate inputs with commas"
-              onChange={this.HandleInputChange}
+              onChange={this.onChange}
               autoFocus
               margin="dense"
               id="name"
@@ -113,7 +103,7 @@ class TestCaseDialog extends React.Component {
                 name="visibility"
                 className={classes.group}
                 value={this.state.visibility}
-                onChange={this.handleVisibilityChange}
+                onChange={this.onChange}
               >
                 <FormControlLabel value="PUBLIC" control={<Radio />} label="Public test case" />
                 <FormControlLabel value="PRIVATE" control={<Radio />} label="Private test case" />
@@ -124,7 +114,7 @@ class TestCaseDialog extends React.Component {
             <TextField
               value={this.state.userOutput}
               placeholder="Separate outputs with commas"
-              onChange={this.HandleOutputChange}
+              onChange={this.onChange}
               autoFocus
               margin="dense"
               id="name"
