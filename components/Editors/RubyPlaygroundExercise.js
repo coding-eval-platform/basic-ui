@@ -42,7 +42,7 @@ class RubyPlaygroundExercise extends Component {
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
 
-    fetch("http://localhost:8000/execution-requests", {
+    fetch("http://localhost:8009/execution-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state)
@@ -65,21 +65,16 @@ class RubyPlaygroundExercise extends Component {
 	
 	polling = (result_id) => {
 		this.IntervalPolling = setInterval(() => {
-			let url = "http://localhost:8000/execution-requests/" + result_id + "/result/"
+			let url = "http://localhost:8009/execution-requests/" + result_id + "/result/"
 			console.log("url: ", url);
 			fetch(url, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then( async (res) => {
-					// console.log("RESPONSE IS: ", res.headers.get("Location"));
-					// let result_id = res.headers.get("Location").split("/");
-					// result_id = result_id[result_id.length - 1];
-					// console.log("RESULT_ID IS: ", result_id);
-					const outputResponse = await res.json();
-					console.log("el res.body es: ", res.body);
-					console.log("json: ", outputResponse);
-					if(outputResponse &&  outputResponse.type === 'FINISHED') {
+					const outputJSONResponse = await res.json();
+					console.log("json: ", outputJSONResponse);
+					if(outputJSONResponse &&  outputJSONResponse.type === 'FINISHED') {
 						console.log('se acabo');
 					 	clearInterval(this.IntervalPolling);
 					}
