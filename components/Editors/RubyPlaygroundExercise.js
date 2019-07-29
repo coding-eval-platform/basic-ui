@@ -31,6 +31,7 @@ const styles = theme => ({
 
 class RubyPlaygroundExercise extends Component {
   state = {
+		output: '',
     code: "ARGV.each do |a|\n\tputs a\nend\n",
     timeout: 1000,
     language: "RUBY",
@@ -45,7 +46,12 @@ class RubyPlaygroundExercise extends Component {
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({
+				code: this.state.code,
+				timeout: this.state.timeout,
+				language: this.state.language,
+				inputs: this.state.inputs
+			})
     })
       .then(res => {
         console.log("RESPONSE IS: ", res.headers.get("Location"));
@@ -53,12 +59,8 @@ class RubyPlaygroundExercise extends Component {
         result_id = result_id[result_id.length - 1];
 				console.log("RESULT_ID IS: ", result_id);
 
+				// once the code is executed, wait for the response on the output box
 				this.polling(result_id);
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
-        //Router.push(`/create_exercises?exam_id=${exam_id}`);
       })
       .catch(err => console.log(err));
 	};
@@ -75,7 +77,7 @@ class RubyPlaygroundExercise extends Component {
 					const outputJSONResponse = await res.json();
 					console.log("json: ", outputJSONResponse);
 					if(outputJSONResponse &&  outputJSONResponse.type === 'FINISHED') {
-						console.log('se acabo');
+						console.log('Finished polling, state is: ', outputJSONResponse.type);
 					 	clearInterval(this.IntervalPolling);
 					}
 				})
@@ -111,7 +113,7 @@ class RubyPlaygroundExercise extends Component {
               rows="18"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
-              value={this.state.code}
+              value={this.state.output}
               onChange={this.handleChange("code")}
               fullWidth
               margin="normal"
