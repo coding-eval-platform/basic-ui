@@ -31,7 +31,7 @@ const styles = theme => ({
 
 class RubyPlaygroundExercise extends Component {
   state = {
-		output: '',
+		output: {},
     code: "ARGV.each do |a|\n\tputs a\nend\n",
     timeout: 1000,
     language: "RUBY",
@@ -78,6 +78,7 @@ class RubyPlaygroundExercise extends Component {
 					console.log("json: ", outputJSONResponse);
 					if(outputJSONResponse &&  outputJSONResponse.type === 'FINISHED') {
 						console.log('Finished polling, state is: ', outputJSONResponse.type);
+						this.setState({output: outputJSONResponse});
 					 	clearInterval(this.IntervalPolling);
 					}
 				})
@@ -93,7 +94,9 @@ class RubyPlaygroundExercise extends Component {
 
   render() {
 		const { classes } = this.props;
-		console.log(this.state.code)
+		console.log(this.state.code);
+
+		const output = (this.state.output.stdout || []).reduce((memo, line) => memo + line + '\n', '');		
 
     return (
       <div>
@@ -113,7 +116,7 @@ class RubyPlaygroundExercise extends Component {
               rows="18"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
-              value={this.state.output}
+              value={output}
               onChange={this.handleChange("code")}
               fullWidth
               margin="normal"
