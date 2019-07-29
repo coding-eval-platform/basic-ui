@@ -49,7 +49,8 @@ class RubyExercise extends Component {
         console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
-        console.log("RESULT_ID IS: ", result_id);
+				console.log("RESULT_ID IS: ", result_id);
+				this.polling(result_id);
         // this.setState({
         //   exam_id
         // });
@@ -57,7 +58,28 @@ class RubyExercise extends Component {
         //Router.push(`/create_exercises?exam_id=${exam_id}`);
       })
       .catch(err => console.log(err));
-  };
+	};
+	
+	polling = (result_id) => {
+		let url = "http://localhost:8000/execution-requests/" + result_id + "/result/"
+		fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => {
+        console.log("RESPONSE IS: ", res.headers.get("Location"));
+        let result_id = res.headers.get("Location").split("/");
+        result_id = result_id[result_id.length - 1];
+				console.log("RESULT_ID IS: ", result_id);
+				console.log(res);
+        // this.setState({
+        //   exam_id
+        // });
+        // this.props.history.push(`/create_exercises/${exam_id}/`);
+        //Router.push(`/create_exercises?exam_id=${exam_id}`);
+      })
+      .catch(err => console.log(err));
+	}
 
   handleChange = variable => event => {
     this.setState({ [variable]: event.target.value });
