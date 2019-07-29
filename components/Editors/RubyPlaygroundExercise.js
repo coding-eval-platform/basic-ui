@@ -29,13 +29,15 @@ const styles = theme => ({
   }
 });
 
-class RubyExercise extends Component {
+class RubyPlaygroundExercise extends Component {
   state = {
     code: "ARGV.each do |a|\n\tputs a\nend\n",
     timeout: 1000,
     language: "RUBY",
     inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
   };
+
+
 
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
@@ -50,6 +52,7 @@ class RubyExercise extends Component {
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
 				console.log("RESULT_ID IS: ", result_id);
+
 				this.polling(result_id);
         // this.setState({
         //   exam_id
@@ -61,39 +64,46 @@ class RubyExercise extends Component {
 	};
 	
 	polling = (result_id) => {
-		let url = "http://localhost:8000/execution-requests/" + result_id + "/result/"
-		fetch(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(res => {
-        console.log("RESPONSE IS: ", res.headers.get("Location"));
-        let result_id = res.headers.get("Location").split("/");
-        result_id = result_id[result_id.length - 1];
-				console.log("RESULT_ID IS: ", result_id);
-				console.log(res);
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
-        //Router.push(`/create_exercises?exam_id=${exam_id}`);
-      })
-      .catch(err => console.log(err));
+		this.IntervalPolling = setInterval(() => {
+			let url = "http://localhost:8000/execution-requests/" + result_id + "/result/"
+			console.log("url: ", url);
+			fetch(url, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then( async (res) => {
+					// console.log("RESPONSE IS: ", res.headers.get("Location"));
+					// let result_id = res.headers.get("Location").split("/");
+					// result_id = result_id[result_id.length - 1];
+					// console.log("RESULT_ID IS: ", result_id);
+					const outputResponse = await res.json();
+					console.log("el res.body es: ", res.body);
+					console.log("json: ", outputResponse);
+					if(outputResponse &&  outputResponse.type === 'FINISHED') {
+						console.log('se acabo');
+					 	clearInterval(this.IntervalPolling);
+					}
+				})
+				.catch(err => console.log(err));
+		}, 3000);
 	}
 
   handleChange = variable => event => {
     this.setState({ [variable]: event.target.value });
-  };
+	};
+	
+	onCodeChange = code => this.setState({ code })
 
   render() {
-    const { classes } = this.props;
+		const { classes } = this.props;
+		console.log(this.state.code)
 
     return (
       <div>
         <Grid container spacing={24}>
           {/* RUBY EDITOR */}
           <Grid item xs={6}>
-            <RubyEditor codeToRun={this.state.code} />
+            <RubyEditor codeToRun={this.state.code} onChange={this.onCodeChange}/>
           </Grid>
 
           {/* RUBY OUTPUT */}
@@ -135,8 +145,8 @@ class RubyExercise extends Component {
   }
 }
 
-RubyExercise.propTypes = {
+RubyPlaygroundExercise.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(RubyExercise);
+export default withStyles(styles)(RubyPlaygroundExercise);

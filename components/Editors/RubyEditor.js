@@ -7,16 +7,19 @@ import "brace/snippets/ruby";
 import "brace/ext/language_tools";
 
 class RubyEditor extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(newValue, e) {
     //console.log(newValue, e);
-
     const editor = this.ace.editor; // The editor object is from Ace's API
-    console.log(editor.getValue()); // Outputs the value of the editor
+    // console.log(editor.getValue()); // Outputs the value of the editor
+    if (this.props.onChange) {
+      this.props.onChange(editor.getValue())
+    }
+
   }
 
   render() {
