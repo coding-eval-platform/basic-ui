@@ -76,7 +76,8 @@ class RubyPlaygroundExercise extends Component {
 				.then( async (res) => {
 					const outputJSONResponse = await res.json();
 					console.log("json: ", outputJSONResponse);
-					if(outputJSONResponse &&  outputJSONResponse.type === 'FINISHED') {
+					if(outputJSONResponse && ((outputJSONResponse.type === 'FINISHED') || 
+																		(outputJSONResponse.type === 'UNKNOWN_ERROR')))  {
 						console.log('Finished polling, state is: ', outputJSONResponse.type);
 						this.setState({output: outputJSONResponse});
 					 	clearInterval(this.IntervalPolling);
@@ -96,7 +97,7 @@ class RubyPlaygroundExercise extends Component {
 		const { classes } = this.props;
 		console.log(this.state.code);
 
-		const output = (this.state.output.stdout || []).reduce((memo, line) => memo + line + '\n', '');		
+		const output = this.state.output.type === 'UNKNOWN_ERROR' ? 'COMPILATION ERROR' : (this.state.output.stdout || []).reduce((memo, line) => memo + line + '\n', '');		
 
     return (
       <div>
