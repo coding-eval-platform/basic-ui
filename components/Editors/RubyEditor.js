@@ -27,8 +27,6 @@ class RubyEditor extends Component {
 
     return (
       <AceEditor
-        placeholder={`# Insert some code here, like:
-        puts "Hello World!"`}
         mode="ruby"
         theme="monokai"
         name="editor1"

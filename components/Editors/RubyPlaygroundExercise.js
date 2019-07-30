@@ -63,7 +63,7 @@ class RubyPlaygroundExercise extends Component {
 				this.polling(result_id);
       })
       .catch(err => console.log(err));
-	};
+	}
 	
 	polling = (result_id) => {
 		this.IntervalPolling = setInterval(() => {
@@ -87,10 +87,6 @@ class RubyPlaygroundExercise extends Component {
 		}, 3000);
 	}
 
-  handleChange = variable => event => {
-    this.setState({ [variable]: event.target.value });
-	};
-	
 	onCodeChange = code => this.setState({ code })
 
   render() {
@@ -118,7 +114,7 @@ class RubyPlaygroundExercise extends Component {
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={output}
-              onChange={this.handleChange("code")}
+              // onChange={this.handleChange("code")}
               fullWidth
               margin="normal"
               variant="outlined"
