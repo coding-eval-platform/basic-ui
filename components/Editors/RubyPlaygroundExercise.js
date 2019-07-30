@@ -31,14 +31,12 @@ const styles = theme => ({
 
 class RubyPlaygroundExercise extends Component {
   state = {
-		output: {},
+    output: {},
     code: "ARGV.each do |a|\n\tputs a\nend\n",
     timeout: 1000,
     language: "RUBY",
     inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
   };
-
-
 
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
@@ -47,60 +45,76 @@ class RubyPlaygroundExercise extends Component {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-				code: this.state.code,
-				timeout: this.state.timeout,
-				language: this.state.language,
-				inputs: this.state.inputs
-			})
+        code: this.state.code,
+        timeout: this.state.timeout,
+        language: this.state.language,
+        inputs: this.state.inputs
+      })
     })
       .then(res => {
         console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
-				console.log("RESULT_ID IS: ", result_id);
+        console.log("RESULT_ID IS: ", result_id);
 
-				// once the code is executed, wait for the response on the output box
-				this.polling(result_id);
+        // once the code is executed, wait for the response on the output box
+        this.polling(result_id);
       })
       .catch(err => console.log(err));
-	}
-	
-	polling = (result_id) => {
-		this.IntervalPolling = setInterval(() => {
-			let url = "http://localhost:8009/execution-requests/" + result_id + "/result/"
-			console.log("url: ", url);
-			fetch(url, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then( async (res) => {
-					const outputJSONResponse = await res.json();
-					console.log("json: ", outputJSONResponse);
-					if(outputJSONResponse && ((outputJSONResponse.type === 'FINISHED') || 
-																		(outputJSONResponse.type === 'UNKNOWN_ERROR')))  {
-						console.log('Finished polling, state is: ', outputJSONResponse.type);
-						this.setState({output: outputJSONResponse});
-					 	clearInterval(this.IntervalPolling);
-					}
-				})
-				.catch(err => console.log(err));
-		}, 3000);
-	}
+  };
 
-	onCodeChange = code => this.setState({ code })
+  polling = result_id => {
+    this.IntervalPolling = setInterval(() => {
+      let url =
+        "http://localhost:8009/execution-requests/" + result_id + "/result/";
+      console.log("url: ", url);
+      fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(async res => {
+          const outputJSONResponse = await res.json();
+          console.log("json: ", outputJSONResponse);
+          if (
+            outputJSONResponse &&
+            (outputJSONResponse.type === "FINISHED" ||
+              outputJSONResponse.type === "UNKNOWN_ERROR")
+          ) {
+            console.log(
+              "Finished polling, state is: ",
+              outputJSONResponse.type
+            );
+            this.setState({ output: outputJSONResponse });
+            clearInterval(this.IntervalPolling);
+          }
+        })
+        .catch(err => console.log(err));
+    }, 3000);
+  };
+
+  onCodeChange = code => this.setState({ code });
 
   render() {
-		const { classes } = this.props;
-		console.log(this.state.code);
+    const { classes } = this.props;
+    console.log(this.state.code);
 
-		const output = this.state.output.type === 'UNKNOWN_ERROR' ? 'COMPILATION ERROR' : (this.state.output.stdout || []).reduce((memo, line) => memo + line + '\n', '');		
+    const output =
+      this.state.output.type === "UNKNOWN_ERROR"
+        ? "COMPILATION ERROR"
+        : (this.state.output.stdout || []).reduce(
+            (memo, line) => memo + line + "\n",
+            ""
+          );
 
     return (
       <div>
         <Grid container spacing={24}>
           {/* RUBY EDITOR */}
           <Grid item xs={6}>
-            <RubyEditor codeToRun={this.state.code} onChange={this.onCodeChange}/>
+            <RubyEditor
+              codeToRun={this.state.code}
+              onChange={this.onCodeChange}
+            />
           </Grid>
 
           {/* RUBY OUTPUT */}
@@ -114,7 +128,6 @@ class RubyPlaygroundExercise extends Component {
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={output}
-              // onChange={this.handleChange("code")}
               fullWidth
               margin="normal"
               variant="outlined"

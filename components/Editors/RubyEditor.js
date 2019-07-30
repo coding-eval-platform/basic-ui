@@ -17,9 +17,8 @@ class RubyEditor extends Component {
     const editor = this.ace.editor; // The editor object is from Ace's API
     // console.log(editor.getValue()); // Outputs the value of the editor
     if (this.props.onChange) {
-      this.props.onChange(editor.getValue())
+      this.props.onChange(editor.getValue());
     }
-
   }
 
   render() {
