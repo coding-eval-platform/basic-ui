@@ -38,11 +38,16 @@ class CPlaygroundExercise extends Component {
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
     timeout: 1002,
     language: "C",
-    inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
+    // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
+    input: ""
   };
 
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
+    const final_input = this.state.input
+      .split(",")
+      .map(str => str.replace(/\s/g, ""));
+    // console.log('ARRAY: ', final_input);
 
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
@@ -51,7 +56,7 @@ class CPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        inputs: this.state.inputs
+        inputs: final_input
       })
     })
       .then(res => {
@@ -97,6 +102,11 @@ class CPlaygroundExercise extends Component {
 
   onCodeChange = code => this.setState({ code });
 
+  onInputChange = input => {
+    // console.log("INPUT: ", input.target.value);
+    this.setState({ input: input.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     console.log(this.state.code);
@@ -120,8 +130,9 @@ class CPlaygroundExercise extends Component {
               style={{ margin: 8 }}
               rows="1"
               placeholder="input1, input2, input3"
-              // value={output}
               fullWidth
+              onChange={this.onInputChange}
+              value={this.state.input}
               margin="normal"
               variant="outlined"
               InputLabelProps={{

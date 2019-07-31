@@ -36,11 +36,16 @@ class JavaPlaygroundExercise extends Component {
       "import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n",
     timeout: 10000,
     language: "JAVA",
-    inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
+    // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
+    input: ""
   };
 
   sendCodeinSandBox = () => {
     console.log("POST sent this: ", this.state.code);
+    const final_input = this.state.input
+      .split(",")
+      .map(str => str.replace(/\s/g, ""));
+    // console.log('ARRAY: ', final_input);
 
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
@@ -49,7 +54,7 @@ class JavaPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        inputs: this.state.inputs
+        inputs: final_input
       })
     })
       .then(res => {
@@ -95,6 +100,11 @@ class JavaPlaygroundExercise extends Component {
 
   onCodeChange = code => this.setState({ code });
 
+  onInputChange = input => {
+    // console.log("INPUT: ", input.target.value);
+    this.setState({ input: input.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     console.log(this.state.code);
@@ -118,8 +128,9 @@ class JavaPlaygroundExercise extends Component {
               style={{ margin: 8 }}
               rows="1"
               placeholder="input1, input2, input3"
-              // value={output}
               fullWidth
+              onChange={this.onInputChange}
+              value={this.state.input}
               margin="normal"
               variant="outlined"
               InputLabelProps={{
