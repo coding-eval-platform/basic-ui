@@ -109,25 +109,15 @@ class RubyPlaygroundExercise extends Component {
     return (
       <div>
         <Grid container spacing={24}>
-          {/* RUBY EDITOR */}
-          <Grid item xs={6}>
-            <RubyEditor
-              codeToRun={this.state.code}
-              onChange={this.onCodeChange}
-            />
-          </Grid>
-
-          {/* RUBY OUTPUT */}
-          <Grid item xs={6}>
+          {/* INPUTS */}
+          <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Ouput of the Ruby editor"
+              label="Insert comma separated inputs for the program"
               style={{ margin: 8 }}
-              multiline
-              rows="18"
-              placeholder="You will see the output of the editor here..."
-              //helperText="Full width!"
-              value={output}
+              rows="1"
+              placeholder="input1, input2, input3"
+              // value={output}
               fullWidth
               margin="normal"
               variant="outlined"
@@ -148,6 +138,36 @@ class RubyPlaygroundExercise extends Component {
               Execute code inside editor
               <SendIcon className={classes.rightIcon} />
             </Button>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={24}>
+          {/* RUBY EDITOR */}
+          <Grid item xs={12} sm={6}>
+            <RubyEditor
+              codeToRun={this.state.code}
+              onChange={this.onCodeChange}
+            />
+          </Grid>
+
+          {/* RUBY OUTPUT */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="outlined-full-width"
+              label="Ouput of the Ruby editor"
+              style={{ margin: 8 }}
+              multiline
+              rows="18"
+              placeholder="You will see the output of the editor here..."
+              //helperText="Full width!"
+              value={output}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
           </Grid>
         </Grid>
       </div>

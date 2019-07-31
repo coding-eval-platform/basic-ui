@@ -112,22 +112,15 @@ class CPlaygroundExercise extends Component {
     return (
       <div>
         <Grid container spacing={24}>
-          {/* C EDITOR */}
-          <Grid item xs={6}>
-            <CEditor codeToRun={this.state.code} onChange={this.onCodeChange} />
-          </Grid>
-
-          {/* C OUPUT */}
-          <Grid item xs={6}>
+          {/* INPUTS */}
+          <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Ouput of the Java editor"
+              label="Insert comma separated inputs for the program"
               style={{ margin: 8 }}
-              multiline
-              rows="18"
-              placeholder="You will see the output of the editor here..."
-              //helperText="Full width!"
-              value={output}
+              rows="1"
+              placeholder="input1, input2, input3"
+              // value={output}
               fullWidth
               margin="normal"
               variant="outlined"
@@ -148,6 +141,33 @@ class CPlaygroundExercise extends Component {
               Execute code inside editor
               <SendIcon className={classes.rightIcon} />
             </Button>
+          </Grid>
+        </Grid>
+
+        {/* C EDITOR */}
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={6}>
+            <CEditor codeToRun={this.state.code} onChange={this.onCodeChange} />
+          </Grid>
+
+          {/* C OUPUT */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="outlined-full-width"
+              label="Ouput of the Java editor"
+              style={{ margin: 8 }}
+              multiline
+              rows="18"
+              placeholder="You will see the output of the editor here..."
+              //helperText="Full width!"
+              value={output}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
           </Grid>
         </Grid>
       </div>
