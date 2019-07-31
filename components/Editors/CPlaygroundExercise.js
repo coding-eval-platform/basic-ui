@@ -131,8 +131,8 @@ class CPlaygroundExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Insert comma separated inputs"
-              style={{ margin: 8 }}
-              rows="1"
+              style={{ margin: 0 }}
+              rows="19"
               placeholder="input1, input2, input3"
               fullWidth
               onChange={this.onInputChange}

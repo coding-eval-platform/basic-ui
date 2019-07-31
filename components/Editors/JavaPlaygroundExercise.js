@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 
 import Typography from "@material-ui/core/Typography";
 
-
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit
@@ -35,6 +34,7 @@ const styles = theme => ({
 class JavaPlaygroundExercise extends Component {
   state = {
     output: {},
+    pending: false,
     code:
       "import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n",
     timeout: 10000,
@@ -44,11 +44,12 @@ class JavaPlaygroundExercise extends Component {
   };
 
   sendCodeinSandBox = () => {
-    console.log("POST sent this: ", this.state.code);
+    this.setState({ output: {} });
+
+    this.setState({ pending: true });
     const final_input = this.state.input
       .split(",")
       .map(str => str.replace(/\s/g, ""));
-    // console.log('ARRAY: ', final_input);
 
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
@@ -94,6 +95,7 @@ class JavaPlaygroundExercise extends Component {
               outputJSONResponse.type
             );
             this.setState({ output: outputJSONResponse });
+            this.setState({ pending: false });
             clearInterval(this.IntervalPolling);
           }
         })
@@ -110,7 +112,7 @@ class JavaPlaygroundExercise extends Component {
 
   render() {
     const { classes } = this.props;
-    // console.log(this.state.code);
+    let pending = this.state.pending;
 
     const output =
       this.state.output.type === "COMPILE_ERROR"
@@ -122,7 +124,7 @@ class JavaPlaygroundExercise extends Component {
 
     return (
       <div>
-				<Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom>
           Java programming language playground
         </Typography>
         <Grid container spacing={24} alignItems="center">
@@ -145,7 +147,7 @@ class JavaPlaygroundExercise extends Component {
             />
           </Grid>
 
-          {/* EXECUTE */}
+          {/* EXECUTES */}
           <Grid item xs={3}>
             <Button
               variant="contained"
@@ -178,7 +180,10 @@ class JavaPlaygroundExercise extends Component {
               rows="19"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
-              value={output}
+              value={
+                output ||
+                (pending ? "👩🏻‍🚀 bringing your output from Mars..." : "")
+              }
               fullWidth
               margin="normal"
               variant="outlined"
