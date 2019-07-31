@@ -3,14 +3,14 @@ import dynamic from "next/dynamic";
 const CEditor = dynamic(import("./CEditor"), { ssr: false });
 
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import SendIcon from "@material-ui/icons/Send";
-import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   button: {
@@ -34,6 +34,7 @@ const styles = theme => ({
 class CPlaygroundExercise extends Component {
   state = {
     output: {},
+    pending: false,
     code:
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
     timeout: 10002,
@@ -43,7 +44,11 @@ class CPlaygroundExercise extends Component {
   };
 
   sendCodeinSandBox = () => {
-    console.log("POST sent this: ", this.state.code);
+    this.setState({ output: {} });
+    this.setState({ pending: true });
+    console.log("Sending code, pending is: ", this.state.pending);
+
+    // console.log("POST sent this: ", this.state.code);
     const final_input = this.state.input
       .split(",")
       .map(str => str.replace(/\s/g, ""));
@@ -93,6 +98,8 @@ class CPlaygroundExercise extends Component {
               outputJSONResponse.type
             );
             this.setState({ output: outputJSONResponse });
+            this.setState({ pending: false });
+            console.log("RESULT FETCHED, pending is: ", this.state.pending);
             clearInterval(this.IntervalPolling);
           }
         })
@@ -109,19 +116,22 @@ class CPlaygroundExercise extends Component {
 
   render() {
     const { classes } = this.props;
-    // console.log(this.state.code);
+    console.log("output at render is :", this.state.output);
+    let pending = this.state.pending;
 
-      let output =
-        this.state.output.type === "UNKNOWN_ERROR"
-          ? "COMPILATION ERROR"
-          : (this.state.output.stdout || []).reduce(
-              // (memo, line, i) => memo + line + "\n",
-              (memo, line, i) => i === 0 ? memo : memo + line + "\n",
-              ""
-            );
+    let output =
+      this.state.output.type === "UNKNOWN_ERROR"
+        ? "COMPILATION ERROR"
+        : (this.state.output.stdout || []).reduce(
+            (memo, line, i) => (i === 0 ? memo : memo + line + "\n"),
+            ""
+          );
 
     return (
       <div>
+        <Typography variant="h4" gutterBottom>
+          C programming language playground
+        </Typography>
         <Grid container spacing={24}>
           {/* INPUTS */}
           <Grid item xs={3}>
@@ -172,7 +182,10 @@ class CPlaygroundExercise extends Component {
               rows="18"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
-              value={output}
+              value={
+                output ||
+                (pending ? "👩🏻‍🚀 bringing your output from Mars..." : "")
+              }
               fullWidth
               margin="normal"
               variant="outlined"

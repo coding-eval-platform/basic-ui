@@ -10,6 +10,9 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
+import Typography from "@material-ui/core/Typography";
+
+
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit
@@ -119,6 +122,9 @@ class JavaPlaygroundExercise extends Component {
 
     return (
       <div>
+				<Typography variant="h4" gutterBottom>
+          Java programming language playground
+        </Typography>
         <Grid container spacing={24}>
           {/* INPUTS */}
           <Grid item xs={3}>

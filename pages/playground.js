@@ -6,8 +6,12 @@ import CPlaygroundExercise from '../components/Editors/CPlaygroundExercise.js'
 export default () => (
   <Layout>
       <RubyPlaygroundExercise />
+
+      <hr style={{margin: 50 }}/>
       
       <JavaPlaygroundExercise />
+
+      <hr style={{margin: 50 }}/>
 
       <CPlaygroundExercise />
   </Layout>
