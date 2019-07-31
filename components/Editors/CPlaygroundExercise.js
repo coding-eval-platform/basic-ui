@@ -6,10 +6,8 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import SendIcon from "@material-ui/icons/Send";
 import { withStyles } from "@material-ui/core/styles";
-
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
@@ -45,14 +43,11 @@ class CPlaygroundExercise extends Component {
 
   sendCodeinSandBox = () => {
     this.setState({ output: {} });
-    this.setState({ pending: true });
-    console.log("Sending code, pending is: ", this.state.pending);
 
-    // console.log("POST sent this: ", this.state.code);
+    this.setState({ pending: true });
     const final_input = this.state.input
       .split(",")
-      .map(str => str.replace(/\s/g, ""));
-    // console.log('ARRAY: ', final_input);
+      .map(str => str.replace(/\s/g, ""));s
 
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
@@ -99,7 +94,6 @@ class CPlaygroundExercise extends Component {
             );
             this.setState({ output: outputJSONResponse });
             this.setState({ pending: false });
-            console.log("RESULT FETCHED, pending is: ", this.state.pending);
             clearInterval(this.IntervalPolling);
           }
         })
@@ -116,7 +110,6 @@ class CPlaygroundExercise extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log("output at render is :", this.state.output);
     let pending = this.state.pending;
 
     let output =
@@ -132,12 +125,12 @@ class CPlaygroundExercise extends Component {
         <Typography variant="h4" gutterBottom>
           C programming language playground
         </Typography>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert comma separated inputs for the program"
+              label="Insert comma separated inputs"
               style={{ margin: 8 }}
               rows="1"
               placeholder="input1, input2, input3"
@@ -177,9 +170,9 @@ class CPlaygroundExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Output of the C editor"
-              style={{ margin: 8 }}
+              style={{ margin: 0 }}
               multiline
-              rows="18"
+              rows="19"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={

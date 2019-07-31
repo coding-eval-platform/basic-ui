@@ -125,14 +125,14 @@ class JavaPlaygroundExercise extends Component {
 				<Typography variant="h4" gutterBottom>
           Java programming language playground
         </Typography>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert comma separated inputs for the program"
-              style={{ margin: 8 }}
-              rows="1"
+              label="Insert comma separated inputs"
+              style={{ margin: 0 }}
+              rows="19"
               placeholder="input1, input2, input3"
               fullWidth
               onChange={this.onInputChange}
@@ -173,9 +173,9 @@ class JavaPlaygroundExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Output of the Java editor"
-              style={{ margin: 8 }}
+              style={{ margin: 0 }}
               multiline
-              rows="18"
+              rows="19"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={output}
