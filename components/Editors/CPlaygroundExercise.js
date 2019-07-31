@@ -47,7 +47,7 @@ class CPlaygroundExercise extends Component {
     this.setState({ pending: true });
     const final_input = this.state.input
       .split(",")
-      .map(str => str.replace(/\s/g, ""));s
+      .map(str => str.replace(/\s/g, ""));
 
     fetch("http://localhost:8009/execution-requests", {
       method: "POST",
@@ -60,10 +60,10 @@ class CPlaygroundExercise extends Component {
       })
     })
       .then(res => {
-        console.log("RESPONSE IS: ", res.headers.get("Location"));
+        // console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
-        console.log("RESULT_ID IS: ", result_id);
+        // console.log("RESULT_ID IS: ", result_id);
 
         // once the code is executed, wait for the response on the output box
         this.polling(result_id);
@@ -86,7 +86,7 @@ class CPlaygroundExercise extends Component {
           if (
             outputJSONResponse &&
             (outputJSONResponse.type === "FINISHED" ||
-              outputJSONResponse.type === "UNKNOWN_ERROR")
+              outputJSONResponse.type === "COMPILE_ERROR")
           ) {
             console.log(
               "Finished polling, state is: ",
@@ -113,7 +113,7 @@ class CPlaygroundExercise extends Component {
     let pending = this.state.pending;
 
     let output =
-      this.state.output.type === "UNKNOWN_ERROR"
+      this.state.output.type === "COMPILE_ERROR"
         ? "COMPILATION ERROR"
         : (this.state.output.stdout || []).reduce(
             (memo, line, i) => (i === 0 ? memo : memo + line + "\n"),

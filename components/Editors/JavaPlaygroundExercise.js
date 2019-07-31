@@ -61,10 +61,10 @@ class JavaPlaygroundExercise extends Component {
       })
     })
       .then(res => {
-        console.log("RESPONSE IS: ", res.headers.get("Location"));
+        // console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
-        console.log("RESULT_ID IS: ", result_id);
+        // console.log("RESULT_ID IS: ", result_id);
 
         // once the code is executed, wait for the response on the output box
         this.polling(result_id);
@@ -87,7 +87,7 @@ class JavaPlaygroundExercise extends Component {
           if (
             outputJSONResponse &&
             (outputJSONResponse.type === "FINISHED" ||
-              outputJSONResponse.type === "UNKNOWN_ERROR")
+              outputJSONResponse.type === "COMPILE_ERROR")
           ) {
             console.log(
               "Finished polling, state is: ",
@@ -113,7 +113,7 @@ class JavaPlaygroundExercise extends Component {
     // console.log(this.state.code);
 
     const output =
-      this.state.output.type === "UNKNOWN_ERROR"
+      this.state.output.type === "COMPILE_ERROR"
         ? "COMPILATION ERROR"
         : (this.state.output.stdout || []).reduce(
             (memo, line) => memo + line + "\n",

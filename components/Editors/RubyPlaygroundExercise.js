@@ -61,10 +61,10 @@ class RubyPlaygroundExercise extends Component {
       })
     })
       .then(res => {
-        console.log("RESPONSE IS: ", res.headers.get("Location"));
+        // console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get("Location").split("/");
         result_id = result_id[result_id.length - 1];
-        console.log("RESULT_ID IS: ", result_id);
+        // console.log("RESULT_ID IS: ", result_id);
 
         // once the code is executed, wait for the response on the output box
         this.polling(result_id);
@@ -76,7 +76,8 @@ class RubyPlaygroundExercise extends Component {
     this.IntervalPolling = setInterval(() => {
       let url =
         "http://localhost:8009/execution-requests/" + result_id + "/result/";
-      console.log("url: ", url);
+      
+        // console.log("url: ", url);
       fetch(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -112,12 +113,13 @@ class RubyPlaygroundExercise extends Component {
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
+    console.log("el poutput es: ", this.state.output.type);
 
-    let output =
+    const output =
       this.state.output.type === "UNKNOWN_ERROR"
         ? "COMPILATION ERROR"
         : (this.state.output.stdout || []).reduce(
-            (memo, line, i) => (i === 0 ? memo : memo + line + "\n"),
+            (memo, line) => memo + line + "\n",
             ""
           );
 
