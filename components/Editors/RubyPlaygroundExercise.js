@@ -105,7 +105,7 @@ class RubyPlaygroundExercise extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.code);
+    // console.log(this.state.code);
 
     const output =
       this.state.output.type === "UNKNOWN_ERROR"
@@ -164,7 +164,7 @@ class RubyPlaygroundExercise extends Component {
           <Grid item xs={12} sm={6}>
             <TextField
               id="outlined-full-width"
-              label="Ouput of the Ruby editor"
+              label="Output of the Ruby editor"
               style={{ margin: 8 }}
               multiline
               rows="18"

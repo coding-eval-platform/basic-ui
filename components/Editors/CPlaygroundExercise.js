@@ -36,7 +36,7 @@ class CPlaygroundExercise extends Component {
     output: {},
     code:
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
-    timeout: 1002,
+    timeout: 10002,
     language: "C",
     // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
     input: ""
@@ -109,15 +109,16 @@ class CPlaygroundExercise extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.code);
+    // console.log(this.state.code);
 
-    const output =
-      this.state.output.type === "UNKNOWN_ERROR"
-        ? "COMPILATION ERROR"
-        : (this.state.output.stdout || []).reduce(
-            (memo, line) => memo + line + "\n",
-            ""
-          );
+      let output =
+        this.state.output.type === "UNKNOWN_ERROR"
+          ? "COMPILATION ERROR"
+          : (this.state.output.stdout || []).reduce(
+              // (memo, line, i) => memo + line + "\n",
+              (memo, line, i) => i === 0 ? memo : memo + line + "\n",
+              ""
+            );
 
     return (
       <div>
@@ -165,7 +166,7 @@ class CPlaygroundExercise extends Component {
           <Grid item xs={12} sm={6}>
             <TextField
               id="outlined-full-width"
-              label="Ouput of the Java editor"
+              label="Output of the C editor"
               style={{ margin: 8 }}
               multiline
               rows="18"
