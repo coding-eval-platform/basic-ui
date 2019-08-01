@@ -112,11 +112,11 @@ class CPlaygroundExercise extends Component {
     const { classes } = this.props;
     let pending = this.state.pending;
 
-    let output =
+    const output =
       this.state.output.type === "COMPILE_ERROR"
         ? "COMPILATION ERROR"
         : (this.state.output.stdout || []).reduce(
-            (memo, line, i) => (i === 0 ? memo : memo + line + "\n"),
+            (memo, line) => memo + line + "\n",
             ""
           );
 
