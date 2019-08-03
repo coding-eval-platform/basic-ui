@@ -32,6 +32,7 @@ const styles = theme => ({
 class CPlaygroundExercise extends Component {
   state = {
     output: {},
+    programInput: "",
     pending: false,
     code:
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
@@ -108,6 +109,10 @@ class CPlaygroundExercise extends Component {
     this.setState({ input: input.target.value });
   };
 
+  onProgramInputChange = programInput => {
+    this.setState({ programInput: programInput.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
@@ -131,12 +136,27 @@ class CPlaygroundExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Insert Program Arguments"
-              style={{ margin: 0 }}
+              style={{ margin: 8 }}
               rows="19"
               placeholder="input1, input2, input3"
               fullWidth
               onChange={this.onInputChange}
               value={this.state.input}
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+            <TextField
+              id="outlined-full-width"
+              label="Insert Program Input"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Any text you want"
+              onChange={this.onProgramInputChange}
+              value={this.state.programInput}
+              fullWidth
               margin="normal"
               variant="outlined"
               InputLabelProps={{

@@ -34,6 +34,7 @@ const styles = theme => ({
 class JavaPlaygroundExercise extends Component {
   state = {
     output: {},
+    programInput: "",
     pending: false,
     code:
       "import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n",
@@ -110,6 +111,10 @@ class JavaPlaygroundExercise extends Component {
     this.setState({ input: input.target.value });
   };
 
+  onProgramInputChange = programInput => {
+    this.setState({ programInput: programInput.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
@@ -133,12 +138,28 @@ class JavaPlaygroundExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Insert Program Arguments"
-              style={{ margin: 0 }}
+              style={{ margin: 8 }}
               rows="19"
               placeholder="input1, input2, input3"
               fullWidth
               onChange={this.onInputChange}
               value={this.state.input}
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+
+            <TextField
+              id="outlined-full-width"
+              label="Insert Program Input"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Any text you want"
+              onChange={this.onProgramInputChange}
+              value={this.state.programInput}
+              fullWidth
               margin="normal"
               variant="outlined"
               InputLabelProps={{

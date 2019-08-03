@@ -138,7 +138,7 @@ class RubyPlaygroundExercise extends Component {
               id="outlined-full-width"
               label="Insert Program Arguments"
               style={{ margin: 8 }}
-              rows="1"
+              rows="19"
               placeholder="input1, input2, input3"
               onChange={this.onInputChange}
               value={this.state.input}
