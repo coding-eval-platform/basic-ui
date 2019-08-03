@@ -13,6 +13,12 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
+  root: {
+    background: "#202020"
+  },
+  input: {
+    color: "white"
+  },
   button: {
     margin: theme.spacing.unit
   },
@@ -214,12 +220,15 @@ class JavaPlaygroundExercise extends Component {
 
           {/* JAVA OUTPUT */}
           <Grid item xs={12} sm={6}>
+            <Typography variant="h6" gutterBottom>
+              Output of the Java editor
+            </Typography>
             <TextField
               id="outlined-full-width"
-              label="Output of the Java editor"
+              // label="Output of the Ruby editor"
               style={{ margin: 0 }}
               multiline
-              rows="19"
+              rows="17"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={
@@ -231,6 +240,10 @@ class JavaPlaygroundExercise extends Component {
               variant="outlined"
               InputLabelProps={{
                 shrink: true
+              }}
+              className={classes.root}
+              InputProps={{
+                className: classes.input
               }}
             />
           </Grid>
