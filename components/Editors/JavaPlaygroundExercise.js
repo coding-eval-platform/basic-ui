@@ -35,6 +35,7 @@ class JavaPlaygroundExercise extends Component {
   state = {
     output: {},
     programInput: "",
+    compileFlags: "",
     pending: false,
     code:
       "import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n",
@@ -115,6 +116,10 @@ class JavaPlaygroundExercise extends Component {
     this.setState({ programInput: programInput.target.value });
   };
 
+  onCompileFlagsChange = compileFlags => {
+    this.setState({ compileFlags: compileFlags.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
@@ -159,6 +164,22 @@ class JavaPlaygroundExercise extends Component {
               placeholder="Any text you want"
               onChange={this.onProgramInputChange}
               value={this.state.programInput}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+
+            <TextField
+              id="outlined-full-width"
+              label="Insert Compile Flags"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="-d -g"
+              onChange={this.onCompileFlagsChange}
+              value={this.state.compileFlags}
               fullWidth
               margin="normal"
               variant="outlined"

@@ -33,6 +33,7 @@ class CPlaygroundExercise extends Component {
   state = {
     output: {},
     programInput: "",
+    compileFlags: "",
     pending: false,
     code:
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
@@ -113,6 +114,10 @@ class CPlaygroundExercise extends Component {
     this.setState({ programInput: programInput.target.value });
   };
 
+  onCompileFlagsChange = compileFlags => {
+    this.setState({ compileFlags: compileFlags.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
@@ -156,6 +161,22 @@ class CPlaygroundExercise extends Component {
               placeholder="Any text you want"
               onChange={this.onProgramInputChange}
               value={this.state.programInput}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+
+            <TextField
+              id="outlined-full-width"
+              label="Insert GCC Compile Flags"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="-Wall -g"
+              onChange={this.onCompileFlagsChange}
+              value={this.state.compileFlags}
               fullWidth
               margin="normal"
               variant="outlined"
