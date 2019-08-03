@@ -128,15 +128,6 @@ class JavaPlaygroundExercise extends Component {
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
-    console.log("OUTPUT: ", this.state.output);
-
-    // const output =
-    //   this.state.output.type === "COMPILE_ERROR"
-    //     ? "COMPILATION ERROR"
-    //     : (this.state.output.stdout || []).reduce(
-    //         (memo, line) => memo + line + "\n",
-    //         ""
-    //       );
 
     const output =
       this.state.output.type === "COMPILE_ERROR"

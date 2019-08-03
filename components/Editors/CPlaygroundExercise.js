@@ -130,7 +130,10 @@ class CPlaygroundExercise extends Component {
 
     const output =
       this.state.output.type === "COMPILE_ERROR"
-        ? "COMPILATION ERROR"
+        ? "️️☠️ COMPILATION ERROR  ☠️\n========================\n\n" + (this.state.output.compilerErrors).reduce(
+          (memo, line) => memo + line + "\n",
+          ""
+        )
         : (this.state.output.stdout || []).reduce(
             (memo, line) => memo + line + "\n",
             ""
