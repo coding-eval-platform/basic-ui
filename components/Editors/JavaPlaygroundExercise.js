@@ -114,7 +114,6 @@ class JavaPlaygroundExercise extends Component {
   onCodeChange = code => this.setState({ code });
 
   onInputChange = input => {
-    // console.log("INPUT: ", input.target.value);
     this.setState({ input: input.target.value });
   };
 
@@ -129,10 +128,22 @@ class JavaPlaygroundExercise extends Component {
   render() {
     const { classes } = this.props;
     let pending = this.state.pending;
+    console.log("OUTPUT: ", this.state.output);
+
+    // const output =
+    //   this.state.output.type === "COMPILE_ERROR"
+    //     ? "COMPILATION ERROR"
+    //     : (this.state.output.stdout || []).reduce(
+    //         (memo, line) => memo + line + "\n",
+    //         ""
+    //       );
 
     const output =
       this.state.output.type === "COMPILE_ERROR"
-        ? "COMPILATION ERROR"
+        ? "️️☠️ COMPILATION ERROR  ☠️\n========================\n\n" + (this.state.output.compilerErrors).reduce(
+          (memo, line) => memo + line + "\n",
+          ""
+        )
         : (this.state.output.stdout || []).reduce(
             (memo, line) => memo + line + "\n",
             ""
