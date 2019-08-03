@@ -10,8 +10,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
-import Typography from "@material-ui/core/Typography";
-
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit
@@ -34,6 +32,8 @@ const styles = theme => ({
 class RubyPlaygroundExercise extends Component {
   state = {
     output: {},
+    // compileFlags: "",
+    programInput: "",
     pending: false,
     code: "ARGV.each do |a|\n\tputs a\nend\n",
     timeout: 1000,
@@ -106,8 +106,11 @@ class RubyPlaygroundExercise extends Component {
   onCodeChange = code => this.setState({ code });
 
   onInputChange = input => {
-    // console.log("INPUT: ", input.target.value);
     this.setState({ input: input.target.value });
+  };
+
+  onProgramInputChange = programInput => {
+    this.setState({ programInput: programInput.target.value });
   };
 
   render() {
@@ -139,6 +142,21 @@ class RubyPlaygroundExercise extends Component {
               placeholder="input1, input2, input3"
               onChange={this.onInputChange}
               value={this.state.input}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+            <TextField
+              id="outlined-full-width"
+              label="Insert Program Input"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Any text you want"
+              onChange={this.onProgramInputChange}
+              value={this.state.programInput}
               fullWidth
               margin="normal"
               variant="outlined"
