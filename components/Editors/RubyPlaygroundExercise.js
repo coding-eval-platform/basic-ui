@@ -125,15 +125,15 @@ class RubyPlaygroundExercise extends Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
+        {/* <Typography variant="h4" gutterBottom>
           Ruby programming language playground
-        </Typography>
+        </Typography> */}
         <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert comma separated inputs"
+              label="Insert Program Arguments"
               style={{ margin: 8 }}
               rows="1"
               placeholder="input1, input2, input3"

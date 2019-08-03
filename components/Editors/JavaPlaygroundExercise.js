@@ -124,15 +124,15 @@ class JavaPlaygroundExercise extends Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
+        {/* <Typography variant="h4" gutterBottom>
           Java programming language playground
-        </Typography>
+        </Typography> */}
         <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert comma separated inputs"
+              label="Insert Program Arguments"
               style={{ margin: 0 }}
               rows="19"
               placeholder="input1, input2, input3"
