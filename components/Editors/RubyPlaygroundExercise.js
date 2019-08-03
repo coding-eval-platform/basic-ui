@@ -9,8 +9,16 @@ import { withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+
 
 const styles = theme => ({
+  root: {
+    background: "#202020"
+  },
+  input: {
+    color: "white"
+  },
   button: {
     margin: theme.spacing.unit
   },
@@ -76,8 +84,8 @@ class RubyPlaygroundExercise extends Component {
     this.IntervalPolling = setInterval(() => {
       let url =
         "http://localhost:8009/execution-requests/" + result_id + "/result/";
-      
-        // console.log("url: ", url);
+
+      // console.log("url: ", url);
       fetch(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -191,12 +199,15 @@ class RubyPlaygroundExercise extends Component {
 
           {/* RUBY OUTPUT */}
           <Grid item xs={12} sm={6}>
+            <Typography variant="h6" gutterBottom>
+              Output of the Ruby editor
+            </Typography>
             <TextField
               id="outlined-full-width"
-              label="Output of the Ruby editor"
+              // label="Output of the Ruby editor"
               style={{ margin: 0 }}
               multiline
-              rows="19"
+              rows="17"
               placeholder="You will see the output of the editor here..."
               //helperText="Full width!"
               value={
@@ -208,6 +219,10 @@ class RubyPlaygroundExercise extends Component {
               variant="outlined"
               InputLabelProps={{
                 shrink: true
+              }}
+              className={classes.root}
+              InputProps={{
+                className: classes.input
               }}
             />
           </Grid>
