@@ -28,7 +28,6 @@ class Playground extends Component {
             &nbsp;
             <input
               type="radio"
-              name="Ruby"
               checked={this.state.value === "ruby"}
               onChange={() => this.handleRadioButton("ruby")}
             />
@@ -36,7 +35,6 @@ class Playground extends Component {
             &nbsp;
             <input
               type="radio"
-              name="Java"
               checked={this.state.value === "java"}
               onChange={() => this.handleRadioButton("java")}
             />
@@ -44,7 +42,6 @@ class Playground extends Component {
             &nbsp;
             <input
               type="radio"
-              name="C"
               checked={this.state.value === "c"}
               onChange={() => this.handleRadioButton("c")}
             />
