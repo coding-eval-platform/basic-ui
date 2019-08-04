@@ -5,6 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import Router from 'next/router'
+
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
@@ -17,7 +19,7 @@ const styles = theme => ({
 class CreateExam extends Component {
   state = {
     description: "",
-    startingAt: "",
+    startingAt: "2019-10-06T15:00:00",
     duration: ""
   };
 
@@ -25,9 +27,31 @@ class CreateExam extends Component {
     this.setState({ description: description.target.value });
   };
 
-  onDurationnChange = duration => {
+  onDurationChange = duration => {
     this.setState({ duration: duration.target.value });
   };
+
+  createExam = () => {
+    console.log('POST sent this: ', this.state.data);
+
+    fetch('http://localhost:8010/exams', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(this.state)
+    })
+      .then((res) => {
+        console.log('RESPONSE IS: ', res.headers.get('Location'));
+        let exam_id = res.headers.get('Location').split('/');
+        exam_id = exam_id[exam_id.length-1];
+        console.log('EXAM_ID IS: ', exam_id);
+        // this.setState({
+        //   exam_id
+        // });
+        // this.props.history.push(`/create_exercises/${exam_id}/`);  
+        Router.push(`/create_exercises?exam_id=${exam_id}`);
+      })
+      .catch((err) => console.log(err))
+  }
 
   render() {
     return (
@@ -40,7 +64,7 @@ class CreateExam extends Component {
             <TextField
               id="outlined-name"
               label="Exam title"
-              placeholder="Example: POO first exam"
+              placeholder="Example: OOP first exam"
               style={{ margin: 20 }}
               onChange={this.onDescriptionChange}
               value={this.state.description}
@@ -84,7 +108,7 @@ class CreateExam extends Component {
               style={{ margin: 20 }}
               variant="contained"
               color="primary"
-              // onClick={props.createExamHandler}
+              onClick={this.createExam}
             >
               Create exam
             </Button>
