@@ -82,13 +82,13 @@ function ExamRow(props) {
             </Tooltip>
           </Grid>
           <Grid item xs={3}>
-            <Tooltip title="Stop this exam">
+            <Tooltip title="Finish this exam">
               <IconButton
                 className={classes.button}
                 // className={classes.margin}
                 aria-label="Play"
                 size="small"
-                onClick={props.stopExam}
+                onClick={props.finishExam}
                 color="primary">
                 <StopIcon />
               </IconButton>

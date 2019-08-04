@@ -48,8 +48,10 @@ class TeacherDashboard extends React.Component {
     if (window.confirm("Are you sure you want to delete this exam?")) {
       console.log("Deleting exam with ID: ", this.state.items[index].id);
 
-      const url = "http://localhost:8010/exams/" + this.state.items[index].id.toString();
+      const url =
+        "http://localhost:8010/exams/" + this.state.items[index].id.toString();
 
+      // THIS SPLICE IS WRONG
       this.state.items.splice(index, 1);
       this.setState({ items: this.state.items });
 
@@ -104,88 +106,92 @@ class TeacherDashboard extends React.Component {
   };
 
   startExam = examId => {
-    const items = Object.assign([], this.state.items);
-    console.log(items);
-
-    this.setState(state => {
-      const items = state.items.map(exam => {
-        if (exam.id === examId) {
-          console.log("el exam es: ", exam);
-          // hit API endpoint here
-
-          let url =
-            "http://localhost:8010/exams/" + exam.id.toString() + "/start";
-
-          // Change the exam here
-          exam.state = "IN_PROGRESS";
-
-          fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              description: "STARTED",
-              startingAt: "2019-10-06T15:00:00",
-              duration: "PT150M"
-            })
-          })
-            .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res));
-          return exam;
-        } else {
-          return exam;
-        }
-      });
-
-      // SEE NEW STATE
+    if (window.confirm("Are you sure you want to start this exam?")) {
+      const items = Object.assign([], this.state.items);
       console.log(items);
-      // CHANGE THE STATE
-      return {
-        items
-      };
-    });
+
+      this.setState(state => {
+        const items = state.items.map(exam => {
+          if (exam.id === examId) {
+            console.log("el exam es: ", exam);
+            // hit API endpoint here
+
+            let url =
+              "http://localhost:8010/exams/" + exam.id.toString() + "/start";
+
+            // Change the exam here
+            exam.state = "IN_PROGRESS";
+
+            fetch(url, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                description: "STARTED",
+                startingAt: "2019-10-06T15:00:00",
+                duration: "PT150M"
+              })
+            })
+              .then(res => res.text()) // OR res.json()
+              .then(res => console.log(res));
+            return exam;
+          } else {
+            return exam;
+          }
+        });
+
+        // SEE NEW STATE
+        console.log(items);
+        // CHANGE THE STATE
+        return {
+          items
+        };
+      });
+    }
   };
 
-  stopExam = examId => {
-    const items = Object.assign([], this.state.items);
-    console.log(items);
-
-    this.setState(state => {
-      const items = state.items.map(exam => {
-        if (exam.id === examId) {
-          console.log("el exam es: ", exam);
-          // hit API endpoint here
-
-          let url =
-            "http://localhost:8010/exams/" + exam.id.toString() + "/finish";
-
-          // Change the exam here
-          exam.state = "FINISHED";
-
-          fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              description: "FINISHED",
-              startingAt: "2019-10-06T15:00:00",
-              duration: "PT150M"
-            })
-          })
-            .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res));
-
-          return exam;
-        } else {
-          return exam;
-        }
-      });
-
-      // SEE NEW STATE
+  finishExam = examId => {
+    if (window.confirm("Are you sure you want to finish this exam?")) {
+      const items = Object.assign([], this.state.items);
       console.log(items);
-      // CHANGE THE STATE
-      return {
-        items
-      };
-    });
+
+      this.setState(state => {
+        const items = state.items.map(exam => {
+          if (exam.id === examId) {
+            console.log("el exam es: ", exam);
+            // hit API endpoint here
+
+            let url =
+              "http://localhost:8010/exams/" + exam.id.toString() + "/finish";
+
+            // Change the exam here
+            exam.state = "FINISHED";
+
+            fetch(url, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                description: "FINISHED",
+                startingAt: "2019-10-06T15:00:00",
+                duration: "PT150M"
+              })
+            })
+              .then(res => res.text()) // OR res.json()
+              .then(res => console.log(res));
+
+            return exam;
+          } else {
+            return exam;
+          }
+        });
+
+        // SEE NEW STATE
+        console.log(items);
+        // CHANGE THE STATE
+        return {
+          items
+        };
+      });
+    }
   };
 
   render() {
@@ -229,7 +235,7 @@ class TeacherDashboard extends React.Component {
                   actualDuration={item.actualDuration}
                   deleteEvent={this.deleteExam.bind(this, index)}
                   startExam={this.startExam.bind(this, item.id)}
-                  stopExam={this.stopExam.bind(this, item.id)}
+                  finishExam={this.finishExam.bind(this, item.id)}
                   onDescriptionChange={this.handleDescriptionChange.bind(
                     this,
                     item
