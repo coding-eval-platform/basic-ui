@@ -63,7 +63,7 @@ class Step1 extends React.Component {
   createExamHandler = () => {
     console.log('POST sent this: ', this.state.data);
 
-    fetch('http://localhost:8000/exams', {
+    fetch('http://localhost:8010/exams', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state.data)

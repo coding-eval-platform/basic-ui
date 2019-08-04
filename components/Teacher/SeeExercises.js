@@ -49,7 +49,7 @@ class SeeExercises extends React.Component {
   };
 
   handleClickOpen = () => {
-    const url = 'http://localhost:8000/exams/' +
+    const url = 'http://localhost:8010/exams/' +
       this.props.id +
       '/exercises'
 

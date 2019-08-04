@@ -1,86 +1,90 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
 
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
-import ExamRow from './ExamRow.js'
+import ExamRow from "./ExamRow.js";
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
+    overflowX: "auto"
+  }
 });
 
 class TeacherDashboard extends React.Component {
-
   state = {
     items: [],
-    isLoaded: false,
-  }
+    isLoaded: false
+  };
 
   componentDidMount = () => {
-    fetch('http://localhost:8010/exams?size=10&page=0&sort=description,asc')
-      .then(res => res.json())
-      .then(json => {
+    const url =
+      "http://localhost:8010/exams?size=10&page=0&sort=description,asc";
+
+    fetch(url)
+      .then(async res => {
+        const outputJSONResponse = await res.json();
+        console.log("The JSON with all the exams is: ", outputJSONResponse);
+
         this.setState({
           isLoaded: true,
-          items: json,
-        })
-      });
-  }
+          items: outputJSONResponse
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
-  deleteExamHandler = (index, event) => {
-    const items = Object.assign([], this.state.items);
-    console.log('Deleting exam with ID: ', items[index].id);
+  deleteExam = (index, event) => {
+    // const items = Object.assign([], this.state.items);
+    console.log("Deleting exam with ID: ", items[index].id);
 
-    const url = 'http://localhost:8010/exams/' + items[index].id.toString()
+    const url = "http://localhost:8010/exams/" + items[index].id.toString();
 
     items.splice(index, 1);
     this.setState({ items: items });
 
-    // then hit the API 
+    // then hit the API
     fetch(url, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
     })
       .then(res => res.text()) // OR res.json()
-      .then(res => console.log(res))
-  }
+      .then(res => console.log(res));
+  };
 
   handleDescriptionChange = (exam, event) => {
     const items = Object.assign([], this.state.items);
-    console.log('event is: ', event);
-    console.log('exam is: ', exam);
-
+    console.log("event is: ", event);
+    console.log("exam is: ", exam);
 
     this.setState(state => {
       const items = state.items.map(exam_item => {
         if (exam_item.id === exam.id) {
-          console.log('changing the description of...: ', exam_item.id);
+          console.log("changing the description of...: ", exam_item.id);
           // hit API endpoint here
 
-          let url = 'http://localhost:8010/exams/' +
-            exam_item.id.toString()
+          let url = "http://localhost:8010/exams/" + exam_item.id.toString();
 
           fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              description: 'HOLAA',
+              description: "HOLAA",
               startingAt: exam.startingAt,
               duration: exam.duration
             })
           })
             .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res))
+            .then(res => console.log(res));
 
           return exam_item;
         } else {
@@ -90,15 +94,12 @@ class TeacherDashboard extends React.Component {
 
       // CHANGE THE STATE
       console.log(items);
-      
+
       return {
-        items,
+        items
       };
     });
-
-  }
-
-
+  };
 
   startExam = examId => {
     const items = Object.assign([], this.state.items);
@@ -107,27 +108,26 @@ class TeacherDashboard extends React.Component {
     this.setState(state => {
       const items = state.items.map(exam => {
         if (exam.id === examId) {
-          console.log('el exam es: ', exam);
+          console.log("el exam es: ", exam);
           // hit API endpoint here
 
-          let url = 'http://localhost:8010/exams/' +
-            exam.id.toString() +
-            '/start'
+          let url =
+            "http://localhost:8010/exams/" + exam.id.toString() + "/start";
 
           // Change the exam here
-          exam.state = 'IN_PROGRESS';
+          exam.state = "IN_PROGRESS";
 
           fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              description: 'STARTED',
+              description: "STARTED",
               startingAt: "2019-10-06T15:00:00",
               duration: "PT150M"
             })
           })
             .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res))
+            .then(res => console.log(res));
           return exam;
         } else {
           return exam;
@@ -138,12 +138,10 @@ class TeacherDashboard extends React.Component {
       console.log(items);
       // CHANGE THE STATE
       return {
-        items,
+        items
       };
     });
-
-  }
-
+  };
 
   stopExam = examId => {
     const items = Object.assign([], this.state.items);
@@ -152,28 +150,26 @@ class TeacherDashboard extends React.Component {
     this.setState(state => {
       const items = state.items.map(exam => {
         if (exam.id === examId) {
-          console.log('el exam es: ', exam);
+          console.log("el exam es: ", exam);
           // hit API endpoint here
 
-          let url = 'http://localhost:8010/exams/' +
-            exam.id.toString() +
-            '/finish'
+          let url =
+            "http://localhost:8010/exams/" + exam.id.toString() + "/finish";
 
           // Change the exam here
-          exam.state = 'FINISHED'
+          exam.state = "FINISHED";
 
           fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              description: 'FINISHED',
+              description: "FINISHED",
               startingAt: "2019-10-06T15:00:00",
               duration: "PT150M"
             })
           })
             .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res))
-
+            .then(res => console.log(res));
 
           return exam;
         } else {
@@ -185,25 +181,30 @@ class TeacherDashboard extends React.Component {
       console.log(items);
       // CHANGE THE STATE
       return {
-        items,
+        items
       };
     });
-
-  }
-
+  };
 
   render() {
     const { classes } = this.props;
     if (!this.state.isLoaded) {
-      return <div>Loading...</div>
-    }
-    else {
+      return <div>Loading...</div>;
+    } else if (this.state.items < 1) {
+      return (
+        <Typography variant="h6" gutterBottom>
+          You have no exams created yet 🤷‍♂️
+        </Typography>
+      );
+    } else {
       return (
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell align="center" style={{ maxWidth: "2px" }}>Exam ID</TableCell>
+                <TableCell align="center" style={{ maxWidth: "2px" }}>
+                  Exam ID
+                </TableCell>
                 <TableCell align="center">Title</TableCell>
                 <TableCell align="center">Starting Date & Time</TableCell>
                 <TableCell align="center">Expected Duration</TableCell>
@@ -214,7 +215,6 @@ class TeacherDashboard extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-
               {this.state.items.map((item, index) => (
                 <ExamRow
                   key={index}
@@ -225,25 +225,27 @@ class TeacherDashboard extends React.Component {
                   state={item.state}
                   actualStartingMoment={item.actualStartingMoment}
                   actualDuration={item.actualDuration}
-                  
-                  deleteEvent={this.deleteExamHandler.bind(this, index)}
+                  deleteEvent={this.deleteExam.bind(this, index)}
                   startExam={this.startExam.bind(this, item.id)}
                   stopExam={this.stopExam.bind(this, item.id)}
-                  onDescriptionChange={this.handleDescriptionChange.bind(this, item)}
-                // changeEvent={this.changeUserName.bind(this, user.description)}
-                // key={user.id }
+                  onDescriptionChange={this.handleDescriptionChange.bind(
+                    this,
+                    item
+                  )}
+                  // changeEvent={this.changeUserName.bind(this, user.description)}
+                  // key={user.id }
                 />
               ))}
             </TableBody>
           </Table>
         </Paper>
-      )
+      );
     }
   }
 }
 
 TeacherDashboard.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(TeacherDashboard);
