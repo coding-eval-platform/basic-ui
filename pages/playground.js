@@ -23,7 +23,7 @@ class Playground extends Component {
     return (
       <div>
         <Layout>
-          <Typography variant="h5" gutterBottom>
+          <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
             Select a language to play with:
             &nbsp;
             <input
