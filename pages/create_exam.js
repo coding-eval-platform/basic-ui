@@ -1,9 +1,9 @@
 import Layout from '../components/MyLayout.js'
-import Step1 from '../components/Exams/Step1.js'
+import CreateExam from '../components/Exams/CreateExam.js'
 
 
 export default () => (
     <Layout>
-        <Step1 />
+        <CreateExam />
     </Layout>
 )
