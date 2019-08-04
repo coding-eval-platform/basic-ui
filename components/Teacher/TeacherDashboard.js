@@ -45,20 +45,22 @@ class TeacherDashboard extends React.Component {
 
   deleteExam = (index, event) => {
     // const items = Object.assign([], this.state.items);
-    console.log("Deleting exam with ID: ", items[index].id);
+    if (window.confirm("Are you sure you want to delete this exam?")) {
+      console.log("Deleting exam with ID: ", this.state.items[index].id);
 
-    const url = "http://localhost:8010/exams/" + items[index].id.toString();
+      const url = "http://localhost:8010/exams/" + this.state.items[index].id.toString();
 
-    items.splice(index, 1);
-    this.setState({ items: items });
+      this.state.items.splice(index, 1);
+      this.setState({ items: this.state.items });
 
-    // then hit the API
-    fetch(url, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(res => res.text()) // OR res.json()
-      .then(res => console.log(res));
+      // then hit the API
+      fetch(url, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(res => res.text()) // OR res.json()
+        .then(res => console.log(res));
+    }
   };
 
   handleDescriptionChange = (exam, event) => {
