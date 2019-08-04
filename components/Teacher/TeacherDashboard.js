@@ -27,7 +27,7 @@ class TeacherDashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    fetch('http://localhost:8000/exams?size=10&page=0&sort=description,asc')
+    fetch('http://localhost:8010/exams?size=10&page=0&sort=description,asc')
       .then(res => res.json())
       .then(json => {
         this.setState({
