@@ -41,7 +41,7 @@ class TeacherDashboard extends React.Component {
     const items = Object.assign([], this.state.items);
     console.log('Deleting exam with ID: ', items[index].id);
 
-    const url = 'http://localhost:8000/exams/' + items[index].id.toString()
+    const url = 'http://localhost:8010/exams/' + items[index].id.toString()
 
     items.splice(index, 1);
     this.setState({ items: items });
@@ -67,7 +67,7 @@ class TeacherDashboard extends React.Component {
           console.log('changing the description of...: ', exam_item.id);
           // hit API endpoint here
 
-          let url = 'http://localhost:8000/exams/' +
+          let url = 'http://localhost:8010/exams/' +
             exam_item.id.toString()
 
           fetch(url, {
@@ -110,7 +110,7 @@ class TeacherDashboard extends React.Component {
           console.log('el exam es: ', exam);
           // hit API endpoint here
 
-          let url = 'http://localhost:8000/exams/' +
+          let url = 'http://localhost:8010/exams/' +
             exam.id.toString() +
             '/start'
 
@@ -155,7 +155,7 @@ class TeacherDashboard extends React.Component {
           console.log('el exam es: ', exam);
           // hit API endpoint here
 
-          let url = 'http://localhost:8000/exams/' +
+          let url = 'http://localhost:8010/exams/' +
             exam.id.toString() +
             '/finish'
 
