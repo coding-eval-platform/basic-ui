@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import Router from 'next/router'
 import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
+import moment from "moment";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -33,16 +34,28 @@ class CreateExam extends Component {
     this.setState({ duration: duration.target.value });
   };
 
+  onDateTimeChange = startingAt => {
+    this.setState({ startingAt: moment(startingAt._d).format('YYYY-MM-DDTHH:mm:ss') });
+  };
+
   createExam = () => {
-    console.log('POST sent this: ', this.state.data);
+    console.log('POST sent this: ', JSON.stringify({
+      description: this.state.description,
+      duration: this.state.duration,
+      startingAt: this.state.startingAt
+    }));
 
     fetch('http://localhost:8010/exams', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({
+        description: this.state.description,
+        duration: this.state.duration,
+        startingAt: this.state.startingAt
+      })
     })
       .then((res) => {
-        console.log('RESPONSE IS: ', res.headers.get('Location'));
+        // console.log('RESPONSE IS: ', res.headers.get('Location'));
         let exam_id = res.headers.get('Location').split('/');
         exam_id = exam_id[exam_id.length-1];
         console.log('EXAM_ID IS: ', exam_id);
@@ -78,6 +91,19 @@ class CreateExam extends Component {
         </Grid>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
+            <TextField
+              id="outlined-name"
+              label="Exam duration (mins)"
+              placeholder="Example: 120"
+              style={{ margin: 20 }}
+              onChange={this.onDurationChange}
+              value={this.state.duration}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={3}>
             {/* <TextField
               id="datetime-local"
               label="Insert date and time"
@@ -94,22 +120,9 @@ class CreateExam extends Component {
                 label="Insert date and time"
                 value={this.state.startingAt}
                 style={{ margin: 20 }}
-                // onChange={this.handleDateChange}
+                onChange={this.onDateTimeChange}
               />
             </MuiPickersUtilsProvider>
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-name"
-              label="Exam duration (mins)"
-              placeholder="Example: 120"
-              style={{ margin: 20 }}
-              onChange={this.onDurationChange}
-              value={this.state.duration}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            />
           </Grid>
         </Grid>
         <Grid container spacing={24} alignItems="center">
