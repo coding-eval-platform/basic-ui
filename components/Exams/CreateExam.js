@@ -6,6 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import Router from 'next/router'
+import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
+import MomentUtils from "@date-io/moment";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -76,7 +78,7 @@ class CreateExam extends Component {
         </Grid>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               id="datetime-local"
               label="Insert date and time"
               type="datetime-local"
@@ -86,7 +88,15 @@ class CreateExam extends Component {
               // InputLabelProps={{
               //   shrink: true
               // }}
-            />
+            /> */}
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                label="Insert date and time"
+                value={this.state.startingAt}
+                style={{ margin: 20 }}
+                // onChange={this.handleDateChange}
+              />
+            </MuiPickersUtilsProvider>
           </Grid>
           <Grid item xs={3}>
             <TextField
