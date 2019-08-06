@@ -36,6 +36,7 @@ const styles = theme => ({
 class CreateExercise extends React.Component {
   state = {
     examID: "",
+    examDescription: "",
     question: "",
     language: "",
     solutionTemplate: "",
@@ -60,24 +61,13 @@ class CreateExercise extends React.Component {
 
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get("examID");
-    console.log('The examid is: ', examID);
+    const examDescription = new URL(window.location.href).searchParams.get("examDescription");
+    // console.log('The examid is: ', examID);
 
-    const url =
-      "http://localhost:8010/exams/" + `${examID}`;
-
-    fetch(url)
-      .then(async res => {
-        const examJSONResponse = await res.json();
-        console.log("The exam to be updated is: ", examJSONResponse);
-
-        this.setState({
-          examID: examJSONResponse.id,
-          description: examJSONResponse.description,
-          startingAt: examJSONResponse.startingAt,
-          duration: examJSONResponse.duration
-        });
-      })
-      .catch(err => console.log(err));
+    this.setState({
+      examID: examID,
+      examDescription: examDescription
+    });
   };
 
   createExercise = () => {
@@ -124,7 +114,7 @@ class CreateExercise extends React.Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create an exercise for the exam with ID: {this.state.examID}
+          Create an exercise for the exam: {this.state.examDescription}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>

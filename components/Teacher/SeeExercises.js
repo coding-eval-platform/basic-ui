@@ -68,7 +68,7 @@ class SeeExercises extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Tooltip title="Edit exercises">
+        <Tooltip title="Edit exam">
           <IconButton
             className={classes.button}
             // className={classes.margin}

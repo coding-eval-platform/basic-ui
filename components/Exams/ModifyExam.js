@@ -21,6 +21,7 @@ const styles = theme => ({
 
 class ModifyExam extends Component {
   state = {
+    examID: "",
     description: "",
     startingAt: "2019-10-06T15:00:00",
     duration: ""
@@ -29,6 +30,10 @@ class ModifyExam extends Component {
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get("examID");
     // console.log('The examid is: ', examID);
+
+    this.setState({
+      examID: examID
+    });
 
     const url =
       "http://localhost:8010/exams/" + `${examID}`;
@@ -39,6 +44,7 @@ class ModifyExam extends Component {
         console.log("The exam to be updated is: ", examJSONResponse);
 
         this.setState({
+          examID: examJSONResponse.id,
           description: examJSONResponse.description,
           startingAt: examJSONResponse.startingAt,
           duration: examJSONResponse.duration
@@ -91,6 +97,13 @@ class ModifyExam extends Component {
         // })
       })
       .catch((err) => console.log(err))
+  }
+
+  addExercise = () => {
+    Router.push({
+      pathname: `/create_exercises`,
+      query: { examID: `${this.state.examID}`, examDescription: `${this.state.description}` }
+    });
   }
 
   render() {
@@ -148,6 +161,18 @@ class ModifyExam extends Component {
                 onChange={this.onDateTimeChange}
               />
             </MuiPickersUtilsProvider>
+          </Grid>
+        </Grid>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              onClick={this.addExercise}
+            >
+              Add an exercise to the exam
+            </Button>
           </Grid>
         </Grid>
         <Grid container spacing={24} alignItems="center">
