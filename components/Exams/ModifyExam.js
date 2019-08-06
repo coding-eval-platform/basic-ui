@@ -27,8 +27,11 @@ class ModifyExam extends Component {
   };
 
   componentDidMount = () => {
+    const examID = new URL(window.location.href).searchParams.get("examID");
+    // console.log('The examid is: ', examID);
+
     const url =
-      "http://localhost:8010/exams/" + `${exam_id}`;
+      "http://localhost:8010/exams/" + `${examID}`;
 
     fetch(url)
       .then(async res => {
@@ -94,7 +97,7 @@ class ModifyExam extends Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update this exam
+          Update the exam: {this.state.description}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -151,11 +154,23 @@ class ModifyExam extends Component {
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              // onClick={this.updateExam}
+            >
+              View and edit exercises
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
               variant="contained"
               color="primary"
               onClick={this.updateExam}
             >
-              Create exam
+              Modify exam
             </Button>
           </Grid>
         </Grid>

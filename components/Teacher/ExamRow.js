@@ -68,7 +68,7 @@ function ExamRow(props) {
       <TableCell align="center">
         <Grid container spacing={24}>
           <Grid item xs={3}>
-            <SeeExercises id={props.id} description={props.description} />
+            <SeeExercises id={props.id} description={props.description} startingAt={props.startingAt}/>
           </Grid>
           <Grid item xs={3}>
             <Tooltip title="Start this exam">
