@@ -1,9 +1,9 @@
 import Layout from '../components/MyLayout.js'
-import CreateExercises from '../components/Exercises/CreateExercises.js'
+import CreateExercise from '../components/Exercises/CreateExercise.js'
 
 
 export default () => (
     <Layout>
-        <CreateExercises />
+        <CreateExercise />
     </Layout>
 )

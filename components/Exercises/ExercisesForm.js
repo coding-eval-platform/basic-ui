@@ -6,6 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import ExerciseInputs from "./ExerciseInputs"
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+
+
 
 const styles = theme => ({
   margin: {
@@ -43,11 +47,13 @@ class ExercisesForm extends React.Component {
 	render() {
 		const { classes } = this.props;
 		let {exercises} = this.state
-		
+	
 		return (
-			<form onSubmit={this.handleSubmit} onChange={this.handleChange} >
+			<div>
 				<Grid container spacing={24}>
-					<Grid item xs={11}>
+          {/* RUBY EDITOR */}
+					<Grid container spacing={24}>
+					<Grid item xs={12}>
 						<ExerciseInputs exercises={exercises} />
 					</Grid>
 					<Grid item xs={1}>
@@ -56,7 +62,38 @@ class ExercisesForm extends React.Component {
 						</Button>
 					</Grid>
 				</Grid>
-			</form>
+
+          {/* RUBY OUTPUT */}
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6" gutterBottom>
+              Output of the Ruby editor
+            </Typography>
+            <TextField
+              id="outlined-full-width"
+              // label="Output of the Ruby editor"
+              style={{ margin: 0 }}
+              multiline
+              rows="17"
+              placeholder="You will see the output of the editor here..."
+              //helperText="Full width!"
+              value={
+                output ||
+                (pending ? "👩🏻‍🚀 bringing your output from Mars..." : "")
+              }
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+              className={classes.root}
+              InputProps={{
+                className: classes.input
+              }}
+            />
+          </Grid>
+        </Grid>
+			</div>
 		)
 	}
 }
