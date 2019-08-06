@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import Router from "next/router";
 
 const styles = theme => ({
   root: {
@@ -41,8 +42,8 @@ class CreateExercise extends React.Component {
     awardedScore: ""
   };
 
-  onQuestionChange = description => {
-    this.setState({ description: description.target.value });
+  onQuestionChange = question => {
+    this.setState({ question: question.target.value });
   };
 
   onLanguageChange = language => {
@@ -57,19 +58,73 @@ class CreateExercise extends React.Component {
     this.setState({ awardedScore: awardedScore.target.value });
   };
 
-  async getInitialProps({ query }) {
-    console.log("asdasd: ", this.props.query);
-    return { query: examID };
-  }
+  componentDidMount = () => {
+    const examID = new URL(window.location.href).searchParams.get("examID");
+    console.log('The examid is: ', examID);
+
+    const url =
+      "http://localhost:8010/exams/" + `${examID}`;
+
+    fetch(url)
+      .then(async res => {
+        const examJSONResponse = await res.json();
+        console.log("The exam to be updated is: ", examJSONResponse);
+
+        this.setState({
+          examID: examJSONResponse.id,
+          description: examJSONResponse.description,
+          startingAt: examJSONResponse.startingAt,
+          duration: examJSONResponse.duration
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  createExercise = () => {
+    console.log(
+      "The created exercise is: ",
+      JSON.stringify({
+        question: this.state.question,
+        awardedScore: this.state.awardedScore,
+        language: this.state.language,
+        solutionTemplate: this.state.solutionTemplate,
+      })
+    );
+
+    const url = "http://localhost:8010/exams/" + `${this.state.examID}` + "/exercises"
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: this.state.question,
+        awardedScore: this.state.awardedScore,
+        language: this.state.language,
+        solutionTemplate: this.state.solutionTemplate,
+      })
+    })
+      .then(res => {
+        // console.log('RESPONSE IS: ', res.headers.get('Location'));
+        // let exam_id = res.headers.get("Location").split("/");
+        // exam_id = exam_id[exam_id.length - 1];
+        // console.log("EXAM_ID IS: ", exam_id);
+        // this.setState({
+        //   exam_id
+        // });
+        // this.props.history.push(`/create_exercises/${exam_id}/`);
+        // Router.push(`/create_exercises?exam_id=${exam_id}`);
+        Router.push(`/teacher_dashboard`);
+      })
+      .catch(err => console.log(err));
+  };
+
 
   render() {
-    console.log("render: ", this.props);
     const { classes } = this.props;
 
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create an exercise for the exam
+          Create an exercise for the exam with ID: {this.state.examID}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -94,8 +149,8 @@ class CreateExercise extends React.Component {
               label="Integer: awarded Score for this exercise"
               placeholder="Example: 5"
               style={{ margin: 20 }}
-              onChange={this.onDurationChange}
-              value={this.state.duration}
+              onChange={this.onAwardedScoreChange}
+              value={this.state.awardedScore}
               fullWidth
               margin="normal"
               variant="outlined"

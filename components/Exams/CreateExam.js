@@ -71,7 +71,7 @@ class CreateExam extends Component {
         // Router.push(`/create_exercises?exam_id=${exam_id}`);
         Router.push({
           pathname: `/create_exercises`,
-          query: { examID: `${exam_id}` }
+          query: { examID: `${exam_id}`, examDescription: `${this.state.description}` }
         });
       })
       .catch(err => console.log(err));
