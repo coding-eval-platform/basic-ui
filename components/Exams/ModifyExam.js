@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";  
+import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
-import Router from 'next/router'
+import Router from "next/router";
 import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
@@ -35,8 +35,7 @@ class ModifyExam extends Component {
       examID: examID
     });
 
-    const url =
-      "http://localhost:8010/exams/" + `${examID}`;
+    const url = "http://localhost:8010/exams/" + `${examID}`;
 
     fetch(url)
       .then(async res => {
@@ -62,26 +61,33 @@ class ModifyExam extends Component {
   };
 
   onDateTimeChange = startingAt => {
-    this.setState({ startingAt: moment(startingAt._d).format('YYYY-MM-DDTHH:mm:ss') });
+    this.setState({
+      startingAt: moment(startingAt._d).format("YYYY-MM-DDTHH:mm:ss")
+    });
   };
 
   updateExam = () => {
-    console.log('PUT sent this: ', JSON.stringify({
-      description: this.state.description,
-      duration: this.state.duration,
-      startingAt: this.state.startingAt
-    }));
+    console.log(
+      "PUT sent this: ",
+      JSON.stringify({
+        description: this.state.description,
+        duration: this.state.duration,
+        startingAt: this.state.startingAt
+      })
+    );
 
-    fetch('http://localhost:8010/exams', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+    const url = "http://localhost:8010/exams/" + `${this.state.examID}`;
+
+    fetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,
         startingAt: this.state.startingAt
       })
     })
-      .then((res) => {
+      .then(res => {
         // console.log('RESPONSE IS: ', res.headers.get('Location'));
         // let exam_id = res.headers.get('Location').split('/');
         // exam_id = exam_id[exam_id.length-1];
@@ -89,28 +95,35 @@ class ModifyExam extends Component {
         // this.setState({
         //   exam_id
         // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);  
+        // this.props.history.push(`/create_exercises/${exam_id}/`);
         Router.push(`/teacher_dashboard`);
         // Router.push({
         //   pathname: `/create_exercises`,
         //   query: {examID: `${exam_id}` }
         // })
       })
-      .catch((err) => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   addExercise = () => {
     Router.push({
       pathname: `/create_exercises`,
-      query: { examID: `${this.state.examID}`, examDescription: `${this.state.description}` }
+      query: {
+        examID: `${this.state.examID}`,
+        examDescription: `${this.state.description}`
+      }
     });
-  }
+  };
 
   render() {
+    const examDescription = new URL(window.location.href).searchParams.get(
+      "examDescription"
+    );
+
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update the exam: {this.state.description}
+          Update the exam: {examDescription}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
