@@ -51,8 +51,9 @@ class TeacherDashboard extends React.Component {
       const url =
         "http://localhost:8010/exams/" + this.state.items[index].id.toString();
 
-      // THIS SPLICE IS WRONG
+      // Removes the desired item.
       this.state.items.splice(index, 1);
+      console.log('LOS DE AHORA SON: ', this.state.items);
       this.setState({ items: this.state.items });
 
       // then hit the API
