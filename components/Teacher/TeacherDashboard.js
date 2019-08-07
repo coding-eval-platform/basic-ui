@@ -66,46 +66,6 @@ class TeacherDashboard extends React.Component {
     }
   };
 
-  handleDescriptionChange = (exam, event) => {
-    const items = Object.assign([], this.state.items);
-    console.log("event is: ", event);
-    console.log("exam is: ", exam);
-
-    this.setState(state => {
-      const items = state.items.map(exam_item => {
-        if (exam_item.id === exam.id) {
-          console.log("changing the description of...: ", exam_item.id);
-          // hit API endpoint here
-
-          let url = "http://localhost:8010/exams/" + exam_item.id.toString();
-
-          fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              description: "HOLAA",
-              startingAt: exam.startingAt,
-              duration: exam.duration
-            })
-          })
-            .then(res => res.text()) // OR res.json()
-            .then(res => console.log(res));
-
-          return exam_item;
-        } else {
-          return exam_item;
-        }
-      });
-
-      // CHANGE THE STATE
-      console.log(items);
-
-      return {
-        items
-      };
-    });
-  };
-
   startExam = examId => {
     if (window.confirm("Are you sure you want to start this exam?")) {
       const items = Object.assign([], this.state.items);
@@ -237,10 +197,6 @@ class TeacherDashboard extends React.Component {
                   deleteEvent={this.deleteExam.bind(this, index)}
                   startExam={this.startExam.bind(this, item.id)}
                   finishExam={this.finishExam.bind(this, item.id)}
-                  onDescriptionChange={this.handleDescriptionChange.bind(
-                    this,
-                    item
-                  )}
                   // changeEvent={this.changeUserName.bind(this, user.description)}
                   // key={user.id }
                 />
