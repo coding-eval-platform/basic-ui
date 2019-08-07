@@ -93,16 +93,14 @@ class CreateExercise extends React.Component {
       })
     })
       .then(res => {
-        // console.log('RESPONSE IS: ', res.headers.get('Location'));
-        // let exam_id = res.headers.get("Location").split("/");
-        // exam_id = exam_id[exam_id.length - 1];
-        // console.log("EXAM_ID IS: ", exam_id);
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
-        // Router.push(`/create_exercises?exam_id=${exam_id}`);
-        Router.push(`/teacher_dashboard`);
+        let exercise_id = res.headers.get("Location").split("/");
+        exercise_id = exercise_id[exercise_id.length - 1];
+        console.log("exercise_id IS: ", exercise_id);
+
+        Router.push({
+          pathname: `/create_testcase`,
+          query: { exerciseID: `${exercise_id}`, exerciseQuestion: `${this.state.question}` }
+        });
       })
       .catch(err => console.log(err));
   };
