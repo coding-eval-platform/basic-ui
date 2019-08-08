@@ -22,14 +22,14 @@ class SeeTestCases extends React.Component {
   
   seeTestCasesHandler = () => {
     console.log("HOLAAA", this.props);
-    Router.push(`/exercise_dashboard`);
-    // Router.push({
-    //   pathname: `/exercise_dashboard`,
-    //   query: {
-    //     exerciseID: `${this.props.exerciseID}`,
-    //     exerciseQuestion: `${this.props.exerciseQuestion}`
-    //   }
-    // });
+    // Router.push(`/exercise_dashboard`);
+    Router.push({
+      pathname: `/exercise_dashboard`,
+      query: {
+        exerciseID: `${this.props.exerciseID}`,
+        exerciseQuestion: `${this.props.exerciseQuestion}`
+      }
+    });
   };
 
   render() {

@@ -10,7 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 
 import EditTestCaseInRow from "./EditTestCaseInRow";
-import SeeTestCases from "./SeeTestCases";
+import SeeTestCases from "../Exercises/SeeTestCases";
 
 const styles = theme => ({
   margin: {
@@ -30,27 +30,26 @@ function TestCaseRow(props) {
       <TableCell align="center" component="th" scope="item">
         {props.id}
       </TableCell>
-      <TableCell align="center">{props.question}</TableCell>
-      <TableCell align="center">{props.language}</TableCell>
-      <TableCell align="center">{props.awardedScore}</TableCell>
+      <TableCell align="center">{props.visibility}</TableCell>
+      <TableCell align="center">{props.timeout}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <SeeTestCases
               testCaseID={props.id}
-              description={props.description}
-              startingAt={props.startingAt}
+              testCaseVisibility={props.visibility}
+              tesetCaseTimeout={props.timeout}
             />
-          </Grid>
-          <Grid item xs={3}>
+          </Grid> */}
+          <Grid item xs={6}>
             <EditTestCaseInRow
-              id={props.id}
-              description={props.description}
-              startingAt={props.startingAt}
+              testCaseID={props.id}
+              testCaseVisibility={props.visibility}
+              tesetCaseTimeout={props.timeout}
             />
           </Grid>
-          <Grid item xs={3}>
-            <Tooltip title="Delete this exercise">
+          <Grid item xs={6}>
+            <Tooltip title="Delete this test case">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
               </IconButton>

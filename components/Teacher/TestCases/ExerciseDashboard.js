@@ -13,7 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Router from "next/router";
 
-import ExerciseRow from "./ExerciseRow.js";
+import TestCaseRow from "./TestCaseRow.js";
 
 const styles = theme => ({
   root: {
@@ -228,7 +228,7 @@ class ExerciseDashboard extends React.Component {
               </TableHead>
               <TableBody>
                 {this.state.testCases.map((testCase, index) => (
-                  <ExerciseRow
+                  <TestCaseRow
                     key={index}
                     id={testCase.id}
                     visibility={testCase.visibility}
