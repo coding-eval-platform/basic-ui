@@ -53,7 +53,7 @@ class TeacherDashboard extends React.Component {
 
       // Removes the desired item.
       this.state.items.splice(index, 1);
-      console.log("LOS DE AHORA SON: ", this.state.items);
+      // console.log("LOS DE AHORA SON: ", this.state.items);s
       this.setState({ items: this.state.items });
 
       // then hit the API
@@ -161,14 +161,14 @@ class TeacherDashboard extends React.Component {
       return <div>Loading...</div>;
     } else if (this.state.items < 1) {
       return (
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
           You have no exams created yet 🤷‍♂️
         </Typography>
       );
     } else {
       return (
         <div>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             All your exams 📚
           </Typography>
 

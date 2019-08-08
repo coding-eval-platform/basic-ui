@@ -9,6 +9,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Router from "next/router";
+
 
 import ExerciseRow from "./ExerciseRow.js";
 
@@ -53,9 +57,19 @@ class ExamDashboard extends React.Component {
       .catch(err => console.log(err));
   };
 
+  createExercise = () => {
+    Router.push({
+      pathname: `/create_exercises`,
+      query: { examID: `${this.state.examID}`, examDescription: `${this.state.examDescription}` }
+    });
+  }
+
   deleteExercise = (index, event) => {
     if (window.confirm("Are you sure you want to delete this exercise?")) {
-      console.log("Deleting exercise with ID: ", this.state.exercises[index].id);
+      console.log(
+        "Deleting exercise with ID: ",
+        this.state.exercises[index].id
+      );
 
       const url =
         "http://localhost:8010/exercises/" +
@@ -63,7 +77,7 @@ class ExamDashboard extends React.Component {
 
       // Removes the desired item.
       this.state.exercises.splice(index, 1);
-      console.log("LOS exercises DE AHORA SON: ", this.state.exercises);
+      // console.log("LOS exercises DE AHORA SON: ", this.state.exercises);
       this.setState({ exercises: this.state.exercises });
 
       // then hit the API
@@ -171,9 +185,23 @@ class ExamDashboard extends React.Component {
       return <div>Loading...</div>;
     } else if (this.state.exercises < 1) {
       return (
-        <Typography variant="h6" gutterBottom>
-          You have no exercises created in this exam yet 🤷‍♂️
-        </Typography>
+        <div>
+          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
+            You have no exercises created in this exam yet 🤷‍♂️
+          </Typography>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="contained"
+                color="primary"
+                onClick={this.createExercise}
+              >
+                Create one!
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
       );
     } else {
       return (
