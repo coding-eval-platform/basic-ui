@@ -29,7 +29,7 @@ class EditExerciseInRow extends React.Component {
 
   modifyExerciseHandler = () => {
     if (window.confirm("Are you sure you want to modify this exercise?")) {
-      console.log("thisprops: ", this.props);
+      // console.log("thisprops: ", this.props);
 
       Router.push({
         pathname: `/modify_exercise`,

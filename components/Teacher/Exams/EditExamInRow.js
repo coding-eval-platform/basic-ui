@@ -29,7 +29,7 @@ class EditExamInRow extends React.Component {
 
   modifyExamHandler = () => {
     if (window.confirm("Are you sure you want to modify this exam?")) {
-      console.log("thisprops: ", this.props);
+      // console.log("thisprops: ", this.props);
 
       Router.push({
         pathname: `/modify_exam`,

@@ -37,7 +37,7 @@ class TeacherDashboard extends React.Component {
     fetch(url)
       .then(async res => {
         const outputJSONResponse = await res.json();
-        console.log("The JSON with all the exams is: ", outputJSONResponse);
+        // console.log("The JSON with all the exams is: ", outputJSONResponse);
 
         this.setState({
           isLoaded: true,
