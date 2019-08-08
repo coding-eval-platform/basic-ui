@@ -1,0 +1,229 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+
+import ExerciseRow from "./ExerciseRow.js";
+
+const styles = theme => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto"
+  }
+});
+
+class ExamDashboard extends React.Component {
+  state = {
+    examID: "",
+    examDescription: "",
+    exercises: [],
+    isLoaded: false
+  };
+
+  componentDidMount = () => {
+    const examID = new URL(window.location.href).searchParams.get("examID");
+    const examDescription = new URL(window.location.href).searchParams.get(
+      "examDescription"
+    );
+    const url = "http://localhost:8010/exams/" + `${examID}` + "/exercises";
+
+    this.setState({
+      examID: examID,
+      examDescription: examDescription
+    });
+
+    fetch(url)
+      .then(async res => {
+        const outputJSONResponse = await res.json();
+        console.log("The JSON with all the exercises is: ", outputJSONResponse);
+
+        this.setState({
+          isLoaded: true,
+          exercises: outputJSONResponse
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteExercise = (index, event) => {
+    // const exercises = Object.assign([], this.state.exercises);
+    if (window.confirm("Are you sure you want to delete this exam?")) {
+      console.log("Deleting exam with ID: ", this.state.exercises[index].id);
+
+      const url =
+        "http://localhost:8010/exams/" +
+        this.state.exercises[index].id.toString();
+
+      // Removes the desired item.
+      this.state.exercises.splice(index, 1);
+      console.log("LOS DE AHORA SON: ", this.state.exercises);
+      this.setState({ exercises: this.state.exercises });
+
+      // then hit the API
+      fetch(url, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(res => res.text()) // OR res.json()
+        .then(res => console.log(res));
+    }
+  };
+
+  editExercise = examId => {
+    if (window.confirm("Are you sure you want to start this exam?")) {
+      const exercises = Object.assign([], this.state.exercises);
+      console.log(exercises);
+
+      this.setState(state => {
+        const exercises = state.exercises.map(exam => {
+          if (exam.id === examId) {
+            console.log("el exam es: ", exam);
+            // hit API endpoint here
+
+            let url =
+              "http://localhost:8010/exams/" + exam.id.toString() + "/start";
+
+            // Change the exam here
+            exam.state = "IN_PROGRESS";
+
+            fetch(url, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                description: "STARTED",
+                startingAt: "2019-10-06T15:00:00",
+                duration: "PT150M"
+              })
+            })
+              .then(res => res.text()) // OR res.json()
+              .then(res => console.log(res));
+            return exam;
+          } else {
+            return exam;
+          }
+        });
+
+        // SEE NEW STATE
+        console.log(exercises);
+        // CHANGE THE STATE
+        return {
+          exercises
+        };
+      });
+    }
+  };
+
+  createTestCaseforExercise = examId => {
+    if (window.confirm("Are you sure you want to finish this exam?")) {
+      const exercises = Object.assign([], this.state.exercises);
+      console.log(exercises);
+
+      this.setState(state => {
+        const exercises = state.exercises.map(exam => {
+          if (exam.id === examId) {
+            console.log("el exam es: ", exam);
+            // hit API endpoint here
+
+            let url =
+              "http://localhost:8010/exams/" + exam.id.toString() + "/finish";
+
+            // Change the exam here
+            exam.state = "FINISHED";
+
+            fetch(url, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                description: "FINISHED",
+                startingAt: "2019-10-06T15:00:00",
+                duration: "PT150M"
+              })
+            })
+              .then(res => res.text()) // OR res.json()
+              .then(res => console.log(res));
+
+            return exam;
+          } else {
+            return exam;
+          }
+        });
+
+        // SEE NEW STATE
+        console.log(exercises);
+        // CHANGE THE STATE
+        return {
+          exercises
+        };
+      });
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+    if (!this.state.isLoaded) {
+      return <div>Loading...</div>;
+    } else if (this.state.exercises < 1) {
+      return (
+        <Typography variant="h6" gutterBottom>
+          You have no exercises created in this exam yet 🤷‍♂️
+        </Typography>
+      );
+    } else {
+      return (
+        <div>
+          <Typography variant="h6" gutterBottom>
+            Exercises of the exam: {this.state.examDescription}
+          </Typography>
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" style={{ maxWidth: "2px" }}>
+                    Exercise ID
+                  </TableCell>
+                  <TableCell align="center">Question</TableCell>
+                  <TableCell align="center">Language</TableCell>
+                  <TableCell align="center">Awarded Score</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.exercises.map((exercise, index) => (
+                  <ExerciseRow
+                    key={index}
+                    id={exercise.id}
+                    question={exercise.question}
+                    language={exercise.language}
+                    solutionTemplate={exercise.solutionTemplate}
+                    awardedScore={exercise.awardedScore}
+                    deleteEvent={this.deleteExercise.bind(this, index)}
+                    editExercise={this.editExercise.bind(this, exercise.id)}
+                    createTestCaseforExercise={this.createTestCaseforExercise.bind(
+                      this,
+                      exercise.id
+                    )}
+                    // changeEvent={this.changeUserName.bind(this, user.description)}
+                    // key={user.id }
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </div>
+      );
+    }
+  }
+}
+
+ExamDashboard.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(ExamDashboard);

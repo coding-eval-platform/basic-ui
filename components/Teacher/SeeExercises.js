@@ -19,18 +19,11 @@ const styles = theme => ({
 });
 
 class SeeExercises extends React.Component {
-  state = {
-    exercises: [],
-    open: false,
-    openNewExerciseModal: false,
-    openEditExerciseModal: false
-  };
-
   seeExercisesHandler = () => {
-    console.log("thisprops: ", this.props);
+    // console.log("thisprops: ", this.props);
 
     Router.push({
-      pathname: `/modify_exam`,
+      pathname: `/exam_dashboard`,
       query: {
         examID: `${this.props.id}`,
         examDescription: `${this.props.description}`,
