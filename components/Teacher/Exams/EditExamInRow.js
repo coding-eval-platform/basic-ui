@@ -46,7 +46,7 @@ class EditExamInRow extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Tooltip title="Edit exam">
+        <Tooltip title="Edit this exam">
           <IconButton
             className={classes.button}
             // className={classes.margin}

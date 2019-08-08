@@ -23,7 +23,7 @@ class ModifyExam extends Component {
   state = {
     examID: "",
     description: "",
-    startingAt: "2019-10-06T15:00:00",
+    startingAt: "",
     duration: ""
   };
 
@@ -88,19 +88,7 @@ class ModifyExam extends Component {
       })
     })
       .then(res => {
-        // console.log('RESPONSE IS: ', res.headers.get('Location'));
-        // let exam_id = res.headers.get('Location').split('/');
-        // exam_id = exam_id[exam_id.length-1];
-        // console.log('EXAM_ID IS: ', exam_id);
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
         Router.push(`/teacher_dashboard`);
-        // Router.push({
-        //   pathname: `/create_exercises`,
-        //   query: {examID: `${exam_id}` }
-        // })
       })
       .catch(err => console.log(err));
   };

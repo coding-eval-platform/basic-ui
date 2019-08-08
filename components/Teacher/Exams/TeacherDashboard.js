@@ -53,7 +53,7 @@ class TeacherDashboard extends React.Component {
 
       // Removes the desired item.
       this.state.items.splice(index, 1);
-      console.log('LOS DE AHORA SON: ', this.state.items);
+      console.log("LOS DE AHORA SON: ", this.state.items);
       this.setState({ items: this.state.items });
 
       // then hit the API
@@ -167,43 +167,49 @@ class TeacherDashboard extends React.Component {
       );
     } else {
       return (
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" style={{ maxWidth: "2px" }}>
-                  Exam ID
-                </TableCell>
-                <TableCell align="center">Title</TableCell>
-                <TableCell align="center">Starting Date & Time</TableCell>
-                <TableCell align="center">Expected Duration</TableCell>
-                <TableCell align="center">State</TableCell>
-                <TableCell align="center">Actual Starting Moment</TableCell>
-                <TableCell align="center">Actual Duration</TableCell>
-                <TableCell align="center">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.items.map((item, index) => (
-                <ExamRow
-                  key={index}
-                  id={item.id}
-                  description={item.description}
-                  startingAt={item.startingAt}
-                  duration={item.duration}
-                  state={item.state}
-                  actualStartingMoment={item.actualStartingMoment}
-                  actualDuration={item.actualDuration}
-                  deleteEvent={this.deleteExam.bind(this, index)}
-                  startExam={this.startExam.bind(this, item.id)}
-                  finishExam={this.finishExam.bind(this, item.id)}
-                  // changeEvent={this.changeUserName.bind(this, user.description)}
-                  // key={user.id }
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+        <div>
+          <Typography variant="h6" gutterBottom>
+            All your exams 📚
+          </Typography>
+
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" style={{ maxWidth: "2px" }}>
+                    Exam ID
+                  </TableCell>
+                  <TableCell align="center">Title</TableCell>
+                  <TableCell align="center">Starting Date & Time</TableCell>
+                  <TableCell align="center">Expected Duration</TableCell>
+                  <TableCell align="center">State</TableCell>
+                  <TableCell align="center">Actual Starting Moment</TableCell>
+                  <TableCell align="center">Actual Duration</TableCell>
+                  <TableCell align="center">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.items.map((item, index) => (
+                  <ExamRow
+                    key={index}
+                    id={item.id}
+                    description={item.description}
+                    startingAt={item.startingAt}
+                    duration={item.duration}
+                    state={item.state}
+                    actualStartingMoment={item.actualStartingMoment}
+                    actualDuration={item.actualDuration}
+                    deleteEvent={this.deleteExam.bind(this, index)}
+                    startExam={this.startExam.bind(this, item.id)}
+                    finishExam={this.finishExam.bind(this, item.id)}
+                    // changeEvent={this.changeUserName.bind(this, user.description)}
+                    // key={user.id }
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </div>
       );
     }
   }

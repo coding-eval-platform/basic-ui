@@ -192,6 +192,7 @@ class ExamDashboard extends React.Component {
                   <TableCell align="center">Question</TableCell>
                   <TableCell align="center">Language</TableCell>
                   <TableCell align="center">Awarded Score</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
