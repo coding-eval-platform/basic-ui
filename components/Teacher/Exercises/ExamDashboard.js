@@ -209,6 +209,18 @@ class ExamDashboard extends React.Component {
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             Exercises of the exam: {this.state.examDescription}
           </Typography>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="contained"
+                color="primary"
+                onClick={this.createExercise}
+              >
+                Add exercise to exam
+              </Button>
+            </Grid>
+          </Grid>
           <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>

@@ -10,6 +10,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Router from "next/router";
+
 import ExamRow from "./ExamRow.js";
 
 const styles = theme => ({
@@ -155,6 +159,10 @@ class TeacherDashboard extends React.Component {
     }
   };
 
+  createExam = () => {
+    Router.push(`/create_exam`);
+  }
+
   render() {
     const { classes } = this.props;
     if (!this.state.isLoaded) {
@@ -171,7 +179,18 @@ class TeacherDashboard extends React.Component {
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             All your exams 📚
           </Typography>
-
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="contained"
+                color="primary"
+                onClick={this.createExam}
+              >
+                Create exam
+              </Button>
+            </Grid>
+          </Grid>
           <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
