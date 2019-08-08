@@ -9,7 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 
-import EditTestCaseInROw from "./EditTestCaseInROw";
+import EditTestCaseInRow from "./EditTestCaseInRow";
 import SeeTestCases from "./SeeTestCases";
 
 const styles = theme => ({
@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 
-function ExerciseRow(props) {
+function TestCaseRow(props) {
   console.log('PROPS ARE: ', props);
   
 
@@ -37,13 +37,13 @@ function ExerciseRow(props) {
         <Grid container spacing={24}>
           <Grid item xs={3}>
             <SeeTestCases
-              id={props.id}
+              testCaseID={props.id}
               description={props.description}
               startingAt={props.startingAt}
             />
           </Grid>
           <Grid item xs={3}>
-            <EditExerciseInRow
+            <EditTestCaseInRow
               id={props.id}
               description={props.description}
               startingAt={props.startingAt}
@@ -62,8 +62,8 @@ function ExerciseRow(props) {
   );
 }
 
-ExerciseRow.propTypes = {
+TestCaseRow.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ExerciseRow);
+export default withStyles(styles)(TestCaseRow);

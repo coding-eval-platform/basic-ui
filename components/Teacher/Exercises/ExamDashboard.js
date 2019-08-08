@@ -134,51 +134,6 @@ class ExamDashboard extends React.Component {
     }
   };
 
-  deleteExercise = examId => {
-    if (window.confirm("Are you sure you want to finish this exam?")) {
-      const exercises = Object.assign([], this.state.exercises);
-      console.log(exercises);
-
-      this.setState(state => {
-        const exercises = state.exercises.map(exam => {
-          if (exam.id === examId) {
-            console.log("el exam es: ", exam);
-            // hit API endpoint here
-
-            let url =
-              "http://localhost:8010/exams/" + exam.id.toString() + "/finish";
-
-            // Change the exam here
-            exam.state = "FINISHED";
-
-            fetch(url, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                description: "FINISHED",
-                startingAt: "2019-10-06T15:00:00",
-                duration: "PT150M"
-              })
-            })
-              .then(res => res.text()) // OR res.json()
-              .then(res => console.log(res));
-
-            return exam;
-          } else {
-            return exam;
-          }
-        });
-
-        // SEE NEW STATE
-        console.log(exercises);
-        // CHANGE THE STATE
-        return {
-          exercises
-        };
-      });
-    }
-  };
-
   render() {
     const { classes } = this.props;
     if (!this.state.isLoaded) {

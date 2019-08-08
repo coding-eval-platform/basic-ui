@@ -36,7 +36,7 @@ const styles = theme => ({
 class ModifyExercise extends React.Component {
   state = {
     exerciseID: "",
-    exerciseDescription: "",
+    exerciseQuestion: "",
     question: "",
     language: "",
     solutionTemplate: "",
@@ -63,14 +63,14 @@ class ModifyExercise extends React.Component {
     const exerciseID = new URL(window.location.href).searchParams.get(
       "exerciseID"
     );
-    const exerciseDescription = new URL(window.location.href).searchParams.get(
-      "exerciseDescription"
+    const exerciseQuestion = new URL(window.location.href).searchParams.get(
+      "exerciseQuestion"
     );
     // console.log('The examid is: ', examID);
 
     this.setState({
       exerciseID: exerciseID,
-      exerciseDescription: exerciseDescription
+      exerciseQuestion: exerciseQuestion
     });
 
     const url = "http://localhost:8010/exercises/" + `${exerciseID}`;
@@ -82,7 +82,7 @@ class ModifyExercise extends React.Component {
 
         this.setState({
           exerciseID: examJSONResponse.id,
-          exerciseDescription: examJSONResponse.description,
+          exerciseQuestion: examJSONResponse.description,
           question: examJSONResponse.startingAt,
           language: examJSONResponse.startingAt,
           solutionTemplate: examJSONResponse.startingAt,
@@ -127,7 +127,7 @@ class ModifyExercise extends React.Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update the exercise: {this.state.exerciseDescription}
+          Update the exercise: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>

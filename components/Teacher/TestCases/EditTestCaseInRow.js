@@ -19,7 +19,7 @@ const styles = theme => ({
 });
 
 
-class EditExerciseInRow extends React.Component {
+class EditTestCaseInRow extends React.Component {
   state = {
     exercises: [],
     open: false,
@@ -27,12 +27,12 @@ class EditExerciseInRow extends React.Component {
     openEditExerciseModal: false
   };
 
-  modifyExerciseHandler = () => {
-    if (window.confirm("Are you sure you want to modify this exercise?")) {
+  modifyTestCaseHandler = () => {
+    if (window.confirm("Are you sure you want to modify this test case?")) {
       // console.log("thisprops: ", this.props);
 
       Router.push({
-        pathname: `/modify_exercise`,
+        pathname: `/modify_testcase`,
         query: {
           exerciseID: `${this.props.id}`,
           exerciseQuestion: `${this.props.exerciseQuestion}`,
@@ -54,7 +54,7 @@ class EditExerciseInRow extends React.Component {
             // className={classes.margin}
             aria-label="Edit"
             size="small"
-            onClick={this.modifyExerciseHandler}
+            onClick={this.modifyTestCaseHandler}
             color="primary"
           >
             <EditIcon/>
@@ -65,8 +65,8 @@ class EditExerciseInRow extends React.Component {
   }
 }
 
-EditExerciseInRow.propTypes = {
+EditTestCaseInRow.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EditExerciseInRow);
+export default withStyles(styles)(EditTestCaseInRow);

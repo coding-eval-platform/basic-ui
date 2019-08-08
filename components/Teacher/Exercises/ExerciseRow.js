@@ -35,21 +35,22 @@ function ExerciseRow(props) {
       <TableCell align="center">{props.awardedScore}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <SeeTestCases
-              id={props.id}
-              description={props.description}
-              startingAt={props.startingAt}
+              exerciseID={props.id}
+              exerciseQuestion={props.question}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <EditExerciseInRow
-              id={props.id}
-              description={props.description}
-              startingAt={props.startingAt}
+              exerciseID={props.id}
+              exerciseQuestion={props.question}
+              exerciseLanguage={props.language}
+              exerciseSolutionTemplate={props.solutionTemplate}
+              exerciseAwardedScore={props.awardedScore}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Tooltip title="Delete this exercise">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />

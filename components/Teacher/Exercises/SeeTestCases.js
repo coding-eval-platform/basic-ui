@@ -19,17 +19,17 @@ const styles = theme => ({
 });
 
 class SeeTestCases extends React.Component {
-  seeExercisesHandler = () => {
-    // console.log("thisprops: ", this.props);
-
-    Router.push({
-      pathname: `/exam_dashboard`,
-      query: {
-        examID: `${this.props.id}`,
-        examDescription: `${this.props.description}`,
-        examStartingAt: `${this.props.startingAt}`
-      }
-    });
+  
+  seeTestCasesHandler = () => {
+    console.log("HOLAAA", this.props);
+    Router.push(`/exercise_dashboard`);
+    // Router.push({
+    //   pathname: `/exercise_dashboard`,
+    //   query: {
+    //     exerciseID: `${this.props.exerciseID}`,
+    //     exerciseQuestion: `${this.props.exerciseQuestion}`
+    //   }
+    // });
   };
 
   render() {
