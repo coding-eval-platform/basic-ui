@@ -35,7 +35,7 @@ function Header(props) {
             Coding Evaluation Platform
           </Typography>
           <RenderButton href='/' content='Home'/>
-          <RenderButton href='/about' content='About'/>
+          {/* <RenderButton href='/about' content='About'/> */}
           <RenderButton href='/signup' content='Sign Up'/>
           <RenderButton href='/login' content='Login'/>
           <RenderButton href='/playground' content='Playground'/>

@@ -103,6 +103,16 @@ class ModifyExam extends Component {
     });
   };
 
+  seeExercises = () => {
+    Router.push({
+      pathname: `/exam_dashboard`,
+      query: {
+        examID: `${this.state.examID}`,
+        examDescription: `${this.state.description}`
+      }
+    });
+  };
+
   render() {
     const examDescription = new URL(window.location.href).searchParams.get(
       "examDescription"
@@ -143,17 +153,6 @@ class ModifyExam extends Component {
             />
           </Grid>
           <Grid item xs={3}>
-            {/* <TextField
-              id="datetime-local"
-              label="Insert date and time"
-              type="datetime-local"
-              style={{ margin: 20 }}
-              defaultValue="2017-05-24T10:30"
-              // value={props.data.startingAt}
-              // InputLabelProps={{
-              //   shrink: true
-              // }}
-            /> */}
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DateTimePicker
                 label="Insert date and time"
@@ -182,7 +181,7 @@ class ModifyExam extends Component {
               style={{ margin: 20 }}
               variant="outlined"
               color="primary"
-              // onClick={this.updateExam}
+              onClick={this.seeExercises}
             >
               View and edit exercises
             </Button>
