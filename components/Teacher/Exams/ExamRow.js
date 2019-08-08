@@ -64,21 +64,21 @@ function ExamRow(props) {
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <SeeExercises
               id={props.id}
               description={props.description}
               startingAt={props.startingAt}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <EditExamInRow
               id={props.id}
               description={props.description}
               startingAt={props.startingAt}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Tooltip title="Start this exam">
               <IconButton
                 className={classes.button}
@@ -92,7 +92,7 @@ function ExamRow(props) {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Tooltip title="Finish this exam">
               <IconButton
                 className={classes.button}
@@ -106,7 +106,7 @@ function ExamRow(props) {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Tooltip title="Delete this exam">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
