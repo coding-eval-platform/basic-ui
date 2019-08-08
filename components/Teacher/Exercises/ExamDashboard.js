@@ -54,17 +54,16 @@ class ExamDashboard extends React.Component {
   };
 
   deleteExercise = (index, event) => {
-    // const exercises = Object.assign([], this.state.exercises);
-    if (window.confirm("Are you sure you want to delete this exam?")) {
-      console.log("Deleting exam with ID: ", this.state.exercises[index].id);
+    if (window.confirm("Are you sure you want to delete this exercise?")) {
+      console.log("Deleting exercise with ID: ", this.state.exercises[index].id);
 
       const url =
-        "http://localhost:8010/exams/" +
+        "http://localhost:8010/exercises/" +
         this.state.exercises[index].id.toString();
 
       // Removes the desired item.
       this.state.exercises.splice(index, 1);
-      console.log("LOS DE AHORA SON: ", this.state.exercises);
+      console.log("LOS exercises DE AHORA SON: ", this.state.exercises);
       this.setState({ exercises: this.state.exercises });
 
       // then hit the API

@@ -28,7 +28,7 @@ class TeacherDashboard extends React.Component {
 
   componentDidMount = () => {
     const url =
-      "http://localhost:8010/exams?size=10&page=0&sort=description,asc";
+      "http://localhost:8010/exams?size=100&page=0&sort=description,asc";
 
     fetch(url)
       .then(async res => {
