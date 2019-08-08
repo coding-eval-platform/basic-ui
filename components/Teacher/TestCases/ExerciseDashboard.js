@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Router from "next/router";
 
-
 import ExerciseRow from "./ExerciseRow.js";
 
 const styles = theme => ({
@@ -24,61 +23,67 @@ const styles = theme => ({
   }
 });
 
-class ExamDashboard extends React.Component {
+class ExerciseDashboard extends React.Component {
   state = {
-    examID: "",
-    examDescription: "",
-    exercises: [],
+    exerciseID: "",
+    exerciseQuestion: "",
+    testCases: [],
     isLoaded: false
   };
 
   componentDidMount = () => {
-    const examID = new URL(window.location.href).searchParams.get("examID");
-    const examDescription = new URL(window.location.href).searchParams.get(
-      "examDescription"
+    const exerciseID = new URL(window.location.href).searchParams.get(
+      "exerciseID"
     );
-    const url = "http://localhost:8010/exams/" + `${examID}` + "/exercises";
+    const exerciseQuestion = new URL(window.location.href).searchParams.get(
+      "exerciseQuestion"
+    );
+    const url =
+      "http://localhost:8010/exercises/" + `${exerciseID}` + "/test-cases/public";
 
     this.setState({
-      examID: examID,
-      examDescription: examDescription
+      exerciseID: exerciseID,
+      exerciseQuestion: exerciseQuestion
     });
 
     fetch(url)
       .then(async res => {
         const outputJSONResponse = await res.json();
-        console.log("The JSON with all the exercises is: ", outputJSONResponse);
+        console.log("The JSON with all the testCases is: ", outputJSONResponse);
 
         this.setState({
           isLoaded: true,
-          exercises: outputJSONResponse
+          testCases: outputJSONResponse
         });
       })
       .catch(err => console.log(err));
   };
 
-  createExercise = () => {
+  createTestCase = () => {
     Router.push({
-      pathname: `/create_exercises`,
-      query: { examID: `${this.state.examID}`, examDescription: `${this.state.examDescription}` }
+      pathname: `/create_testcase`,
+      query: {
+        exerciseID: `${this.state.exerciseID}`,
+        exerciseQuestion: `${this.state.exerciseQuestion}`
+      }
     });
-  }
+  };
 
-  deleteExercise = (index, event) => {
-    if (window.confirm("Are you sure you want to delete this exercise?")) {
+  deleteTestCase = (index, event) => {
+    if (window.confirm("Are you sure you want to delete this test case?")) {
       console.log(
-        "Deleting exercise with ID: ",
-        this.state.exercises[index].id
+        "Deleting test case with ID: ",
+        this.state.testCases[index].id
       );
 
       const url =
-        "http://localhost:8010/exercises/" +
-        this.state.exercises[index].id.toString();
+        "http://localhost:8010/test-cases/" +
+        this.state.testCases[index].id.toString();
 
       // Removes the desired item.
-      this.state.exercises.splice(index, 1);
-      // console.log("LOS exercises DE AHORA SON: ", this.state.exercises);
-      this.setState({ exercises: this.state.exercises });
+      this.state.testCases.splice(index, 1);
+      // console.log("LOS testCases DE AHORA SON: ", this.state.testCases);
+      this.setState({ testCases: this.state.testCases });
 
       // then hit the API
       fetch(url, {
@@ -90,14 +95,14 @@ class ExamDashboard extends React.Component {
     }
   };
 
-  editExercise = examId => {
+  editTestCase = exerciseID => {
     if (window.confirm("Are you sure you want to start this exam?")) {
-      const exercises = Object.assign([], this.state.exercises);
-      console.log(exercises);
+      const testCases = Object.assign([], this.state.testCases);
+      console.log(testCases);
 
       this.setState(state => {
-        const exercises = state.exercises.map(exam => {
-          if (exam.id === examId) {
+        const testCases = state.testCases.map(exam => {
+          if (exam.id === exerciseID) {
             console.log("el exam es: ", exam);
             // hit API endpoint here
 
@@ -125,23 +130,23 @@ class ExamDashboard extends React.Component {
         });
 
         // SEE NEW STATE
-        console.log(exercises);
+        console.log(testCases);
         // CHANGE THE STATE
         return {
-          exercises
+          testCases
         };
       });
     }
   };
 
-  deleteExercise = examId => {
+  createTestCaseforExercise = exerciseID => {
     if (window.confirm("Are you sure you want to finish this exam?")) {
-      const exercises = Object.assign([], this.state.exercises);
-      console.log(exercises);
+      const testCases = Object.assign([], this.state.testCases);
+      console.log(testCases);
 
       this.setState(state => {
-        const exercises = state.exercises.map(exam => {
-          if (exam.id === examId) {
+        const testCases = state.testCases.map(exam => {
+          if (exam.id === exerciseID) {
             console.log("el exam es: ", exam);
             // hit API endpoint here
 
@@ -170,10 +175,10 @@ class ExamDashboard extends React.Component {
         });
 
         // SEE NEW STATE
-        console.log(exercises);
+        console.log(testCases);
         // CHANGE THE STATE
         return {
-          exercises
+          testCases
         };
       });
     }
@@ -183,11 +188,11 @@ class ExamDashboard extends React.Component {
     const { classes } = this.props;
     if (!this.state.isLoaded) {
       return <div>Loading...</div>;
-    } else if (this.state.exercises < 1) {
+    } else if (this.state.testCases < 1) {
       return (
         <div>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            You have no exercises created in this exam yet 🤷‍♂️
+            You have no test cases created in this exercise yet 🤷‍♂️
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -195,7 +200,7 @@ class ExamDashboard extends React.Component {
                 style={{ margin: 20 }}
                 variant="contained"
                 color="primary"
-                onClick={this.createExercise}
+                onClick={this.createTestCase}
               >
                 Create one!
               </Button>
@@ -207,35 +212,34 @@ class ExamDashboard extends React.Component {
       return (
         <div>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Exercises of the exam: {this.state.examDescription}
+            Test cases of the exercise: {this.state.exerciseQuestion}
           </Typography>
           <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center" style={{ maxWidth: "2px" }}>
-                    Exercise ID
+                    Test Case ID
                   </TableCell>
-                  <TableCell align="center">Question</TableCell>
-                  <TableCell align="center">Language</TableCell>
-                  <TableCell align="center">Awarded Score</TableCell>
+                  <TableCell align="center">Visibility</TableCell>
+                  <TableCell align="center">Timeout (ms)</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.exercises.map((exercise, index) => (
+                {this.state.testCases.map((testCase, index) => (
                   <ExerciseRow
                     key={index}
-                    id={exercise.id}
-                    question={exercise.question}
-                    language={exercise.language}
-                    solutionTemplate={exercise.solutionTemplate}
-                    awardedScore={exercise.awardedScore}
-                    deleteEvent={this.deleteExercise.bind(this, index)}
-                    editExercise={this.editExercise.bind(this, exercise.id)}
-                    deleteExercise={this.deleteExercise.bind(
+                    id={testCase.id}
+                    visibility={testCase.visibility}
+                    timeout={testCase.timeout}
+                    inputs={testCase.inputs}
+                    expectedOutputs={testCase.expectedOutputs}
+                    deleteEvent={this.deleteTestCase.bind(this, index)}
+                    editTestCase={this.editTestCase.bind(this, testCase.id)}
+                    createTestCaseforExercise={this.createTestCaseforExercise.bind(
                       this,
-                      exercise.id
+                      testCase.id
                     )}
                     // changeEvent={this.changeUserName.bind(this, user.description)}
                     // key={user.id }
@@ -250,8 +254,8 @@ class ExamDashboard extends React.Component {
   }
 }
 
-ExamDashboard.propTypes = {
+ExerciseDashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ExamDashboard);
+export default withStyles(styles)(ExerciseDashboard);

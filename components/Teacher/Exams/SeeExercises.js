@@ -20,8 +20,6 @@ const styles = theme => ({
 
 class SeeExercises extends React.Component {
   seeExercisesHandler = () => {
-    // console.log("thisprops: ", this.props);
-
     Router.push({
       pathname: `/exam_dashboard`,
       query: {
