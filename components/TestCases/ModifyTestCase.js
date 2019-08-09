@@ -1,29 +1,29 @@
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
-import Router from "next/router";
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import Button from '@material-ui/core/Button'
+import Router from 'next/router'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    background: "#202020"
+    background: '#202020'
   },
   input: {
-    color: "white"
+    color: 'white'
   },
   formControl: {
     margin: theme.spacing.unit,
-    width: "100%",
-    align: "center"
+    width: '100%',
+    align: 'center'
   },
   button: {
     margin: theme.spacing.unit
@@ -31,102 +31,91 @@ const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit
   }
-});
+})
 
 class ModifyTestCase extends React.Component {
   state = {
-    testCaseID: "",
-    visibility: "",
-    timeout: "",
-    inputs: "",
-    expectedOutputs: ""
-  };
+    exerciseID: '',
+    exerciseQuestion: '',
+    visibility: '',
+    timeout: '',
+    inputs: '',
+    expectedOutputs: ''
+  }
 
   onVisibilityChange = visibility => {
-    this.setState({ visibility: visibility.target.value });
-  };
+    this.setState({ visibility: visibility.target.value })
+  }
 
   onTimeoutChange = timeout => {
-    this.setState({ timeout: timeout.target.value });
-  };
+    this.setState({ timeout: timeout.target.value })
+  }
 
   onInputsChange = inputs => {
-    this.setState({ inputs: inputs.target.value });
-  };
+    this.setState({ inputs: inputs.target.value })
+  }
 
   onExpectedOutputsChange = expectedOutputs => {
-    this.setState({ expectedOutputs: expectedOutputs.target.value });
-  };
+    this.setState({ expectedOutputs: expectedOutputs.target.value })
+  }
 
   componentDidMount = () => {
-    const testCaseID = new URL(window.location.href).searchParams.get("testCaseID");
+    const exerciseID = new URL(window.location.href).searchParams.get(
+      'exerciseID'
+    )
+    const exerciseQuestion = new URL(window.location.href).searchParams.get(
+      'exerciseQuestion'
+    )
 
     this.setState({
-      testCaseID: testCaseID
-    });
-
-    const url = "http://localhost:8010/exercises/" + `${exerciseID}`;
-
-    fetch(url)
-      .then(async res => {
-        const examJSONResponse = await res.json();
-        console.log("The exam to be updated is: ", examJSONResponse);
-
-        this.setState({
-          exerciseID: examJSONResponse.id,
-          exerciseDescription: examJSONResponse.description,
-          question: examJSONResponse.startingAt,
-          language: examJSONResponse.startingAt,
-          solutionTemplate: examJSONResponse.startingAt,
-          awardedScore: examJSONResponse.startingAt
-        });
-      })
-      .catch(err => console.log(err));
-  };
-  };
+      exerciseID: exerciseID,
+      exerciseQuestion: exerciseQuestion
+    })
+  }
 
   createTestCase = () => {
     const inputsArray = this.state.inputs
-      .split(",")
-      .map(str => str.replace(/\s/g, ""));
+      .split(',')
+      .map(str => str.replace(/\s/g, ''))
 
-      const expectedOutputsArray = this.state.expectedOutputs
-      .split(",")
-      .map(str => str.replace(/\s/g, ""));
+    const expectedOutputsArray = this.state.expectedOutputs
+      .split(',')
+      .map(str => str.replace(/\s/g, ''))
 
     console.log(
-      "The created test case is: ",
+      'The created test case is: ',
       JSON.stringify({
         visibility: this.state.visibility,
         timeout: this.state.timeout,
         inputs: inputsArray,
-        expectedOutputs: expectedOutputsArray,
+        expectedOutputs: expectedOutputsArray
       })
-    );
+    )
 
-    console.log('EL EX ID ES: ', this.state.exerciseID);
-    
+    console.log('EL EX ID ES: ', this.state.exerciseID)
 
-    const url = "http://localhost:8010/exercises/" + `${this.state.exerciseID}` + "/test-cases"
+    const url =
+      'http://localhost:8010/exercises/' +
+      `${this.state.exerciseID}` +
+      '/test-cases'
     fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         visibility: this.state.visibility,
         timeout: this.state.timeout,
         inputs: inputsArray,
-        expectedOutputs: expectedOutputsArray,
+        expectedOutputs: expectedOutputsArray
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`);
+        Router.push(`/teacher_dashboard`)
       })
-      .catch(err => console.log(err));
-  };
-
+      .catch(err => console.log(err))
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <div>
@@ -153,11 +142,11 @@ class ModifyTestCase extends React.Component {
               <Select
                 value={this.state.visibility}
                 onChange={this.onVisibilityChange}
-                style={{ minWidth: "10em" }}
+                style={{ minWidth: '10em' }}
                 // PONER DEFAULT VALUES!
               >
-                <MenuItem value={"PUBLIC"}>Public</MenuItem>
-                <MenuItem value={"PRIVATE"}>Private</MenuItem>
+                <MenuItem value={'PUBLIC'}>Public</MenuItem>
+                <MenuItem value={'PRIVATE'}>Private</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -210,12 +199,12 @@ class ModifyTestCase extends React.Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 ModifyTestCase.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(ModifyTestCase);
+export default withStyles(styles)(ModifyTestCase)
