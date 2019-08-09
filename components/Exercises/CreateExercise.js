@@ -1,29 +1,29 @@
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
-import Router from "next/router";
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import Button from '@material-ui/core/Button'
+import Router from 'next/router'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    background: "#202020"
+    background: '#202020'
   },
   input: {
-    color: "white"
+    color: 'white'
   },
   formControl: {
     margin: theme.spacing.unit,
-    width: "100%",
-    align: "center"
+    width: '100%',
+    align: 'center'
   },
   button: {
     margin: theme.spacing.unit
@@ -31,83 +31,87 @@ const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit
   }
-});
+})
 
 class CreateExercise extends React.Component {
   state = {
-    examID: "",
-    examDescription: "",
-    question: "",
-    language: "",
-    solutionTemplate: "",
-    awardedScore: ""
-  };
+    examID: '',
+    examDescription: '',
+    question: '',
+    language: '',
+    solutionTemplate: '',
+    awardedScore: ''
+  }
 
   onQuestionChange = question => {
-    this.setState({ question: question.target.value });
-  };
+    this.setState({ question: question.target.value })
+  }
 
   onLanguageChange = language => {
-    this.setState({ language: language.target.value });
-  };
+    this.setState({ language: language.target.value })
+  }
 
   onSolutionTemplateChange = solutionTemplate => {
-    this.setState({ solutionTemplate: solutionTemplate.target.value });
-  };
+    this.setState({ solutionTemplate: solutionTemplate.target.value })
+  }
 
   onAwardedScoreChange = awardedScore => {
-    this.setState({ awardedScore: awardedScore.target.value });
-  };
+    this.setState({ awardedScore: awardedScore.target.value })
+  }
 
   componentDidMount = () => {
-    const examID = new URL(window.location.href).searchParams.get("examID");
-    const examDescription = new URL(window.location.href).searchParams.get("examDescription");
+    const examID = new URL(window.location.href).searchParams.get('examID')
+    const examDescription = new URL(window.location.href).searchParams.get(
+      'examDescription'
+    )
     // console.log('The examid is: ', examID);
 
     this.setState({
       examID: examID,
       examDescription: examDescription
-    });
-  };
+    })
+  }
 
   createExercise = () => {
     console.log(
-      "The created exercise is: ",
+      'The created exercise is: ',
       JSON.stringify({
         question: this.state.question,
         awardedScore: this.state.awardedScore,
         language: this.state.language,
-        solutionTemplate: this.state.solutionTemplate,
+        solutionTemplate: this.state.solutionTemplate
       })
-    );
+    )
 
-    const url = "http://localhost:8010/exams/" + `${this.state.examID}` + "/exercises"
+    const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
     fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         question: this.state.question,
         awardedScore: this.state.awardedScore,
         language: this.state.language,
-        solutionTemplate: this.state.solutionTemplate,
+        solutionTemplate: this.state.solutionTemplate
       })
     })
       .then(res => {
-        let exercise_id = res.headers.get("Location").split("/");
-        exercise_id = exercise_id[exercise_id.length - 1];
-        console.log("exercise_id IS: ", exercise_id);
+        let exercise_id = res.headers.get('Location').split('/')
+        exercise_id = exercise_id[exercise_id.length - 1]
+        console.log('exercise_id IS: ', exercise_id)
 
         Router.push({
           pathname: `/create_testcase`,
-          query: { exerciseID: `${exercise_id}`, exerciseQuestion: `${this.state.question}` }
-        });
+          query: {
+            exerciseID: `${exercise_id}`,
+            exerciseQuestion: `${this.state.question}`
+          }
+        })
       })
-      .catch(err => console.log(err));
-  };
-
+      .catch(err => console.log(err))
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <div>
@@ -150,15 +154,15 @@ class CreateExercise extends React.Component {
               <Select
                 value={this.state.language}
                 onChange={this.onLanguageChange}
-                style={{ minWidth: "10em" }}
+                style={{ minWidth: '10em' }}
                 // inputProps={{
                 //   name: "age",
                 //   id: "age-simple"
                 // }}
               >
-                <MenuItem value={"JAVA"}>Java</MenuItem>
-                <MenuItem value={"RUBY"}>Ruby</MenuItem>
-                <MenuItem value={"C"}>C</MenuItem>
+                <MenuItem value={'JAVA'}>Java</MenuItem>
+                <MenuItem value={'RUBY'}>Ruby</MenuItem>
+                <MenuItem value={'C'}>C</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -211,12 +215,12 @@ public static void main(final String... args) {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 CreateExercise.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(CreateExercise);
+export default withStyles(styles)(CreateExercise)

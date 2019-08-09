@@ -94,10 +94,7 @@ class ModifyTestCase extends React.Component {
 
     console.log('EL EX ID ES: ', this.state.exerciseID)
 
-    const url =
-      'http://localhost:8010/exercises/' +
-      `${this.state.exerciseID}` +
-      '/test-cases'
+    const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}/test-cases`
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

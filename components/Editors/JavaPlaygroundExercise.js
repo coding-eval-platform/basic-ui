@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import dynamic from "next/dynamic";
-const JavaEditor = dynamic(import("./JavaEditor"), { ssr: false });
+import React, { Component } from 'react'
+import dynamic from 'next/dynamic'
+const JavaEditor = dynamic(import('./JavaEditor'), { ssr: false })
 
-import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import SendIcon from "@material-ui/icons/Send";
-import { withStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
+import SendIcon from '@material-ui/icons/Send'
+import { withStyles } from '@material-ui/core/styles'
 
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import Grid from '@material-ui/core/Grid'
+import TextField from '@material-ui/core/TextField'
 
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   root: {
-    background: "#202020"
+    background: '#202020'
   },
   input: {
-    color: "white"
+    color: 'white'
   },
   button: {
     margin: theme.spacing.unit
@@ -35,33 +35,33 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   }
-});
+})
 
 class JavaPlaygroundExercise extends Component {
   state = {
     output: {},
-    programInput: "",
-    compileFlags: "",
+    programInput: '',
+    compileFlags: '',
     pending: false,
     code:
-      "import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n",
+      'import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n',
     timeout: 10000,
-    language: "JAVA",
+    language: 'JAVA',
     // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
-    input: ""
-  };
+    input: ''
+  }
 
   sendCodeinSandBox = () => {
-    this.setState({ output: {} });
+    this.setState({ output: {} })
 
-    this.setState({ pending: true });
+    this.setState({ pending: true })
     const final_input = this.state.input
-      .split(",")
-      .map(str => str.replace(/\s/g, ""));
+      .split(',')
+      .map(str => str.replace(/\s/g, ''))
 
-    fetch("http://localhost:8009/execution-requests", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    fetch(`${process.env.API_HOST}/execution-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         code: this.state.code,
         timeout: this.state.timeout,
@@ -71,74 +71,71 @@ class JavaPlaygroundExercise extends Component {
     })
       .then(res => {
         // console.log("RESPONSE IS: ", res.headers.get("Location"));
-        let result_id = res.headers.get("Location").split("/");
-        result_id = result_id[result_id.length - 1];
+        let result_id = res.headers.get('Location').split('/')
+        result_id = result_id[result_id.length - 1]
         // console.log("RESULT_ID IS: ", result_id);
 
         // once the code is executed, wait for the response on the output box
-        this.polling(result_id);
+        this.polling(result_id)
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   polling = result_id => {
     this.IntervalPolling = setInterval(() => {
-      let url =
-        "http://localhost:8009/execution-requests/" + result_id + "/result/";
-      console.log("url: ", url);
+      let url = `${process.env.API_HOST}/execution-requests/result_id/result/`
+      console.log('url: ', url)
       fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
       })
         .then(async res => {
-          const outputJSONResponse = await res.json();
-          console.log("json: ", outputJSONResponse);
+          const outputJSONResponse = await res.json()
+          console.log('json: ', outputJSONResponse)
           if (
             outputJSONResponse &&
-            (outputJSONResponse.type === "FINISHED" ||
-              outputJSONResponse.type === "COMPILE_ERROR")
+            (outputJSONResponse.type === 'FINISHED' ||
+              outputJSONResponse.type === 'COMPILE_ERROR')
           ) {
-            console.log(
-              "Finished polling, state is: ",
-              outputJSONResponse.type
-            );
-            this.setState({ output: outputJSONResponse });
-            this.setState({ pending: false });
-            clearInterval(this.IntervalPolling);
+            console.log('Finished polling, state is: ', outputJSONResponse.type)
+            this.setState({ output: outputJSONResponse })
+            this.setState({ pending: false })
+            clearInterval(this.IntervalPolling)
           }
         })
-        .catch(err => console.log(err));
-    }, 3000);
-  };
+        .catch(err => console.log(err))
+    }, 3000)
+  }
 
-  onCodeChange = code => this.setState({ code });
+  onCodeChange = code => this.setState({ code })
 
   onInputChange = input => {
-    this.setState({ input: input.target.value });
-  };
+    this.setState({ input: input.target.value })
+  }
 
   onProgramInputChange = programInput => {
-    this.setState({ programInput: programInput.target.value });
-  };
+    this.setState({ programInput: programInput.target.value })
+  }
 
   onCompileFlagsChange = compileFlags => {
-    this.setState({ compileFlags: compileFlags.target.value });
-  };
+    this.setState({ compileFlags: compileFlags.target.value })
+  }
 
   render() {
-    const { classes } = this.props;
-    let pending = this.state.pending;
+    const { classes } = this.props
+    let pending = this.state.pending
 
     const output =
-      this.state.output.type === "COMPILE_ERROR"
-        ? "️️☠️ COMPILATION ERROR  ☠️\n========================\n\n" + (this.state.output.compilerErrors).reduce(
-          (memo, line) => memo + line + "\n",
-          ""
-        )
+      this.state.output.type === 'COMPILE_ERROR'
+        ? '️️☠️ COMPILATION ERROR  ☠️\n========================\n\n' +
+          this.state.output.compilerErrors.reduce(
+            (memo, line) => memo + line + '\n',
+            ''
+          )
         : (this.state.output.stdout || []).reduce(
-            (memo, line) => memo + line + "\n",
-            ""
-          );
+            (memo, line) => memo + line + '\n',
+            ''
+          )
 
     return (
       <div>
@@ -235,7 +232,7 @@ class JavaPlaygroundExercise extends Component {
               //helperText="Full width!"
               value={
                 output ||
-                (pending ? "👩🏻‍🚀 bringing your output from Mars..." : "")
+                (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
               }
               fullWidth
               margin="normal"
@@ -251,12 +248,12 @@ class JavaPlaygroundExercise extends Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 JavaPlaygroundExercise.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(JavaPlaygroundExercise);
+export default withStyles(styles)(JavaPlaygroundExercise)

@@ -1,58 +1,58 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 
-import Router from "next/router";
-import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
-import MomentUtils from "@date-io/moment";
-import moment from "moment";
+import Router from 'next/router'
+import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
+import MomentUtils from '@date-io/moment'
+import moment from 'moment'
 
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   }
-});
+})
 
 class CreateExam extends Component {
   state = {
-    description: "",
-    startingAt: "2019-10-06T15:00:00",
-    duration: ""
-  };
+    description: '',
+    startingAt: '2019-10-06T15:00:00',
+    duration: ''
+  }
 
   onDescriptionChange = description => {
-    this.setState({ description: description.target.value });
-  };
+    this.setState({ description: description.target.value })
+  }
 
   onDurationChange = duration => {
-    this.setState({ duration: duration.target.value });
-  };
+    this.setState({ duration: duration.target.value })
+  }
 
   onDateTimeChange = startingAt => {
     this.setState({
-      startingAt: moment(startingAt._d).format("YYYY-MM-DDTHH:mm:ss")
-    });
-  };
+      startingAt: moment(startingAt._d).format('YYYY-MM-DDTHH:mm:ss')
+    })
+  }
 
   createExam = () => {
     console.log(
-      "POST sent this: ",
+      'POST sent this: ',
       JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,
         startingAt: this.state.startingAt
       })
-    );
+    )
 
-    fetch("http://localhost:8010/exams", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    fetch(`${process.env.API_HOST}/exams`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,
@@ -61,9 +61,9 @@ class CreateExam extends Component {
     })
       .then(res => {
         // console.log('RESPONSE IS: ', res.headers.get('Location'));
-        let exam_id = res.headers.get("Location").split("/");
-        exam_id = exam_id[exam_id.length - 1];
-        console.log("EXAM_ID IS: ", exam_id);
+        let exam_id = res.headers.get('Location').split('/')
+        exam_id = exam_id[exam_id.length - 1]
+        console.log('EXAM_ID IS: ', exam_id)
         // this.setState({
         //   exam_id
         // });
@@ -71,11 +71,14 @@ class CreateExam extends Component {
         // Router.push(`/create_exercises?exam_id=${exam_id}`);
         Router.push({
           pathname: `/create_exercises`,
-          query: { examID: `${exam_id}`, examDescription: `${this.state.description}` }
-        });
+          query: {
+            examID: `${exam_id}`,
+            examDescription: `${this.state.description}`
+          }
+        })
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   render() {
     return (
@@ -148,12 +151,12 @@ class CreateExam extends Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 CreateExam.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(CreateExam);
+export default withStyles(styles)(CreateExam)

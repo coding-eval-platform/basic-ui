@@ -1,86 +1,86 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 
-import Router from "next/router";
-import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
-import MomentUtils from "@date-io/moment";
-import moment from "moment";
+import Router from 'next/router'
+import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
+import MomentUtils from '@date-io/moment'
+import moment from 'moment'
 
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   }
-});
+})
 
 class ModifyExam extends Component {
   state = {
-    examID: "",
-    description: "",
-    startingAt: "",
-    duration: ""
-  };
+    examID: '',
+    description: '',
+    startingAt: '',
+    duration: ''
+  }
 
   componentDidMount = () => {
-    const examID = new URL(window.location.href).searchParams.get("examID");
+    const examID = new URL(window.location.href).searchParams.get('examID')
     // console.log('The examid is: ', examID);
 
     this.setState({
       examID: examID
-    });
+    })
 
-    const url = "http://localhost:8010/exams/" + `${examID}`;
+    const url = `${process.env.API_HOST}/exams/${examID}`
 
     fetch(url)
       .then(async res => {
-        const examJSONResponse = await res.json();
-        console.log("The exam to be updated is: ", examJSONResponse);
+        const examJSONResponse = await res.json()
+        console.log('The exam to be updated is: ', examJSONResponse)
 
         this.setState({
           examID: examJSONResponse.id,
           description: examJSONResponse.description,
           startingAt: examJSONResponse.startingAt,
           duration: examJSONResponse.duration
-        });
+        })
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   onDescriptionChange = description => {
-    this.setState({ description: description.target.value });
-  };
+    this.setState({ description: description.target.value })
+  }
 
   onDurationChange = duration => {
-    this.setState({ duration: duration.target.value });
-  };
+    this.setState({ duration: duration.target.value })
+  }
 
   onDateTimeChange = startingAt => {
     this.setState({
-      startingAt: moment(startingAt._d).format("YYYY-MM-DDTHH:mm:ss")
-    });
-  };
+      startingAt: moment(startingAt._d).format('YYYY-MM-DDTHH:mm:ss')
+    })
+  }
 
   updateExam = () => {
     console.log(
-      "PUT sent this: ",
+      'PUT sent this: ',
       JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,
         startingAt: this.state.startingAt
       })
-    );
+    )
 
-    const url = "http://localhost:8010/exams/" + `${this.state.examID}`;
+    const url = `${process.env.API_HOST}/exams/${this.state.examID}`
 
     fetch(url, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,
@@ -88,10 +88,10 @@ class ModifyExam extends Component {
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`);
+        Router.push(`/teacher_dashboard`)
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   addExercise = () => {
     Router.push({
@@ -100,8 +100,8 @@ class ModifyExam extends Component {
         examID: `${this.state.examID}`,
         examDescription: `${this.state.description}`
       }
-    });
-  };
+    })
+  }
 
   seeExercises = () => {
     Router.push({
@@ -110,13 +110,13 @@ class ModifyExam extends Component {
         examID: `${this.state.examID}`,
         examDescription: `${this.state.description}`
       }
-    });
-  };
+    })
+  }
 
   render() {
     const examDescription = new URL(window.location.href).searchParams.get(
-      "examDescription"
-    );
+      'examDescription'
+    )
 
     return (
       <div>
@@ -200,12 +200,12 @@ class ModifyExam extends Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 ModifyExam.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(ModifyExam);
+export default withStyles(styles)(ModifyExam)
