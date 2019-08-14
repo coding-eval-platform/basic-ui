@@ -2,6 +2,6 @@ import Layout from '../components/MyLayout.js'
 
 export default () => (
   <Layout>
-    <p>This is the about page</p>
+    <p>You do not have enough access for that page 🧸</p>
   </Layout>
 )
