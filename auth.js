@@ -1,19 +1,15 @@
-import axios from 'axios'
-import Router from 'next/router'
 import { Cookies } from 'react-cookie'
 import store from 'store'
-
-const cookies = new Cookies()
 
 export async function handleAccessToken() {
   const issueTokenURL = `${process.env.API_HOST}/tokens`
 
   // first, try and get a token from the localStorage
-  const accessToken = store.get('accessToken')
-  console.log('TOKEN UNDEFINED: ', accessToken === undefined)
+  let accessToken = store.get('accessToken')
+  console.log('No token un localstorage: ', accessToken === undefined)
 
   if (accessToken === undefined) {
-    // get a token
+    // Given that  there's no token, get one
     fetch(issueTokenURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -24,97 +20,52 @@ export async function handleAccessToken() {
     })
       .then(async res => {
         const response = await res.json()
-        console.log('EHHHH ', response)
-        console.log('accessToken ', response.accessToken)
-        console.log('refreshToken ', response.refreshToken)
         store.set('tokenID', response.id)
         store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
-        console.log(store.get('accessToken'))
-      }) // OR res.json()
-      .then(res => console.log(res))
+        console.log('Access token from Store: ', store.get('accessToken'))
+      })
+      .then(res => {
+        // console.log(res);
+        return accessToken
+      })
   } else if (
-    !JSON.parse(atob(accessToken.split('.')[1])).exp -
-      ((Date.now() / 1000) >> 0) >
-    60
+    !(
+      JSON.parse(atob(accessToken.split('.')[1])).exp -
+        ((Date.now() / 1000) >> 0) >
+      300
+    )
   ) {
-    const isJWTValid =
-      JSON.parse(atob(accessToken.split('.')[1])).exp -
-        ((Date.now() / 1000) >> 0) >
-      60
-    // check if jwt is expired or not
-    // console.log(atob(accessToken.split(".")[1]).exp);
+    console.log('Need to refresh the access token.')
 
-    console.log('valido??? ', isJWTValid)
+    const refreshTokenURL = `${process.env.API_HOST}/tokens/${store.get(
+      'tokenID'
+    )}/refresh`
 
-    console.log('I have an accessToken: ', accessToken)
-    return accessToken
+    fetch(refreshTokenURL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('refreshToken')
+      }
+    })
+      .then(async res => {
+        const response = await res.json()
+        // console.log("REFRESH TOKEN RESPONSE ", response);
+        store.set('c', response.accessToken)
+        store.set('refreshToken', response.refreshToken)
+
+        // override old accessToken
+        accessToken = store.get('accessToken')
+        // console.log("The new accessToken is: ", accessToken);
+      })
+      .then(() => {
+        console.log('I have a NEW accessToken: ', accessToken)
+        return accessToken
+      })
   } else {
-    // if JWT not expired
-    const isJWTValid =
-      JSON.parse(atob(accessToken.split('.')[1])).exp -
-        ((Date.now() / 1000) >> 0) >
-      60
-    console.log('valido--- ', isJWTValid)
+    console.log('No need to refresh.')
+    console.log('JWT es valido? ', isJWTValid)
+    return accessToken
   }
 }
-
-//   try {
-//     const response = await axios.get(serverUrl + "/api/token/ping", {
-//       headers: { Authorization: token }
-//     });
-//     // dont really care about response, as long as it not an error
-//     console.log("token ping:", response.data.msg);
-//   } catch (err) {
-//     // in case of error
-//     console.log(err.response.data.msg);
-//     console.log("redirecting back to main page");
-//     // redirect to login
-//     if (ctx.res) {
-//       ctx.res.writeHead(302, {
-//         Location: "/"
-//       });
-//       ctx.res.end();
-//     } else {
-//       Router.push("/");
-//     }
-//   }
-// }
-
-// export async function handleAuthSSR(ctx) {
-//   let token = null;
-
-//   // if context has request info aka Server Side
-//   if (ctx.req) {
-//     // ugly way to get cookie value from a string of values
-//     // good enough for demostration
-//     token = ctx.req.headers.cookie.replace(
-//       /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
-//       "$1"
-//     );
-//   } else {
-//     // we dont have request info aka Client Side
-//     token = cookies.get("token");
-//   }
-
-//   try {
-//     const response = await axios.get(
-//       `${process.env.API_HOST} + "/api/token/ping", { headers: { 'Authorization': token } }`
-//     );
-//     // dont really care about response, as long as it not an error
-//     console.log("token ping:", response.data.msg);
-//   } catch (err) {
-//     // in case of error
-//     console.log(err.response.data.msg);
-//     console.log("redirecting back to main page");
-//     // redirect to login
-//     if (ctx.res) {
-//       ctx.res.writeHead(302, {
-//         Location: "/"
-//       });
-//       ctx.res.end();
-//     } else {
-//       Router.push("/");
-//     }
-//   }
-// }

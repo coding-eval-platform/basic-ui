@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles, Grid, TextField, Button } from '@material-ui/core'
 import { Face, Fingerprint } from '@material-ui/icons'
 import Router from 'next/router'
+import store from 'store'
 
 import { handleAccessToken } from '../../auth'
 
@@ -21,6 +22,11 @@ class SignUpForm extends React.Component {
     password2: ''
   }
 
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('ya tengo el accesstoken ', store.get('accessToken'))
+  }
+
   onUsernameChange = username => {
     this.setState({ username: username.target.value })
   }
@@ -33,25 +39,15 @@ class SignUpForm extends React.Component {
     this.setState({ password2: password2.target.value })
   }
 
-  createUser = async () => {
-    console.log(
-      'POST sent this: ',
-      JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-        password2: this.state.password2
-      })
-    )
-
-    const accessToken = await handleAccessToken()
-
-    console.log('fruta: ', 'Bearer ' + accessToken)
+  createUser = () => {
+    // const accessToken = await handleAccessToken();
+    console.log('fruta: ', 'Bearer ' + store.get('accessToken'))
 
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + accessToken
+        Authorization: 'Bearer ' + store.get('accessToken')
       },
       body: JSON.stringify({
         username: this.state.username,
@@ -59,22 +55,8 @@ class SignUpForm extends React.Component {
       })
     })
       .then(res => {
-        console.log('Response status is: ', res.status())
-        // let exam_id = res.headers.get('Location').split('/')
-        // exam_id = exam_id[exam_id.length - 1]
-        // console.log('EXAM_ID IS: ', exam_id)
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/login`);
+        console.log('Response status is: ', res.status)
         Router.push(`/login`)
-        // Router.push({
-        //   pathname: `/login`,
-        //   query: {
-        //     examID: `${exam_id}`,
-        //     examDescription: `${this.state.description}`
-        //   }
-        // })
       })
       .catch(err => console.log(err))
   }
