@@ -1,4 +1,3 @@
-import { Cookies } from 'react-cookie'
 import store from 'store'
 
 export async function handleAccessToken() {
@@ -52,7 +51,7 @@ export async function handleAccessToken() {
       .then(async res => {
         const response = await res.json()
         // console.log("REFRESH TOKEN RESPONSE ", response);
-        store.set('c', response.accessToken)
+        store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
 
         // override old accessToken
