@@ -24,7 +24,7 @@ class SignUpForm extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    console.log('ya tengo el accesstoken ', store.get('accessToken'))
+    console.log('Doing signup: ', store.get('accessToken'))
   }
 
   onUsernameChange = username => {
@@ -122,24 +122,6 @@ class SignUpForm extends React.Component {
           </Grid>
         </Grid>
 
-        {/* Remember me */}
-        {/* 
-          <Grid container alignItems="center" justify="space-between">
-            <Grid item>
-                <FormControlLabel control={
-                    <Checkbox
-                        color="primary"
-                    />
-                } label="Remember me" />
-            </Grid>
-            */}
-        {/* Forgot password */}
-        {/* 
-            <Grid item>
-                <Button disableFocusRipple disableRipple style={{ textTransform: "none" }} variant="text" color="primary">Forgot password ?</Button>
-            </Grid>
-            </Grid>
-             */}
         <Grid container justify="center" style={{ marginTop: '10px' }}>
           <Button
             variant="outlined"
@@ -150,8 +132,6 @@ class SignUpForm extends React.Component {
             Sign Up
           </Button>
         </Grid>
-
-        {/* </Paper> */}
       </div>
     )
   }

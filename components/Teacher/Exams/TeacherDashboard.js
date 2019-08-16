@@ -210,6 +210,7 @@ class TeacherDashboard extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
+                {console.log('los items sons: ', this.state.items)}
                 {this.state.items.map((item, index) => (
                   <ExamRow
                     key={index}
