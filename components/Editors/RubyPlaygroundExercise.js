@@ -119,7 +119,6 @@ class RubyPlaygroundExercise extends Component {
   render() {
     const { classes } = this.props
     let pending = this.state.pending
-    console.log('el poutput es: ', this.state.output.type)
 
     const output =
       this.state.output.type === 'UNKNOWN_ERROR'
