@@ -29,11 +29,9 @@ export async function handleAccessToken() {
         return accessToken
       })
   } else if (
-    !(
-      JSON.parse(atob(accessToken.split('.')[1])).exp -
-        ((Date.now() / 1000) >> 0) >
-      300
-    )
+    JSON.parse(atob(accessToken.split('.')[1])).exp -
+      ((Date.now() / 1000) >> 0) >
+    300
   ) {
     console.log('Need to refresh the access token.')
 
@@ -64,7 +62,7 @@ export async function handleAccessToken() {
       })
   } else {
     console.log('No need to refresh.')
-    console.log('JWT es valido? ', isJWTValid)
+    // console.log('JWT es valido? ', isJWTValid)
     return accessToken
   }
 }

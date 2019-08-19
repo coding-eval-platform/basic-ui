@@ -15,6 +15,9 @@ import Button from '@material-ui/core/Button'
 import Router from 'next/router'
 
 import ExamRow from './ExamRow.js'
+import store from 'store'
+
+import { handleAccessToken } from '../../../auth'
 
 const styles = theme => ({
   root: {
@@ -30,10 +33,23 @@ class TeacherDashboard extends React.Component {
     isLoaded: false
   }
 
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('Loading exams: ', store.get('accessToken'))
+  }
+
   componentDidMount = () => {
+    console.log('Mounting...')
+
     const url = `${process.env.API_HOST}/exams?size=100&page=0&sort=description,asc`
 
-    fetch(url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
       .then(async res => {
         const outputJSONResponse = await res.json()
         // console.log("The JSON with all the exams is: ", outputJSONResponse);
