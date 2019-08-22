@@ -52,7 +52,7 @@ class LoginForm extends React.Component {
       .then(res => {
         if (res.status === 201) {
           console.log('Response status is: ', res.status)
-          Router.push(`/playground`)
+          Router.push(`/`)
         } else {
           console.log('Response status is: ', res.status)
           Router.push(`/forbidden`)
