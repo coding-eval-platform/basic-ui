@@ -5,7 +5,7 @@ export async function handleAccessToken() {
 
   // first, try and get a token from the localStorage
   let accessToken = store.get('accessToken')
-  console.log('No token un localstorage: ', accessToken === undefined)
+  console.log('Token in localStorage? ', accessToken === undefined)
 
   if (accessToken === undefined) {
     // Given that  there's no token, get one
@@ -29,11 +29,31 @@ export async function handleAccessToken() {
         return accessToken
       })
   } else if (
-    JSON.parse(atob(accessToken.split('.')[1])).exp -
-      ((Date.now() / 1000) >> 0) >
+    ((Date.now() / 1000) >> 0) -
+      JSON.parse(atob(accessToken.split('.')[1])).exp >
     300
   ) {
-    console.log('Need to refresh the access token.')
+    console.log('REFRESHING.')
+    console.log(
+      'JWT exp value ',
+      JSON.parse(atob(accessToken.split('.')[1])).exp
+    )
+    console.log('Now ', (Date.now() / 1000) >> 0)
+    console.log(
+      'Diff1 ',
+      (JSON.parse(atob(accessToken.split('.')[1])).exp - Date.now() / 1000) >> 0
+    )
+    console.log(
+      'Diff2 ',
+      ((Date.now() / 1000) >> 0) -
+        JSON.parse(atob(accessToken.split('.')[1])).exp
+    )
+    console.log(
+      'Validation ',
+      JSON.parse(atob(accessToken.split('.')[1])).exp -
+        ((Date.now() / 1000) >> 0) >
+        300
+    )
 
     const refreshTokenURL = `${process.env.API_HOST}/tokens/${store.get(
       'tokenID'
@@ -61,7 +81,27 @@ export async function handleAccessToken() {
         return accessToken
       })
   } else {
-    console.log('No need to refresh.')
+    console.log('NO REFRESH.')
+    console.log(
+      'JWT exp value ',
+      JSON.parse(atob(accessToken.split('.')[1])).exp
+    )
+    console.log('Now ', (Date.now() / 1000) >> 0)
+    console.log(
+      'Diff1 ',
+      (JSON.parse(atob(accessToken.split('.')[1])).exp - Date.now() / 1000) >> 0
+    )
+    console.log(
+      'Diff2 ',
+      ((Date.now() / 1000) >> 0) -
+        JSON.parse(atob(accessToken.split('.')[1])).exp
+    )
+    console.log(
+      'Validation',
+      JSON.parse(atob(accessToken.split('.')[1])).exp -
+        ((Date.now() / 1000) >> 0) >
+        300
+    )
     // console.log('JWT es valido? ', isJWTValid)
     return accessToken
   }

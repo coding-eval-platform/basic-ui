@@ -44,7 +44,7 @@ class SignUpForm extends React.Component {
     // const accessToken = await handleAccessToken();
     console.log('fruta: ', 'Bearer ' + store.get('accessToken'))
 
-    this.props.enqueueSnackbar('Creating user')
+    this.props.enqueueSnackbar('Creating user', { variant: 'info' })
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
@@ -58,7 +58,13 @@ class SignUpForm extends React.Component {
     })
       .then(res => {
         console.log('Response status is: ', res.status)
-        Router.push(`/login`)
+        if (res.status === 201) {
+          this.props.enqueueSnackbar('User created', { variant: 'success' })
+        } else {
+          this.props.enqueueSnackbar('User failed to be created', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
