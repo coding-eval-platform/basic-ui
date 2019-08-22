@@ -22,6 +22,14 @@ export async function handleAccessToken() {
         store.set('tokenID', response.id)
         store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
+        store.set(
+          'username',
+          JSON.parse(atob(response.accessToken.split('.')[1])).sub
+        )
+        store.set(
+          'roles',
+          JSON.parse(atob(response.accessToken.split('.')[1])).roles
+        )
         console.log('Access token from Store: ', store.get('accessToken'))
       })
       .then(res => {
@@ -49,7 +57,7 @@ export async function handleAccessToken() {
         JSON.parse(atob(accessToken.split('.')[1])).exp
     )
     console.log(
-      'Validation ',
+      'Access token older than 5min? ',
       JSON.parse(atob(accessToken.split('.')[1])).exp -
         ((Date.now() / 1000) >> 0) >
         300
@@ -71,6 +79,14 @@ export async function handleAccessToken() {
         // console.log("REFRESH TOKEN RESPONSE ", response);
         store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
+        store.set(
+          'username',
+          JSON.parse(atob(response.accessToken.split('.')[1])).sub
+        )
+        store.set(
+          'roles',
+          JSON.parse(atob(response.accessToken.split('.')[1])).roles
+        )
 
         // override old accessToken
         accessToken = store.get('accessToken')
@@ -97,7 +113,7 @@ export async function handleAccessToken() {
         JSON.parse(atob(accessToken.split('.')[1])).exp
     )
     console.log(
-      'Validation',
+      'Access token older than 5min?',
       JSON.parse(atob(accessToken.split('.')[1])).exp -
         ((Date.now() / 1000) >> 0) >
         300
