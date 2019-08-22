@@ -12,6 +12,9 @@ import moment from 'moment'
 
 import Typography from '@material-ui/core/Typography'
 
+import store from 'store'
+import { handleAccessToken } from '../../auth'
+
 const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
@@ -24,6 +27,10 @@ class CreateExam extends Component {
     description: '',
     startingAt: '2019-10-06T15:00:00',
     duration: ''
+  }
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('Access token is: ', store.get('accessToken'))
   }
 
   onDescriptionChange = description => {

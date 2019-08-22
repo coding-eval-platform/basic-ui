@@ -12,6 +12,9 @@ import Select from '@material-ui/core/Select'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
 
+import store from 'store'
+import { handleAccessToken } from '../../auth'
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -40,6 +43,11 @@ class ModifyExercise extends React.Component {
     language: '',
     solutionTemplate: '',
     awardedScore: ''
+  }
+
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('Access token is: ', store.get('accessToken'))
   }
 
   onQuestionChange = question => {
