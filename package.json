@@ -23,6 +23,7 @@
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
     "next": "^9.0.3",
+    "notistack": "^0.8.9",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-ace": "^6.4.0",

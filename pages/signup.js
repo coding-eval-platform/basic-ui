@@ -1,9 +1,11 @@
 import Layout from '../components/MyLayout.js'
 import SignUpForm from '../components/Identity/SignUpForm.js'
-
+import { SnackbarProvider } from 'notistack'
 
 export default () => (
   <Layout>
-    <SignUpForm />
+    <SnackbarProvider>
+      <SignUpForm />
+    </SnackbarProvider>
   </Layout>
 )

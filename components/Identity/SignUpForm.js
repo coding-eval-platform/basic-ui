@@ -1,5 +1,6 @@
 import React from 'react'
 import { withStyles, Grid, TextField, Button } from '@material-ui/core'
+import { withSnackbar } from 'notistack'
 import { Face, Fingerprint } from '@material-ui/icons'
 import Router from 'next/router'
 import store from 'store'
@@ -43,6 +44,7 @@ class SignUpForm extends React.Component {
     // const accessToken = await handleAccessToken();
     console.log('fruta: ', 'Bearer ' + store.get('accessToken'))
 
+    this.props.enqueueSnackbar('Creating user')
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
@@ -137,4 +139,4 @@ class SignUpForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(SignUpForm)
+export default withSnackbar(withStyles(styles)(SignUpForm))
