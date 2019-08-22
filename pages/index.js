@@ -86,6 +86,21 @@ export default () => {
       ) : (
         ''
       )}
+      {store.get('username') != undefined ? (
+        <Button
+          variant="outlined"
+          color="secondary"
+          href="/"
+          onClick={() => {
+            store.clearAll()
+          }}
+          style={{ textTransform: 'none', margin: 20 }}
+        >
+          Log out
+        </Button>
+      ) : (
+        ''
+      )}
     </Layout>
   )
 }
