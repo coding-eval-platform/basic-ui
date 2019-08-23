@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-class EditExamInRow extends React.Component {
+class EditUserInRow extends React.Component {
   state = {
     exercises: [],
     open: false,
@@ -27,13 +27,13 @@ class EditExamInRow extends React.Component {
   }
 
   modifyUserHandler = () => {
-    if (window.confirm('Are you sure you want to modify this exam?')) {
+    if (window.confirm("Are you sure you want to modify this user's roles?")) {
       // console.log("thisprops: ", this.props);
 
       Router.push({
         pathname: `/modify_user`,
         query: {
-          userUsername: `${this.props.username}`
+          username: `${this.props.username}`
         }
       })
     }
@@ -43,7 +43,7 @@ class EditExamInRow extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Tooltip title="Edit this exam">
+        <Tooltip title="Edit roles">
           <IconButton
             className={classes.button}
             // className={classes.margin}
@@ -60,8 +60,8 @@ class EditExamInRow extends React.Component {
   }
 }
 
-EditExamInRow.propTypes = {
+EditUserInRow.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(EditExamInRow)
+export default withStyles(styles)(EditUserInRow)

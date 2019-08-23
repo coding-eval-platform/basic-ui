@@ -184,9 +184,6 @@ class UsersDashboard extends React.Component {
     } else {
       return (
         <div>
-          {/* <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Exercises of the exam: {this.state.examDescription}
-          </Typography> */}
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
               <Button
@@ -199,6 +196,9 @@ class UsersDashboard extends React.Component {
               </Button>
             </Grid>
           </Grid>
+          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
+            Here are all the users
+          </Typography>
           <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
@@ -208,8 +208,8 @@ class UsersDashboard extends React.Component {
                   </TableCell>
                   <TableCell align="center">Is Active?</TableCell>
                   {/* <TableCell align="center">Language</TableCell>
-                  <TableCell align="center">Awarded Score</TableCell>
-                  <TableCell align="center">Actions</TableCell> */}
+                  <TableCell align="center">Awarded Score</TableCell> */}
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -220,7 +220,8 @@ class UsersDashboard extends React.Component {
                     active={user.active}
                     editUserActiveness={this.editUserActiveness.bind(
                       this,
-                      user.username
+                      user.username,
+                      user.active
                     )}
                   />
                 ))}

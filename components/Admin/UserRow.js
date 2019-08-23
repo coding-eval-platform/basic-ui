@@ -21,7 +21,7 @@ function UserRow(props) {
   return (
     <TableRow key={props.username}>
       <TableCell align="center">{props.username}</TableCell>
-      <TableCell align="center">{props.active}</TableCell>
+      <TableCell align="center">{props.active.toString()}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
           <Grid item xs={2}>
