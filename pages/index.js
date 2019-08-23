@@ -1,7 +1,6 @@
 import { Button } from '@material-ui/core'
 import Layout from '../components/MyLayout.js'
 import Typography from '@material-ui/core/Typography'
-
 import store from 'store'
 
 export default () => {

@@ -1,9 +1,11 @@
 import Layout from '../components/MyLayout.js'
 import ModifyExam from '../components/Exams/ModifyExam.js'
-
+import { SnackbarProvider } from 'notistack'
 
 export default () => (
-    <Layout>
-        <ModifyExam />
-    </Layout>
+  <Layout>
+    <SnackbarProvider>
+      <ModifyExam />
+    </SnackbarProvider>
+  </Layout>
 )
