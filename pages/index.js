@@ -61,7 +61,7 @@ export default () => {
           <Button
             variant="outlined"
             color="primary"
-            href="/all-users"
+            href="/users_dashboard"
             style={{ textTransform: 'none', margin: 20 }}
           >
             See all users

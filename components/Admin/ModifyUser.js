@@ -24,69 +24,73 @@ const styles = theme => ({
 
 class CreateExam extends Component {
   state = {
-    description: '',
-    startingAt: '2019-10-06T15:00:00',
-    duration: ''
+    username: '',
+    roles: [],
+    active: ''
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
     console.log('Access token is: ', store.get('accessToken'))
   }
 
-  onDescriptionChange = description => {
-    this.setState({ description: description.target.value })
-  }
+  componentDidMount = () => {
+    const username = new URL(window.location.href).searchParams.get('username')
+    const url = `${process.env.API_HOST}/users/${username}`
 
-  onDurationChange = duration => {
-    this.setState({ duration: duration.target.value })
-  }
-
-  onDateTimeChange = startingAt => {
-    this.setState({
-      startingAt: moment(startingAt._d).format('YYYY-MM-DDTHH:mm:ss')
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
     })
+      .then(async res => {
+        const userJSONResponse = await res.json()
+        console.log('The user to be updated is: ', userJSONResponse)
+
+        this.setState({
+          username: userJSONResponse.username,
+          roles: userJSONResponse.roles,
+          active: userJSONResponse.active
+        })
+      })
+      .catch(err => console.log(err))
   }
 
-  createExam = () => {
+  onUsernameChange = username => {
+    this.setState({ username: username.target.value })
+  }
+
+  onRolesChange = roles => {
+    this.setState({ roles: roles.target.value })
+  }
+
+  onActiveChange = active => {
+    this.setState({ active: active.target.value })
+  }
+
+  updateUser = () => {
     console.log(
       'POST sent this: ',
       JSON.stringify({
-        description: this.state.description,
-        duration: this.state.duration,
-        startingAt: this.state.startingAt
+        username: this.state.username,
+        password: this.state.password
       })
     )
 
-    fetch(`${process.env.API_HOST}/exams`, {
+    fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + store.get('accessToken')
       },
       body: JSON.stringify({
-        description: this.state.description,
-        duration: this.state.duration,
-        startingAt: this.state.startingAt
+        username: this.state.username,
+        password: this.state.password
       })
     })
       .then(res => {
-        console.log('RESPONSE IS: ', res)
-        console.log('RESPONSE IS: ', res.headers.get('Location'))
-        let exam_id = res.headers.get('Location').split('/')
-        exam_id = exam_id[exam_id.length - 1]
-        console.log('EXAM_ID IS: ', exam_id)
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
-        // Router.push(`/create_exercises?exam_id=${exam_id}`);
-        Router.push({
-          pathname: `/create_exercises`,
-          query: {
-            examID: `${exam_id}`,
-            examDescription: `${this.state.description}`
-          }
-        })
+        Router.push(`/users_dashboard`)
       })
       .catch(err => console.log(err))
   }
@@ -95,23 +99,43 @@ class CreateExam extends Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create an exam
+          Create a user
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Exam title"
-              placeholder="Example: OOP first exam"
+              label="Username"
+              placeholder="Example: username123"
               style={{ margin: 20 }}
-              onChange={this.onDescriptionChange}
-              value={this.state.description}
+              onChange={this.onUsernameChange}
+              value={this.state.username}
               fullWidth
               margin="normal"
               variant="outlined"
             />
           </Grid>
         </Grid>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6} style={{ margin: 20 }}>
+            <FormControl>
+              <InputLabel>Active User?</InputLabel>
+              <Select
+                value={this.state.active}
+                onChange={this.onActiveChange}
+                style={{ minWidth: '10em' }}
+                // inputProps={{
+                //   name: "age",
+                //   id: "age-simple"
+                // }}
+              >
+                <MenuItem value={'true'}>Active</MenuItem>
+                <MenuItem value={'false'}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
             <TextField
@@ -155,7 +179,7 @@ class CreateExam extends Component {
               style={{ margin: 20 }}
               variant="contained"
               color="primary"
-              onClick={this.createExam}
+              onClick={this.updateUser}
             >
               Create exam
             </Button>

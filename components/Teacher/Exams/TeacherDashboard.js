@@ -16,7 +16,6 @@ import Router from 'next/router'
 
 import ExamRow from './ExamRow.js'
 import store from 'store'
-
 import { handleAccessToken } from '../../../auth'
 
 const styles = theme => ({
@@ -109,7 +108,10 @@ class TeacherDashboard extends React.Component {
 
             fetch(url, {
               method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + store.get('accessToken')
+              },
               body: JSON.stringify({
                 description: 'STARTED',
                 startingAt: '2019-10-06T15:00:00',
@@ -154,7 +156,10 @@ class TeacherDashboard extends React.Component {
 
             fetch(url, {
               method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + store.get('accessToken')
+              },
               body: JSON.stringify({
                 description: 'FINISHED',
                 startingAt: '2019-10-06T15:00:00',
