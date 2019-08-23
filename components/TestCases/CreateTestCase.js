@@ -47,6 +47,11 @@ class CreateTestCase extends React.Component {
     expectedOutputs: ''
   }
 
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('Access token is: ', store.get('accessToken'))
+  }
+
   onVisibilityChange = visibility => {
     this.setState({ visibility: visibility.target.value })
   }

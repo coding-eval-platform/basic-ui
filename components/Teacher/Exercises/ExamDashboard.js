@@ -34,6 +34,11 @@ class ExamDashboard extends React.Component {
     isLoaded: false
   }
 
+  componentWillMount = async () => {
+    const accessToken = await handleAccessToken()
+    console.log('Access token is: ', store.get('accessToken'))
+  }
+
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
     const examDescription = new URL(window.location.href).searchParams.get(
