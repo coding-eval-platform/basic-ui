@@ -49,8 +49,7 @@ class CreateExam extends Component {
 
         this.setState({
           username: userJSONResponse.username,
-          roles: userJSONResponse.roles,
-          active: userJSONResponse.active
+          roles: userJSONResponse.roles
         })
       })
       .catch(err => console.log(err))

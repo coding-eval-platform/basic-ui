@@ -223,6 +223,7 @@ class UsersDashboard extends React.Component {
                       user.username,
                       user.active
                     )}
+                    deleteEvent={this.deleteUser.bind(this, index)}
                   />
                 ))}
               </TableBody>

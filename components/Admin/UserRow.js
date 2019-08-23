@@ -5,6 +5,9 @@ import { withStyles } from '@material-ui/core/styles'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import EditUserInRow from './EditUserInRow'
 
@@ -26,6 +29,13 @@ function UserRow(props) {
         <Grid container spacing={24}>
           <Grid item xs={2}>
             <EditUserInRow username={props.username} active={props.active} />
+          </Grid>
+          <Grid item xs={2}>
+            <Tooltip title="Delete this user">
+              <IconButton aria-label="Delete" onClick={props.deleteEvent}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
       </TableCell>
