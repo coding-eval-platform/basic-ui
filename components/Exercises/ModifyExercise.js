@@ -77,7 +77,13 @@ class ModifyExercise extends React.Component {
 
     const url = `${process.env.API_HOST}/exercises/${exerciseID}`
 
-    fetch(url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
       .then(async res => {
         const examJSONResponse = await res.json()
         console.log('The exam to be updated is: ', examJSONResponse)
