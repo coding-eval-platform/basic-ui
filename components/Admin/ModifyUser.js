@@ -25,8 +25,7 @@ const styles = theme => ({
 class CreateExam extends Component {
   state = {
     username: '',
-    roles: [],
-    active: ''
+    roles: []
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
@@ -57,16 +56,8 @@ class CreateExam extends Component {
       .catch(err => console.log(err))
   }
 
-  onUsernameChange = username => {
-    this.setState({ username: username.target.value })
-  }
-
   onRolesChange = roles => {
     this.setState({ roles: roles.target.value })
-  }
-
-  onActiveChange = active => {
-    this.setState({ active: active.target.value })
   }
 
   updateUser = () => {
@@ -99,7 +90,7 @@ class CreateExam extends Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create a user
+          Edit user roles for: {this.state.username}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -117,26 +108,6 @@ class CreateExam extends Component {
           </Grid>
         </Grid>
         <Grid container spacing={24} alignItems="center">
-          <Grid item xs={6} style={{ margin: 20 }}>
-            <FormControl>
-              <InputLabel>Active User?</InputLabel>
-              <Select
-                value={this.state.active}
-                onChange={this.onActiveChange}
-                style={{ minWidth: '10em' }}
-                // inputProps={{
-                //   name: "age",
-                //   id: "age-simple"
-                // }}
-              >
-                <MenuItem value={'true'}>Active</MenuItem>
-                <MenuItem value={'false'}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
@@ -150,28 +121,6 @@ class CreateExam extends Component {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={3}>
-            {/* <TextField
-              id="datetime-local"
-              label="Insert date and time"
-              type="datetime-local"
-              style={{ margin: 20 }}
-              defaultValue="2017-05-24T10:30"
-              // value={props.data.startingAt}
-              // InputLabelProps={{
-              //   shrink: true
-              // }}
-            /> */}
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DateTimePicker
-                label="Insert date and time"
-                value={this.state.startingAt}
-                fullWidth
-                style={{ margin: 20 }}
-                onChange={this.onDateTimeChange}
-              />
-            </MuiPickersUtilsProvider>
-          </Grid>
         </Grid>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -181,7 +130,7 @@ class CreateExam extends Component {
               color="primary"
               onClick={this.updateUser}
             >
-              Create exam
+              Edit roles
             </Button>
           </Grid>
         </Grid>
