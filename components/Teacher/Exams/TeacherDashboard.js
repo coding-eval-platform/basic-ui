@@ -79,7 +79,10 @@ class TeacherDashboard extends React.Component {
       // then hit the API
       fetch(url, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
+        }
       })
         .then(res => res.text()) // OR res.json()
         .then(res => console.log(res))

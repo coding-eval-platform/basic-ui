@@ -15,6 +15,9 @@ import Router from 'next/router'
 
 import ExerciseRow from './ExerciseRow.js'
 
+import store from 'store'
+import { handleAccessToken } from '../../../auth'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -43,7 +46,13 @@ class ExamDashboard extends React.Component {
       examDescription: examDescription
     })
 
-    fetch(url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
       .then(async res => {
         const outputJSONResponse = await res.json()
         console.log('The JSON with all the exercises is: ', outputJSONResponse)
@@ -82,7 +91,10 @@ class ExamDashboard extends React.Component {
       // then hit the API
       fetch(url, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
+        }
       })
         .then(res => res.text()) // OR res.json()
         .then(res => console.log(res))
@@ -109,7 +121,10 @@ class ExamDashboard extends React.Component {
 
             fetch(url, {
               method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + store.get('accessToken')
+              },
               body: JSON.stringify({
                 description: 'STARTED',
                 startingAt: '2019-10-06T15:00:00',

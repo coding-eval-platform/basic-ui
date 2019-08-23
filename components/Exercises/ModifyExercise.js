@@ -114,7 +114,10 @@ class ModifyExercise extends React.Component {
 
     fetch(url, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
       body: JSON.stringify({
         question: this.state.question,
         awardedScore: this.state.awardedScore,

@@ -59,7 +59,10 @@ class CreateExam extends Component {
 
     fetch(`${process.env.API_HOST}/exams`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
       body: JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,

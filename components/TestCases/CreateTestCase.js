@@ -12,6 +12,10 @@ import Select from '@material-ui/core/Select'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
 
+import store from 'store'
+
+import { handleAccessToken } from '../../auth'
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -97,7 +101,10 @@ class CreateTestCase extends React.Component {
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}/test-cases`
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
       body: JSON.stringify({
         visibility: this.state.visibility,
         timeout: this.state.timeout,

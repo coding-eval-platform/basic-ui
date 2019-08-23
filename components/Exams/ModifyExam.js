@@ -94,7 +94,10 @@ class ModifyExam extends Component {
 
     fetch(url, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
       body: JSON.stringify({
         description: this.state.description,
         duration: this.state.duration,

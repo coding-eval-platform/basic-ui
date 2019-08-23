@@ -94,7 +94,10 @@ class CreateExercise extends React.Component {
     const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
       body: JSON.stringify({
         question: this.state.question,
         awardedScore: this.state.awardedScore,
