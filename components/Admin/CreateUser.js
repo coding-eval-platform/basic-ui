@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
+import { withSnackbar } from 'notistack'
 import Button from '@material-ui/core/Button'
 
 import Router from 'next/router'
@@ -18,7 +19,7 @@ const styles = theme => ({
   }
 })
 
-class CreateExam extends Component {
+class CreateUser extends Component {
   state = {
     username: '',
     password: ''
@@ -37,14 +38,15 @@ class CreateExam extends Component {
   }
 
   createUser = () => {
-    console.log(
-      'POST sent this: ',
-      JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    )
+    // console.log(
+    //   'POST sent this: ',
+    //   JSON.stringify({
+    //     username: this.state.username,
+    //     password: this.state.password
+    //   })
+    // )
 
+    this.props.enqueueSnackbar('Creating user', { variant: 'info' })
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
@@ -57,12 +59,25 @@ class CreateExam extends Component {
       })
     })
       .then(res => {
-        Router.push(`/users_dashboard`)
+        if (res.status === 201) {
+          this.props.enqueueSnackbar('User created', { variant: 'success' })
+          Router.push(`/users_dashboard`)
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Weak password', {
+            variant: 'error'
+          })
+        } else {
+          this.props.enqueueSnackbar('User failed to be created', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
 
   render() {
+    const { classes } = this.props
+
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
@@ -115,8 +130,8 @@ class CreateExam extends Component {
   }
 }
 
-CreateExam.propTypes = {
+CreateUser.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CreateExam)
+export default withSnackbar(withStyles(styles)(CreateUser))

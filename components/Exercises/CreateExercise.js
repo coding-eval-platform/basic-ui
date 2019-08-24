@@ -149,7 +149,7 @@ class CreateExercise extends React.Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Integer: awarded Score for this exercise"
+              label="Score (integer)"
               placeholder="Example: 5"
               style={{ margin: 20 }}
               onChange={this.onAwardedScoreChange}

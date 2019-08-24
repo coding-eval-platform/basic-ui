@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 })
 
-class CreateExam extends Component {
+class ModifyUser extends Component {
   state = {
     username: '',
     roles: []
@@ -138,8 +138,8 @@ class CreateExam extends Component {
   }
 }
 
-CreateExam.propTypes = {
+ModifyUser.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CreateExam)
+export default withStyles(styles)(ModifyUser)
