@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import AddCircle from '@material-ui/icons/AddCircle'
 import Tooltip from '@material-ui/core/Tooltip'
+import { withSnackbar } from 'notistack'
 
 import Router from 'next/router'
 
@@ -39,6 +40,7 @@ const styles = theme => ({
 class ModifyUser extends Component {
   state = {
     username: '',
+    realRoles: [],
     roles: []
   }
   componentWillMount = async () => {
@@ -63,6 +65,7 @@ class ModifyUser extends Component {
 
         this.setState({
           username: userJSONResponse.username,
+          realRoles: userJSONResponse.roles,
           roles: userJSONResponse.roles
         })
       })
@@ -73,37 +76,92 @@ class ModifyUser extends Component {
     this.setState({ roles: roles.target.value })
   }
 
-  removeRole = role => {}
-
-  addRole = role => {}
-
-  updateRoles = () => {
-    this.props.enqueueSnackbar('Updating roles', {
-      variant: 'info'
-    })
-    fetch(`${process.env.API_HOST}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + store.get('accessToken')
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-      .then(res => {
-        console.log('Response status is: ', res.status)
-        if (res.status === 201) {
-          this.props.enqueueSnackbar('Roles updated', { variant: 'success' })
-          Router.push(`/users_dashboard`)
-        } else {
-          this.props.enqueueSnackbar('Failed to update roles.', {
-            variant: 'error'
-          })
+  removeRole = (index, event) => {
+    if (!this.state.realRoles.includes(this.state.roles[index])) {
+      this.props.enqueueSnackbar(
+        `User does not have the ${this.state.roles[index]} role`,
+        {
+          variant: 'warning'
         }
+      )
+    } else {
+      console.log('Removing the role: ', this.state.roles[index])
+      this.props.enqueueSnackbar(`Removing role ${this.state.roles[index]}`, {
+        variant: 'info'
       })
-      .catch(err => console.log(err))
+      fetch(
+        `${process.env.API_HOST}/users/${this.state.username}/roles/${this.state.roles[index]}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + store.get('accessToken')
+          }
+        }
+      )
+        .then(res => {
+          console.log('Response status is: ', res.status)
+          if (res.status === 204) {
+            this.props.enqueueSnackbar(
+              `${this.state.roles[index]} role removed`,
+              { variant: 'success' }
+            )
+          } else {
+            this.props.enqueueSnackbar('Failed to delete role.', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
+    }
+  }
+
+  addRole = (index, event) => {
+    if (this.state.realRoles.includes(this.state.roles[index])) {
+      this.props.enqueueSnackbar(
+        `User already has the ${this.state.roles[index]} role`,
+        {
+          variant: 'warning'
+        }
+      )
+    } else {
+      console.log('Adding the role: ', this.state.roles[index])
+      this.props.enqueueSnackbar(`Adding role ${this.state.roles[index]}`, {
+        variant: 'info'
+      })
+      fetch(
+        `${process.env.API_HOST}/users/${this.state.username}/roles/${this.state.roles[index]}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + store.get('accessToken')
+          }
+        }
+      )
+        .then(res => {
+          console.log('Response status is: ', res.status)
+          if (res.status === 204) {
+            this.props.enqueueSnackbar(
+              `${this.state.roles[index]} role added`,
+              {
+                variant: 'success'
+              }
+            )
+            this.state.realRoles.push(this.state.roles[index])
+            let newRoles = this.state.realRoles
+            console.log('newRoles', newRoles)
+            this.setState({
+              realRoles: newRoles
+            })
+          } else {
+            this.props.enqueueSnackbar('Failed to add role.', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   render() {
@@ -167,7 +225,7 @@ class ModifyUser extends Component {
         </Grid>
         <div>
           <Grid container spacing={24} style={{ margin: 20 }}>
-            {this.state.roles.map(role => (
+            {this.state.roles.map((role, index) => (
               <div key={role}>
                 <Grid container spacing={24} style={{ margin: 20 }}>
                   <Grid item xs={2}>
@@ -176,7 +234,10 @@ class ModifyUser extends Component {
                   <Grid container spacing={24}>
                     <Grid item xs={2}>
                       <Tooltip title="Add this role">
-                        <IconButton aria-label="Add" onClick={this.addRole}>
+                        <IconButton
+                          aria-label="Add"
+                          onClick={this.addRole.bind(this, index)}
+                        >
                           <AddCircle />
                         </IconButton>
                       </Tooltip>
@@ -185,7 +246,7 @@ class ModifyUser extends Component {
                       <Tooltip title="Remove this role">
                         <IconButton
                           aria-label="Delete"
-                          onClick={this.removeRole}
+                          onClick={this.removeRole.bind(this, index)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -206,4 +267,4 @@ ModifyUser.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ModifyUser)
+export default withSnackbar(withStyles(styles)(ModifyUser))
