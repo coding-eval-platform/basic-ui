@@ -195,9 +195,23 @@ class TeacherDashboard extends React.Component {
       return <div>Loading...</div>
     } else if (this.state.items < 1) {
       return (
-        <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-          You have no exams created yet 🤷‍♂️
-        </Typography>
+        <div>
+          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
+            You have no exams created yet 🤷‍♂️
+          </Typography>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="contained"
+                color="primary"
+                onClick={this.createExam}
+              >
+                Create one!
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
       )
     } else {
       return (
