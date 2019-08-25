@@ -166,10 +166,6 @@ class CreateExercise extends React.Component {
                 value={this.state.language}
                 onChange={this.onLanguageChange}
                 style={{ minWidth: '10em' }}
-                // inputProps={{
-                //   name: "age",
-                //   id: "age-simple"
-                // }}
               >
                 <MenuItem value={'JAVA'}>Java</MenuItem>
                 <MenuItem value={'RUBY'}>Ruby</MenuItem>
