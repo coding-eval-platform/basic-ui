@@ -5,10 +5,11 @@ export async function handleAccessToken() {
 
   // first, try and get a token from the localStorage
   let accessToken = store.get('accessToken')
-  console.log('Token in localStorage? ', accessToken === undefined)
+  console.log('Token in localStorage? ', accessToken != undefined)
 
   if (accessToken === undefined) {
     // Given that  there's no token, get one
+    console.log('getting new token: ', issueTokenURL)
     fetch(issueTokenURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +20,8 @@ export async function handleAccessToken() {
     })
       .then(async res => {
         const response = await res.json()
-        store.set('tokenID', response.id)
+        console.log('The new response is: ', response)
+        // store.set('tokenID', response.id)
         store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
         store.set(
@@ -30,32 +32,35 @@ export async function handleAccessToken() {
           'roles',
           JSON.parse(atob(response.accessToken.split('.')[1])).roles
         )
-        console.log('Access token from Store: ', store.get('accessToken'))
+        // console.log('Access token from Store: ', store.get('accessToken'))
       })
       .then(res => {
         // console.log(res);
         return accessToken
       })
   } else if (
-    ((Date.now() / 1000) >> 0) -
-      JSON.parse(atob(accessToken.split('.')[1])).exp >
-    300
+    JSON.parse(atob(accessToken.split('.')[1])).exp <
+    (Date.now() / 1000) >> 0
+    // ((Date.now() / 1000) >> 0) -
+    //   JSON.parse(atob(accessToken.split('.')[1])).exp >
+    // 300
   ) {
     console.log('REFRESHING.')
-    console.log(
-      'JWT exp value ',
-      JSON.parse(atob(accessToken.split('.')[1])).exp
-    )
-    console.log('Now ', (Date.now() / 1000) >> 0)
-    console.log(
-      'Diff1 ',
-      (JSON.parse(atob(accessToken.split('.')[1])).exp - Date.now() / 1000) >> 0
-    )
-    console.log(
-      'Diff2 ',
-      ((Date.now() / 1000) >> 0) -
-        JSON.parse(atob(accessToken.split('.')[1])).exp
-    )
+    // console.log(
+    //   "JWT exp value ",
+    //   JSON.parse(atob(accessToken.split(".")[1])).exp
+    // );
+    // console.log("Now ", (Date.now() / 1000) >> 0);
+    // QUE EL EXP SEA MAYORE QUE NOW, SI ES MAYOR HAY QUE HACER REFRESH
+    // console.log(
+    //   "Diff1 ",
+    //   (JSON.parse(atob(accessToken.split(".")[1])).exp - Date.now() / 1000) >> 0
+    // );
+    // console.log(
+    //   "Diff2 ",
+    //   ((Date.now() / 1000) >> 0) -
+    //     JSON.parse(atob(accessToken.split(".")[1])).exp
+    // );
     console.log(
       'Access token older than 5min? ',
       JSON.parse(atob(accessToken.split('.')[1])).exp -
@@ -98,20 +103,20 @@ export async function handleAccessToken() {
       })
   } else {
     console.log('NO REFRESH.')
-    console.log(
-      'JWT exp value ',
-      JSON.parse(atob(accessToken.split('.')[1])).exp
-    )
-    console.log('Now ', (Date.now() / 1000) >> 0)
-    console.log(
-      'Diff1 ',
-      (JSON.parse(atob(accessToken.split('.')[1])).exp - Date.now() / 1000) >> 0
-    )
-    console.log(
-      'Diff2 ',
-      ((Date.now() / 1000) >> 0) -
-        JSON.parse(atob(accessToken.split('.')[1])).exp
-    )
+    // console.log(
+    //   "JWT exp value ",
+    //   JSON.parse(atob(accessToken.split(".")[1])).exp
+    // );
+    // console.log("Now ", (Date.now() / 1000) >> 0);
+    // console.log(
+    //   "Diff1 ",
+    //   (JSON.parse(atob(accessToken.split(".")[1])).exp - Date.now() / 1000) >> 0
+    // );
+    // console.log(
+    //   "Diff2 ",
+    //   ((Date.now() / 1000) >> 0) -
+    //     JSON.parse(atob(accessToken.split(".")[1])).exp
+    // );
     console.log(
       'Access token older than 5min?',
       JSON.parse(atob(accessToken.split('.')[1])).exp -

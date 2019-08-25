@@ -36,7 +36,7 @@ class ExamDashboard extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    console.log('Access token is: ', store.get('accessToken'))
+    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
