@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
+import { withSnackbar } from 'notistack'
 
 import UserRow from './UserRow.js'
 
@@ -66,13 +67,14 @@ class UsersDashboard extends React.Component {
   deleteUser = (index, event) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       console.log('Deleting username: ', this.state.users[index].username)
+      this.props.enqueueSnackbar(
+        `Deleting ${this.state.users[index].username}`,
+        {
+          variant: 'info'
+        }
+      )
 
       const url = `${process.env.API_HOST}/users/${this.state.users[index].username}`
-
-      // Removes the desired item.
-      this.state.users.splice(index, 1)
-      // console.log("LOS users DE AHORA SON: ", this.state.users);
-      this.setState({ users: this.state.users })
 
       // then hit the API
       fetch(url, {
@@ -85,8 +87,24 @@ class UsersDashboard extends React.Component {
           username: this.state.users[index].username
         })
       })
-        .then(res => res.text()) // OR res.json()
-        .then(res => console.log(res))
+        .then(res => {
+          console.log('Response status is: ', res.status)
+          if (res.status === 204) {
+            this.props.enqueueSnackbar(
+              `${this.state.users[index].username} removed`,
+              { variant: 'success' }
+            )
+            // Removes the desired item.
+            this.state.users.splice(index, 1)
+            // console.log("LOS users DE AHORA SON: ", this.state.users);
+            this.setState({ users: this.state.users })
+          } else {
+            this.props.enqueueSnackbar('Failed to delete user.', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
@@ -239,4 +257,4 @@ UsersDashboard.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(UsersDashboard)
+export default withSnackbar(withStyles(styles)(UsersDashboard))
