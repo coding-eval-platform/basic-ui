@@ -20,10 +20,7 @@ const styles = theme => ({
 
 class EditUserInRow extends React.Component {
   state = {
-    exercises: [],
-    open: false,
-    openNewExerciseModal: false,
-    openEditExerciseModal: false
+    exercises: []
   }
 
   modifyUserHandler = () => {
