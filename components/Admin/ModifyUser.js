@@ -9,7 +9,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import AddCircle from '@material-ui/icons/AddCircle'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withSnackbar } from 'notistack'
-
 import Router from 'next/router'
 
 import Typography from '@material-ui/core/Typography'
@@ -21,6 +20,8 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import ListItemText from '@material-ui/core/ListItemText'
 import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -41,7 +42,8 @@ class ModifyUser extends Component {
   state = {
     username: '',
     realRoles: [],
-    roles: []
+    roles: [],
+    active: ''
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
@@ -66,7 +68,8 @@ class ModifyUser extends Component {
         this.setState({
           username: userJSONResponse.username,
           realRoles: userJSONResponse.roles,
-          roles: userJSONResponse.roles
+          roles: userJSONResponse.roles,
+          active: userJSONResponse.active
         })
       })
       .catch(err => console.log(err))
@@ -74,6 +77,69 @@ class ModifyUser extends Component {
 
   onRolesChange = roles => {
     this.setState({ roles: roles.target.value })
+  }
+
+  handleActivenessChange = name => event => {
+    this.setState({ ...this.state, [name]: event.target.checked })
+    console.log('state ', this.state)
+
+    switch (this.state.active) {
+      case false:
+        // ACTIVATE3
+        console.log('Activating user')
+        this.props.enqueueSnackbar(`Activating user`, {
+          variant: 'info'
+        })
+        fetch(`${process.env.API_HOST}/users/${this.state.username}/active`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + store.get('accessToken')
+          }
+        })
+          .then(res => {
+            console.log('Response status is: ', res.status)
+            if (res.status === 204) {
+              this.props.enqueueSnackbar(`User activated`, {
+                variant: 'success'
+              })
+            } else {
+              this.props.enqueueSnackbar('Failed to activate user.', {
+                variant: 'error'
+              })
+            }
+          })
+          .catch(err => console.log(err))
+        break
+
+      case true:
+        // INACTIVATE
+        console.log('Deactivating user')
+        this.props.enqueueSnackbar(`Deactivating user`, {
+          variant: 'info'
+        })
+        fetch(`${process.env.API_HOST}/users/${this.state.username}/active`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + store.get('accessToken')
+          }
+        })
+          .then(res => {
+            console.log('Response status is: ', res.status)
+            if (res.status === 204) {
+              this.props.enqueueSnackbar(`User deactivated`, {
+                variant: 'success'
+              })
+            } else {
+              this.props.enqueueSnackbar('Failed to deactivate user.', {
+                variant: 'error'
+              })
+            }
+          })
+          .catch(err => console.log(err))
+        break
+    }
   }
 
   removeRole = (index, event) => {
@@ -195,7 +261,18 @@ class ModifyUser extends Component {
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Edit user roles for: {this.state.username}
+          Edit user: {this.state.username}
+          <FormControlLabel
+            style={{ margin: 20 }}
+            control={
+              <Switch
+                checked={this.state.active}
+                onChange={this.handleActivenessChange('active')}
+                // value={'active'}
+              />
+            }
+            label="Activate user"
+          />
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3} style={{ margin: 20 }}>
