@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core'
 import Layout from '../components/MyLayout.js'
 import Typography from '@material-ui/core/Typography'
 import store from 'store'
+import Router from 'next/router'
 
 export default () => {
   return (
@@ -45,7 +46,14 @@ export default () => {
             <Button
               variant="outlined"
               color="primary"
-              href="/change-password"
+              onClick={() => {
+                Router.push({
+                  pathname: `/change-password`,
+                  query: {
+                    username: `${store.get('username')}`
+                  }
+                })
+              }}
               style={{ textTransform: 'none', margin: 20 }}
             >
               Change password
