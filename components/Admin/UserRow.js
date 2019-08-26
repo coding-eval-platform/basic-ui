@@ -25,12 +25,12 @@ function UserRow(props) {
     <TableRow key={props.username}>
       <TableCell align="center">{props.username}</TableCell>
       <TableCell align="center">{props.active.toString()}</TableCell>
-      <TableCell align="center">
+      <TableCell align="center" style={{ maxWidth: '25px' }}>
         <Grid container spacing={24}>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <EditUserInRow username={props.username} active={props.active} />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Tooltip title="Delete this user">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />

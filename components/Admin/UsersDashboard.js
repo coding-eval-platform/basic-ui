@@ -21,7 +21,7 @@ import { handleAccessToken } from '../../auth'
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '60%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto'
   }
@@ -217,7 +217,7 @@ class UsersDashboard extends React.Component {
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             Here are all the users
           </Typography>
-          <Paper className={classes.root}>
+          <Paper style={{ margin: 20 }} className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -230,7 +230,7 @@ class UsersDashboard extends React.Component {
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody align="center">
                 {this.state.users.map((user, index) => (
                   <UserRow
                     key={index}

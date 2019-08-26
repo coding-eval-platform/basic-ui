@@ -9,13 +9,13 @@ import Router from 'next/router'
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit
-  },
-  appBar: {
-    position: 'relative'
-  },
-  flex: {
-    flex: 1
   }
+  // appBar: {
+  //   position: 'relative'
+  // },
+  // flex: {
+  //   flex: 1
+  // }
 })
 
 class EditUserInRow extends React.Component {
