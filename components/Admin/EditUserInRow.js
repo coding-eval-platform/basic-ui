@@ -24,7 +24,7 @@ class EditUserInRow extends React.Component {
   }
 
   modifyUserHandler = () => {
-    if (window.confirm("Are you sure you want to modify this user's roles?")) {
+    if (window.confirm('Are you sure you want to modify this user?')) {
       // console.log("thisprops: ", this.props);
 
       Router.push({
@@ -40,7 +40,7 @@ class EditUserInRow extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Tooltip title="Edit roles">
+        <Tooltip title="Edit user">
           <IconButton
             className={classes.button}
             // className={classes.margin}
