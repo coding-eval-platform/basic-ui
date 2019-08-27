@@ -1,10 +1,11 @@
 import React from 'react'
 import { withStyles, Grid, TextField, Button } from '@material-ui/core'
+import { withSnackbar } from 'notistack'
 import { Face, Fingerprint } from '@material-ui/icons'
 import Router from 'next/router'
 import store from 'store'
 
-import { handleAccessToken } from '../../auth'
+// import { handleAccessToken } from "../../auth";
 
 const styles = theme => ({
   margin: {
@@ -22,8 +23,8 @@ class LoginForm extends React.Component {
   }
 
   componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
-    console.log('Doing login: ', store.get('accessToken'))
+    // const accessToken = await handleAccessToken();
+    // console.log("Doing login: ", store.get("accessToken"));
   }
 
   onUsernameChange = username => {
@@ -35,27 +36,40 @@ class LoginForm extends React.Component {
   }
 
   loginUser = () => {
-    // const accessToken = await handleAccessToken();
-    console.log('fruta: ', 'Bearer ' + store.get('accessToken'))
-
+    this.props.enqueueSnackbar('Logging in', { variant: 'info' })
     fetch(`${process.env.API_HOST}/tokens`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + store.get('accessToken')
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password
       })
     })
-      .then(res => {
+      .then(async res => {
         if (res.status === 201) {
           console.log('Response status is: ', res.status)
+          const response = await res.json()
+          store.set('tokenID', response.id)
+          store.set('accessToken', response.accessToken)
+          store.set('refreshToken', response.refreshToken)
+          store.set(
+            'username',
+            JSON.parse(atob(response.accessToken.split('.')[1])).sub
+          )
+          store.set(
+            'roles',
+            JSON.parse(atob(response.accessToken.split('.')[1])).roles
+          )
+          this.props.enqueueSnackbar('Logged in!', { variant: 'success' })
           Router.push(`/`)
         } else {
           console.log('Response status is: ', res.status)
-          Router.push(`/forbidden`)
+          this.props.enqueueSnackbar('Unauthorized', {
+            variant: 'error'
+          })
+          // Router.push(`/forbidden`);
         }
       })
       .catch(err => console.log(err))
@@ -120,4 +134,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(LoginForm)
+export default withSnackbar(withStyles(styles)(LoginForm))
