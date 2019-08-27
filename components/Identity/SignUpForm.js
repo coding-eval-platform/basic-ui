@@ -41,9 +41,6 @@ class SignUpForm extends React.Component {
   }
 
   createUser = () => {
-    // const accessToken = await handleAccessToken();
-    // console.log('fruta: ', 'Bearer ' + store.get('accessToken'))
-
     this.props.enqueueSnackbar('Creating user', { variant: 'info' })
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',

@@ -34,12 +34,9 @@ class TeacherDashboard extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    console.log('Loading exams: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
-    console.log('Mounting...')
-
     const url = `${process.env.API_HOST}/exams?size=100&page=0&sort=description,asc`
 
     fetch(url, {

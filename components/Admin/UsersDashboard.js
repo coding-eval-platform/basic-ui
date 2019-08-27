@@ -35,7 +35,6 @@ class UsersDashboard extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
@@ -50,7 +49,6 @@ class UsersDashboard extends React.Component {
     })
       .then(async res => {
         const outputJSONResponse = await res.json()
-        console.log('The JSON with all the users is: ', outputJSONResponse)
 
         this.setState({
           isLoaded: true,

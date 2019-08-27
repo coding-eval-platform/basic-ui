@@ -12,7 +12,7 @@ export default () => {
           <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
             Welcome to the Coding Evaluation Platform 🚀
           </Typography>
-          <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
+          {/* <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
             New user?
             <Button
               variant="outlined"
@@ -22,7 +22,7 @@ export default () => {
             >
               Sign up here
             </Button>
-          </Typography>
+          </Typography> */}
           <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
             Existing user?
             <Button
