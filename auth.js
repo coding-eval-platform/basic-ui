@@ -78,6 +78,7 @@ export async function handleAccessToken() {
         ((Date.now() / 1000) >> 0) >
         300
     )
+    // window.location.reload()
     return accessToken
   }
 }

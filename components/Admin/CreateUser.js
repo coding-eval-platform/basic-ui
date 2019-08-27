@@ -101,7 +101,7 @@ class CreateUser extends Component {
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
-              id="outlined-name"
+              id="outlined-password"
               label="Password"
               type="password"
               style={{ margin: 20 }}
