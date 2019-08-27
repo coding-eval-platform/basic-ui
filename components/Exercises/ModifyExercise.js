@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -86,7 +87,6 @@ class ModifyExercise extends React.Component {
     })
       .then(async res => {
         const examJSONResponse = await res.json()
-        console.log('The exam to be updated is: ', examJSONResponse)
 
         this.setState({
           exerciseID: examJSONResponse.id,
@@ -112,6 +112,7 @@ class ModifyExercise extends React.Component {
 
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}`
 
+    this.props.enqueueSnackbar('Modifying exercise', { variant: 'info' })
     fetch(url, {
       method: 'PUT',
       headers: {
@@ -126,7 +127,21 @@ class ModifyExercise extends React.Component {
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`)
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exercise modified.', {
+            variant: 'success'
+          })
+          Router.push(`/teacher_dashboard`)
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to modify exercise.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -244,4 +259,4 @@ ModifyExercise.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ModifyExercise)
+export default withSnackbar(withStyles(styles)(ModifyExercise))

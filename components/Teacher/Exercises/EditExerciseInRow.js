@@ -1,23 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import Router from "next/router";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import EditIcon from '@material-ui/icons/Edit'
+import Router from 'next/router'
 
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit
   },
   appBar: {
-    position: "relative"
+    position: 'relative'
   },
   flex: {
     flex: 1
   }
-});
-
+})
 
 class EditExerciseInRow extends React.Component {
   state = {
@@ -25,27 +24,27 @@ class EditExerciseInRow extends React.Component {
     open: false,
     openNewExerciseModal: false,
     openEditExerciseModal: false
-  };
+  }
 
   modifyExerciseHandler = () => {
-    if (window.confirm("Are you sure you want to modify this exercise?")) {
+    if (window.confirm('Are you sure you want to modify this exercise?')) {
       // console.log("thisprops: ", this.props);
 
       Router.push({
         pathname: `/modify_exercise`,
         query: {
-          exerciseID: `${this.props.id}`,
+          exerciseID: `${this.props.exerciseID}`,
           exerciseQuestion: `${this.props.exerciseQuestion}`,
           exerciseLanguage: `${this.props.exerciseLanguage}`,
           exerciseSolutionTemplate: `${this.props.exerciseSolutionTemplate}`,
           exerciseAwardedScore: `${this.props.exerciseAwardedScore}`
         }
-      });
+      })
     }
-  };
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div>
         <Tooltip title="Edit this exercise">
@@ -57,16 +56,16 @@ class EditExerciseInRow extends React.Component {
             onClick={this.modifyExerciseHandler}
             color="primary"
           >
-            <EditIcon/>
+            <EditIcon />
           </IconButton>
         </Tooltip>
       </div>
-    );
+    )
   }
 }
 
 EditExerciseInRow.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(EditExerciseInRow);
+export default withStyles(styles)(EditExerciseInRow)

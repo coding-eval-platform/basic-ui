@@ -26,7 +26,6 @@ class CreateUser extends Component {
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   onUsernameChange = username => {
@@ -38,14 +37,6 @@ class CreateUser extends Component {
   }
 
   createUser = () => {
-    // console.log(
-    //   'POST sent this: ',
-    //   JSON.stringify({
-    //     username: this.state.username,
-    //     password: this.state.password
-    //   })
-    // )
-
     this.props.enqueueSnackbar('Creating user', { variant: 'info' })
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
