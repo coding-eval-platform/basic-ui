@@ -44,11 +44,11 @@ class Header extends Component {
             <RenderButton href="/" content="Home" />
             {/* <RenderButton href='/about' content='About'/> */}
 
-            {store.get('username') === undefined ? (
+            {/* {store.get('username') === undefined ? (
               <RenderButton href="/signup" content="Sign Up" />
             ) : (
               ''
-            )}
+            )} */}
 
             {store.get('username') === undefined ? (
               <RenderButton href="/login" content="Login" />
