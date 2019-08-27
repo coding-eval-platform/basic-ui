@@ -17,6 +17,7 @@ import Router from 'next/router'
 import ExamRow from './ExamRow.js'
 import store from 'store'
 import { handleAccessToken } from '../../../auth'
+import { withSnackbar } from 'notistack'
 
 const styles = theme => ({
   root: {
@@ -28,7 +29,7 @@ const styles = theme => ({
 
 class TeacherDashboard extends React.Component {
   state = {
-    items: [],
+    exams: [],
     isLoaded: false
   }
 
@@ -52,25 +53,19 @@ class TeacherDashboard extends React.Component {
 
         this.setState({
           isLoaded: true,
-          items: outputJSONResponse
+          exams: outputJSONResponse
         })
       })
       .catch(err => console.log(err))
   }
 
-  deleteExam = (index, event) => {
-    // const items = Object.assign([], this.state.items);
+  deleteExam = index => {
     if (window.confirm('Are you sure you want to delete this exam?')) {
-      console.log('Deleting exam with ID: ', this.state.items[index].id)
-
-      const url = `${process.env.API_HOST}/exams/${this.state.items[
+      console.log('Deleting exam with ID: ', this.state.exams[index].id)
+      this.props.enqueueSnackbar('Deleting exam', { variant: 'info' })
+      const url = `${process.env.API_HOST}/exams/${this.state.exams[
         index
       ].id.toString()}`
-
-      // Removes the desired item.
-      this.state.items.splice(index, 1)
-      // console.log("LOS DE AHORA SON: ", this.state.items);s
-      this.setState({ items: this.state.items })
 
       // then hit the API
       fetch(url, {
@@ -80,105 +75,108 @@ class TeacherDashboard extends React.Component {
           Authorization: 'Bearer ' + store.get('accessToken')
         }
       })
-        .then(res => res.text()) // OR res.json()
-        .then(res => console.log(res))
+        .then(res => {
+          if (res.status === 204) {
+            this.props.enqueueSnackbar('Exam deleted', { variant: 'success' })
+            // Removes the desired item.
+            this.state.exams.splice(index, 1)
+            this.setState({ exams: this.state.exams })
+          } else if (res.status === 422) {
+            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+              variant: 'warning'
+            })
+          } else {
+            this.props.enqueueSnackbar('Failed to delete exam', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
-  startExam = examId => {
+  startExamHandler = index => {
     if (window.confirm('Are you sure you want to start this exam?')) {
-      const items = Object.assign([], this.state.items)
-      console.log(items)
+      console.log('Starting exam with ID: ', this.state.exams[index].id)
+      this.props.enqueueSnackbar('Starting exam', { variant: 'info' })
+      const url = `${process.env.API_HOST}/exams/${this.state.exams[
+        index
+      ].id.toString()}/start`
 
-      this.setState(state => {
-        const items = state.items.map(exam => {
-          if (exam.id === examId) {
-            console.log('el exam es: ', exam)
-            // hit API endpoint here
-
-            let url = `${
-              process.env.API_HOST
-            }/exams/${exam.id.toString()}/start`
-
-            // Change the exam here
-            exam.state = 'IN_PROGRESS'
-
-            fetch(url, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + store.get('accessToken')
-              },
-              body: JSON.stringify({
-                description: 'STARTED',
-                startingAt: '2019-10-06T15:00:00',
-                duration: 'PT150M'
-              })
-            })
-              .then(res => res.text()) // OR res.json()
-              .then(res => console.log(res))
-            return exam
-          } else {
-            return exam
-          }
-        })
-
-        // SEE NEW STATE
-        console.log(items)
-        // CHANGE THE STATE
-        return {
-          items
+      // then hit the API
+      fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
         }
       })
+        .then(res => {
+          if (res.status === 204) {
+            this.props.enqueueSnackbar('Exam started', { variant: 'success' })
+            // Change the state in that item
+            this.state.exams[index].state = 'IN_PROGRESS'
+            this.setState({ exams: this.state.exams })
+          } else if (res.status === 422) {
+            if (
+              this.state.exams[index].state.toString() === 'FINISHED' ||
+              this.state.exams[index].state.toString() === 'IN_PROGRESS'
+            ) {
+              this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+                variant: 'warning'
+              })
+            } else {
+              this.props.enqueueSnackbar(
+                'Exam has no exercises or an exercise does not have a private test case.',
+                {
+                  variant: 'warning'
+                }
+              )
+            }
+          } else {
+            this.props.enqueueSnackbar('Failed to start exam', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
-  finishExam = examId => {
-    if (window.confirm('Are you sure you want to finish this exam?')) {
-      const items = Object.assign([], this.state.items)
-      console.log(items)
+  finishExamHandler = index => {
+    if (window.confirm('Are you sure you want to start this exam?')) {
+      console.log('Starting exam with ID: ', this.state.exams[index].id)
+      this.props.enqueueSnackbar('Finishing exam', { variant: 'info' })
+      const url = `${process.env.API_HOST}/exams/${this.state.exams[
+        index
+      ].id.toString()}/finish`
 
-      this.setState(state => {
-        const items = state.items.map(exam => {
-          if (exam.id === examId) {
-            console.log('el exam es: ', exam)
-            // hit API endpoint here
-
-            let url = `${
-              process.env.API_HOST
-            }/exams/${exam.id.toString()}/finish`
-
-            // Change the exam here
-            exam.state = 'FINISHED'
-
-            fetch(url, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + store.get('accessToken')
-              },
-              body: JSON.stringify({
-                description: 'FINISHED',
-                startingAt: '2019-10-06T15:00:00',
-                duration: 'PT150M'
-              })
-            })
-              .then(res => res.text()) // OR res.json()
-              .then(res => console.log(res))
-
-            return exam
-          } else {
-            return exam
-          }
-        })
-
-        // SEE NEW STATE
-        console.log(items)
-        // CHANGE THE STATE
-        return {
-          items
+      // then hit the API
+      fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
         }
       })
+        .then(res => {
+          if (res.status === 204) {
+            this.props.enqueueSnackbar('Exam finished', { variant: 'success' })
+
+            // Change the state in that item
+            this.state.exams[index].state = 'FINISHED'
+            this.setState({ exams: this.state.exams })
+          } else if (res.status === 422) {
+            this.props.enqueueSnackbar('Exam should be in IN_PROGRESS state', {
+              variant: 'warning'
+            })
+          } else {
+            this.props.enqueueSnackbar('Failed to finish exam', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
@@ -190,7 +188,7 @@ class TeacherDashboard extends React.Component {
     const { classes } = this.props
     if (!this.state.isLoaded) {
       return <div>Loading...</div>
-    } else if (this.state.items < 1) {
+    } else if (this.state.exams < 1) {
       return (
         <div>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
@@ -245,20 +243,20 @@ class TeacherDashboard extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {console.log('los items sons: ', this.state.items)}
-                {this.state.items.map((item, index) => (
+                {/* {console.log("los exams sons: ", this.state.exams)} */}
+                {this.state.exams.map((exam, index) => (
                   <ExamRow
                     key={index}
-                    id={item.id}
-                    description={item.description}
-                    startingAt={item.startingAt}
-                    duration={item.duration}
-                    state={item.state}
-                    actualStartingMoment={item.actualStartingMoment}
-                    actualDuration={item.actualDuration}
+                    id={exam.id}
+                    description={exam.description}
+                    startingAt={exam.startingAt}
+                    duration={exam.duration}
+                    state={exam.state}
+                    actualStartingMoment={exam.actualStartingMoment}
+                    actualDuration={exam.actualDuration}
                     deleteEvent={this.deleteExam.bind(this, index)}
-                    startExam={this.startExam.bind(this, item.id)}
-                    finishExam={this.finishExam.bind(this, item.id)}
+                    startExam={this.startExamHandler.bind(this, index)}
+                    finishExam={this.finishExamHandler.bind(this, index)}
                     // changeEvent={this.changeUserName.bind(this, user.description)}
                     // key={user.id }
                   />
@@ -276,4 +274,4 @@ TeacherDashboard.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(TeacherDashboard)
+export default withSnackbar(withStyles(styles)(TeacherDashboard))
