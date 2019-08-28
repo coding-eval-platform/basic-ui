@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -48,7 +49,10 @@ class CreateExam extends Component {
   }
 
   createExam = () => {
-    fetch(`${process.env.API_HOST}/exams`, {
+    const url = `${process.env.API_HOST}/exams`
+
+    this.props.enqueueSnackbar('Creating exam', { variant: 'info' })
+    fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,23 +65,30 @@ class CreateExam extends Component {
       })
     })
       .then(res => {
-        // console.log('RESPONSE IS: ', res)
-        // console.log('RESPONSE IS: ', res.headers.get('Location'))
-        let exam_id = res.headers.get('Location').split('/')
-        exam_id = exam_id[exam_id.length - 1]
-        // console.log('EXAM_ID IS: ', exam_id)
-        // this.setState({
-        //   exam_id
-        // });
-        // this.props.history.push(`/create_exercises/${exam_id}/`);
-        // Router.push(`/create_exercises?exam_id=${exam_id}`);
-        Router.push({
-          pathname: `/create_exercises`,
-          query: {
-            examID: `${exam_id}`,
-            examDescription: `${this.state.description}`
-          }
-        })
+        console.log('Response status is: ', res.status)
+        if (res.status === 201) {
+          this.props.enqueueSnackbar('Exam created.', {
+            variant: 'success'
+          })
+          let exam_id = res.headers.get('Location').split('/')
+          exam_id = exam_id[exam_id.length - 1]
+
+          Router.push({
+            pathname: `/create_exercises`,
+            query: {
+              examID: `${exam_id}`,
+              examDescription: `${this.state.description}`
+            }
+          })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('422 ???????.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to create exam.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -161,4 +172,4 @@ CreateExam.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CreateExam)
+export default withSnackbar(withStyles(styles)(CreateExam))
