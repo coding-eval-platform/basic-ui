@@ -91,7 +91,6 @@ class ExamDashboard extends React.Component {
         index
       ].id.toString()}`
 
-      // then hit the API
       fetch(url, {
         method: 'DELETE',
         headers: {
@@ -126,7 +125,6 @@ class ExamDashboard extends React.Component {
       this.props.enqueueSnackbar('Deleting all exercises', { variant: 'info' })
       const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
 
-      // then hit the API
       fetch(url, {
         method: 'DELETE',
         headers: {
@@ -153,53 +151,6 @@ class ExamDashboard extends React.Component {
           }
         })
         .catch(err => console.log(err))
-    }
-  }
-
-  editExercise = examId => {
-    if (window.confirm('Are you sure you want to start this exam?')) {
-      const exercises = Object.assign([], this.state.exercises)
-
-      this.setState(state => {
-        const exercises = state.exercises.map(exam => {
-          if (exam.id === examId) {
-            console.log('el exam es: ', exam)
-            // hit API endpoint here
-
-            let url = `${
-              process.env.API_HOST
-            }/exams/${exam.id.toString()}/start`
-
-            // Change the exam here
-            exam.state = 'IN_PROGRESS'
-
-            fetch(url, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + store.get('accessToken')
-              },
-              body: JSON.stringify({
-                description: 'STARTED',
-                startingAt: '2019-10-06T15:00:00',
-                duration: 'PT150M'
-              })
-            })
-              .then(res => res.text()) // OR res.json()
-              .then(res => console.log(res))
-            return exam
-          } else {
-            return exam
-          }
-        })
-
-        // SEE NEW STATE
-        console.log(exercises)
-        // CHANGE THE STATE
-        return {
-          exercises
-        }
-      })
     }
   }
 
@@ -284,8 +235,6 @@ class ExamDashboard extends React.Component {
                     language={exercise.language}
                     solutionTemplate={exercise.solutionTemplate}
                     awardedScore={exercise.awardedScore}
-                    deleteEvent={this.deleteExercise.bind(this, index)}
-                    editExercise={this.editExercise.bind(this, exercise.id)}
                     deleteExercise={this.deleteExercise.bind(this, exercise.id)}
                     deleteAllExercises={this.deleteAllExercises.bind(this)}
                   />

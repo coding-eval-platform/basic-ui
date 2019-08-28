@@ -73,7 +73,6 @@ class SignUpForm extends React.Component {
     return (
       <div className={classes.margin}>
         {/* <Paper className={classes.padding}> */}
-        {/* Username */}
         <Grid container spacing={8} alignItems="flex-end">
           <Grid item>
             <Face />
@@ -92,7 +91,6 @@ class SignUpForm extends React.Component {
           </Grid>
         </Grid>
 
-        {/* Password */}
         <Grid container spacing={8} alignItems="flex-end">
           <Grid item>
             <Fingerprint />
@@ -110,7 +108,6 @@ class SignUpForm extends React.Component {
           </Grid>
         </Grid>
 
-        {/* Confirm Password */}
         <Grid container spacing={8} alignItems="flex-end">
           <Grid item>
             <Fingerprint />

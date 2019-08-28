@@ -19,13 +19,6 @@ const styles = theme => ({
 })
 
 class EditExamInRow extends React.Component {
-  state = {
-    exercises: [],
-    open: false,
-    openNewExerciseModal: false,
-    openEditExerciseModal: false
-  }
-
   modifyExamHandler = () => {
     if (window.confirm('Are you sure you want to modify this exam?')) {
       // console.log("thisprops: ", this.props);

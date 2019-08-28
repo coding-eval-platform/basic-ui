@@ -19,17 +19,8 @@ const styles = theme => ({
 })
 
 class EditExerciseInRow extends React.Component {
-  state = {
-    exercises: [],
-    open: false,
-    openNewExerciseModal: false,
-    openEditExerciseModal: false
-  }
-
   modifyExerciseHandler = () => {
     if (window.confirm('Are you sure you want to modify this exercise?')) {
-      // console.log("thisprops: ", this.props);
-
       Router.push({
         pathname: `/modify_exercise`,
         query: {

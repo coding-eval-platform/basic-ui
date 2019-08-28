@@ -32,12 +32,10 @@ class ModifyExam extends Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
-    // console.log('The examid is: ', examID);
 
     this.setState({
       examID: examID

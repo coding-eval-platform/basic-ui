@@ -24,7 +24,6 @@ class LoginForm extends React.Component {
 
   componentWillMount = async () => {
     // const accessToken = await handleAccessToken();
-    // console.log("Doing login: ", store.get("accessToken"));
   }
 
   onUsernameChange = username => {
@@ -82,7 +81,6 @@ class LoginForm extends React.Component {
       <div className={classes.margin}>
         {/* <Paper className={classes.padding}> */}
 
-        {/* Username */}
         <Grid container spacing={8} alignItems="flex-end">
           <Grid item>
             <Face />
@@ -101,7 +99,6 @@ class LoginForm extends React.Component {
           </Grid>
         </Grid>
 
-        {/* Password */}
         <Grid container spacing={8} alignItems="flex-end">
           <Grid item>
             <Fingerprint />

@@ -48,15 +48,6 @@ class CreateExam extends Component {
   }
 
   createExam = () => {
-    console.log(
-      'POST sent this: ',
-      JSON.stringify({
-        description: this.state.description,
-        duration: this.state.duration,
-        startingAt: this.state.startingAt
-      })
-    )
-
     fetch(`${process.env.API_HOST}/exams`, {
       method: 'POST',
       headers: {
@@ -70,11 +61,11 @@ class CreateExam extends Component {
       })
     })
       .then(res => {
-        console.log('RESPONSE IS: ', res)
-        console.log('RESPONSE IS: ', res.headers.get('Location'))
+        // console.log('RESPONSE IS: ', res)
+        // console.log('RESPONSE IS: ', res.headers.get('Location'))
         let exam_id = res.headers.get('Location').split('/')
         exam_id = exam_id[exam_id.length - 1]
-        console.log('EXAM_ID IS: ', exam_id)
+        // console.log('EXAM_ID IS: ', exam_id)
         // this.setState({
         //   exam_id
         // });

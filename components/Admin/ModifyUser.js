@@ -47,7 +47,6 @@ class ModifyUser extends Component {
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
@@ -63,7 +62,6 @@ class ModifyUser extends Component {
     })
       .then(async res => {
         const userJSONResponse = await res.json()
-        // console.log('The user to be updated is: ', userJSONResponse)
 
         this.setState({
           username: userJSONResponse.username,
