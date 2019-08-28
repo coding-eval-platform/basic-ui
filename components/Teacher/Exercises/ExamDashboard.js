@@ -84,7 +84,7 @@ class ExamDashboard extends React.Component {
     })
   }
 
-  deleteExercise = (index, event) => {
+  deleteExercise = index => {
     if (window.confirm('Are you sure you want to delete this exercise?')) {
       this.props.enqueueSnackbar('Deleting exercise', { variant: 'info' })
       const url = `${process.env.API_HOST}/exercises/${this.state.exercises[
@@ -113,6 +113,41 @@ class ExamDashboard extends React.Component {
             })
           } else {
             this.props.enqueueSnackbar('Failed to delete exam', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
+    }
+  }
+
+  deleteAllExercises = index => {
+    if (window.confirm('Are you sure you want to delete all the exercises?')) {
+      this.props.enqueueSnackbar('Deleting all exercises', { variant: 'info' })
+      const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
+
+      // then hit the API
+      fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
+        }
+      })
+        .then(res => {
+          if (res.status === 204) {
+            this.props.enqueueSnackbar('All exercises deleted', {
+              variant: 'success'
+            })
+            // Removes the desired item.
+            this.state.exercises = []
+            this.setState({ exercises: this.state.exercises })
+          } else if (res.status === 422) {
+            this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+              variant: 'warning'
+            })
+          } else {
+            this.props.enqueueSnackbar('Failed to delete all exercises', {
               variant: 'error'
             })
           }
@@ -204,14 +239,24 @@ class ExamDashboard extends React.Component {
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
               {this.state.examState === 'UPCOMING' ? (
-                <Button
-                  style={{ margin: 20 }}
-                  variant="contained"
-                  color="primary"
-                  onClick={this.createExercise}
-                >
-                  Add exercise to exam
-                </Button>
+                <div>
+                  <Button
+                    style={{ margin: 20 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={this.createExercise}
+                  >
+                    Add exercise to exam
+                  </Button>
+                  <Button
+                    style={{ margin: 20 }}
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.deleteAllExercises}
+                  >
+                    Delete all exercises
+                  </Button>
+                </div>
               ) : (
                 ''
               )}
@@ -242,8 +287,7 @@ class ExamDashboard extends React.Component {
                     deleteEvent={this.deleteExercise.bind(this, index)}
                     editExercise={this.editExercise.bind(this, exercise.id)}
                     deleteExercise={this.deleteExercise.bind(this, exercise.id)}
-                    // changeEvent={this.changeUserName.bind(this, user.description)}
-                    // key={user.id }
+                    deleteAllExercises={this.deleteAllExercises.bind(this)}
                   />
                 ))}
               </TableBody>
