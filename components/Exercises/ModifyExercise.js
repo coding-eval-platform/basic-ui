@@ -121,7 +121,7 @@ class ModifyExercise extends React.Component {
           this.props.enqueueSnackbar('Exercise modified.', {
             variant: 'success'
           })
-          Router.push(`/teacher_dashboard`)
+          Router.push(`/exam_dashboard`)
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
             variant: 'warning'

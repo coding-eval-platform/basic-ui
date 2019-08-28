@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -25,6 +26,7 @@ const styles = theme => ({
 class ModifyExam extends Component {
   state = {
     examID: '',
+    examState: '',
     description: '',
     startingAt: '',
     duration: ''
@@ -36,9 +38,17 @@ class ModifyExam extends Component {
 
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
+    const examState = new URL(window.location.href).searchParams.get(
+      'examState'
+    )
+    const examDescription = new URL(window.location.href).searchParams.get(
+      'examDescription'
+    )
 
     this.setState({
-      examID: examID
+      examID: examID,
+      examState: examState,
+      description: examDescription
     })
 
     const url = `${process.env.API_HOST}/exams/${examID}`
@@ -79,17 +89,9 @@ class ModifyExam extends Component {
   }
 
   updateExam = () => {
-    console.log(
-      'PUT sent this: ',
-      JSON.stringify({
-        description: this.state.description,
-        duration: this.state.duration,
-        startingAt: this.state.startingAt
-      })
-    )
-
     const url = `${process.env.API_HOST}/exams/${this.state.examID}`
 
+    this.props.enqueueSnackbar('Modifying exam', { variant: 'info' })
     fetch(url, {
       method: 'PUT',
       headers: {
@@ -103,7 +105,21 @@ class ModifyExam extends Component {
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`)
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exam modified.', {
+            variant: 'success'
+          })
+          Router.push(`/teacher_dashboard`)
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to modify exam.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -129,14 +145,13 @@ class ModifyExam extends Component {
   }
 
   render() {
-    const examDescription = new URL(window.location.href).searchParams.get(
-      'examDescription'
-    )
-
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update the exam: {examDescription}
+          Update the exam: {this.state.description}
+        </Typography>
+        <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
+          Exam status: {this.state.examState}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -223,4 +238,4 @@ ModifyExam.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ModifyExam)
+export default withSnackbar(withStyles(styles)(ModifyExam))

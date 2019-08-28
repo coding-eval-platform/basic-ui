@@ -28,7 +28,8 @@ class EditExamInRow extends React.Component {
         query: {
           examID: `${this.props.id}`,
           examDescription: `${this.props.description}`,
-          examStartingAt: `${this.props.startingAt}`
+          examStartingAt: `${this.props.startingAt}`,
+          examState: `${this.props.state}`
         }
       })
     }
