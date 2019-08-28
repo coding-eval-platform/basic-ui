@@ -59,7 +59,28 @@ function ExamRow(props) {
         <Moment format="LLL">{props.startingAt}</Moment>
       </TableCell>
       <TableCell align="center">{convertHMS(props.duration)}</TableCell>
-      <TableCell align="center">{props.state}</TableCell>
+      {props.state.toString() === 'UPCOMING' ? (
+        <TableCell
+          align="center"
+          style={{ backgroundColor: '#98FB98', padding: '4px 18px 4px 18px' }}
+        >
+          {props.state}
+        </TableCell>
+      ) : props.state.toString() === 'IN_PROGRESS' ? (
+        <TableCell
+          align="center"
+          style={{ backgroundColor: '#FA8072', padding: '4px 18px 4px 18px' }}
+        >
+          {props.state}
+        </TableCell>
+      ) : (
+        <TableCell
+          align="center"
+          style={{ backgroundColor: '#87CEFA', padding: '4px 18px 4px 18px' }}
+        >
+          {props.state}
+        </TableCell>
+      )}
       <TableCell align="center">{props.actualStartingMoment}</TableCell>
       <TableCell align="center">{props.actualDuration}</TableCell>
       <TableCell align="center">
