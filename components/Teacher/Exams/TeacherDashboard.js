@@ -145,7 +145,6 @@ class TeacherDashboard extends React.Component {
 
   finishExamHandler = index => {
     if (window.confirm('Are you sure you want to start this exam?')) {
-      console.log('Starting exam with ID: ', this.state.exams[index].id)
       this.props.enqueueSnackbar('Finishing exam', { variant: 'info' })
       const url = `${process.env.API_HOST}/exams/${this.state.exams[
         index

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -36,7 +37,6 @@ class ExamDashboard extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   componentDidMount = () => {
@@ -82,16 +82,10 @@ class ExamDashboard extends React.Component {
 
   deleteExercise = (index, event) => {
     if (window.confirm('Are you sure you want to delete this exercise?')) {
-      console.log('Deleting exercise with ID: ', this.state.exercises[index].id)
-
+      this.props.enqueueSnackbar('Deleting exercise', { variant: 'info' })
       const url = `${process.env.API_HOST}/exercises/${this.state.exercises[
         index
       ].id.toString()}`
-
-      // Removes the desired item.
-      this.state.exercises.splice(index, 1)
-      // console.log("LOS exercises DE AHORA SON: ", this.state.exercises);
-      this.setState({ exercises: this.state.exercises })
 
       // then hit the API
       fetch(url, {
@@ -101,15 +95,31 @@ class ExamDashboard extends React.Component {
           Authorization: 'Bearer ' + store.get('accessToken')
         }
       })
-        .then(res => res.text()) // OR res.json()
-        .then(res => console.log(res))
+        .then(res => {
+          if (res.status === 204) {
+            this.props.enqueueSnackbar('Exercise deleted', {
+              variant: 'success'
+            })
+            // Removes the desired item.
+            this.state.exercises.splice(index, 1)
+            this.setState({ exercises: this.state.exercises })
+          } else if (res.status === 422) {
+            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+              variant: 'warning'
+            })
+          } else {
+            this.props.enqueueSnackbar('Failed to delete exam', {
+              variant: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
   editExercise = examId => {
     if (window.confirm('Are you sure you want to start this exam?')) {
       const exercises = Object.assign([], this.state.exercises)
-      console.log(exercises)
 
       this.setState(state => {
         const exercises = state.exercises.map(exam => {
@@ -238,4 +248,4 @@ ExamDashboard.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ExamDashboard)
+export default withSnackbar(withStyles(styles)(ExamDashboard))

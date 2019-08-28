@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Tooltip from "@material-ui/core/Tooltip";
-import Grid from "@material-ui/core/Grid";
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Tooltip from '@material-ui/core/Tooltip'
+import Grid from '@material-ui/core/Grid'
 
-import EditExerciseInRow from "./EditExerciseInRow";
-import SeeTestCases from "./SeeTestCases";
+import EditExerciseInRow from './EditExerciseInRow'
+import SeeTestCases from './SeeTestCases'
 
 const styles = theme => ({
   margin: {
@@ -19,12 +19,9 @@ const styles = theme => ({
   extendedIcon: {
     marginRight: theme.spacing.unit
   }
-});
+})
 
 function ExerciseRow(props) {
-  console.log('PROPS ARE: ', props);
-  
-
   return (
     <TableRow key={props.id}>
       <TableCell align="center" component="th" scope="item">
@@ -60,11 +57,11 @@ function ExerciseRow(props) {
         </Grid>
       </TableCell>
     </TableRow>
-  );
+  )
 }
 
 ExerciseRow.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(ExerciseRow);
+export default withStyles(styles)(ExerciseRow)
