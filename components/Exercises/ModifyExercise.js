@@ -48,7 +48,6 @@ class ModifyExercise extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   onQuestionChange = question => {
@@ -100,16 +99,6 @@ class ModifyExercise extends React.Component {
   }
 
   updateExercise = () => {
-    console.log(
-      'The UPDATED exercise is: ',
-      JSON.stringify({
-        question: this.state.question,
-        awardedScore: this.state.awardedScore,
-        language: this.state.language,
-        solutionTemplate: this.state.solutionTemplate
-      })
-    )
-
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}`
 
     this.props.enqueueSnackbar('Modifying exercise', { variant: 'info' })

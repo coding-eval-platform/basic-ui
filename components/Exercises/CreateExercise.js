@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -48,7 +49,6 @@ class CreateExercise extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   onQuestionChange = question => {
@@ -72,8 +72,6 @@ class CreateExercise extends React.Component {
     const examDescription = new URL(window.location.href).searchParams.get(
       'examDescription'
     )
-    // console.log('The examid is: ', examID);
-
     this.setState({
       examID: examID,
       examDescription: examDescription
@@ -81,17 +79,9 @@ class CreateExercise extends React.Component {
   }
 
   createExercise = () => {
-    console.log(
-      'The created exercise is: ',
-      JSON.stringify({
-        question: this.state.question,
-        awardedScore: this.state.awardedScore,
-        language: this.state.language,
-        solutionTemplate: this.state.solutionTemplate
-      })
-    )
-
     const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
+
+    this.props.enqueueSnackbar('Creating exercise', { variant: 'info' })
     fetch(url, {
       method: 'POST',
       headers: {
@@ -106,17 +96,30 @@ class CreateExercise extends React.Component {
       })
     })
       .then(res => {
-        let exercise_id = res.headers.get('Location').split('/')
-        exercise_id = exercise_id[exercise_id.length - 1]
-        console.log('exercise_id IS: ', exercise_id)
+        console.log('Response status is: ', res.status)
+        if (res.status === 201) {
+          this.props.enqueueSnackbar('Exercise created.', {
+            variant: 'success'
+          })
+          let exercise_id = res.headers.get('Location').split('/')
+          exercise_id = exercise_id[exercise_id.length - 1]
 
-        Router.push({
-          pathname: `/create_testcase`,
-          query: {
-            exerciseID: `${exercise_id}`,
-            exerciseQuestion: `${this.state.question}`
-          }
-        })
+          Router.push({
+            pathname: `/create_testcase`,
+            query: {
+              exerciseID: `${exercise_id}`,
+              exerciseQuestion: `${this.state.question}`
+            }
+          })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to create exercise.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -207,8 +210,6 @@ public static void main(final String... args) {
           </Grid>
         </Grid>
 
-        {/* <Grid container spacing={24} alignItems="center"> */}
-        {/* </Grid> */}
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <Button
@@ -230,4 +231,4 @@ CreateExercise.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CreateExercise)
+export default withSnackbar(withStyles(styles)(CreateExercise))
