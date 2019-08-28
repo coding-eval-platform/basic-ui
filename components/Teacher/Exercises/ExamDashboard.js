@@ -31,6 +31,7 @@ class ExamDashboard extends React.Component {
   state = {
     examID: '',
     examDescription: '',
+    examState: '',
     exercises: [],
     isLoaded: false
   }
@@ -41,6 +42,9 @@ class ExamDashboard extends React.Component {
 
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
+    const examState = new URL(window.location.href).searchParams.get(
+      'examState'
+    )
     const examDescription = new URL(window.location.href).searchParams.get(
       'examDescription'
     )
@@ -48,7 +52,8 @@ class ExamDashboard extends React.Component {
 
     this.setState({
       examID: examID,
-      examDescription: examDescription
+      examDescription: examDescription,
+      examState: examState
     })
 
     fetch(url, {
@@ -60,7 +65,6 @@ class ExamDashboard extends React.Component {
     })
       .then(async res => {
         const outputJSONResponse = await res.json()
-        console.log('The JSON with all the exercises is: ', outputJSONResponse)
 
         this.setState({
           isLoaded: true,
@@ -192,18 +196,25 @@ class ExamDashboard extends React.Component {
       return (
         <div>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
+            Exam status: {this.state.examState}
+          </Typography>
+          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             Exercises of the exam: {this.state.examDescription}
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
-              <Button
-                style={{ margin: 20 }}
-                variant="contained"
-                color="primary"
-                onClick={this.createExercise}
-              >
-                Add exercise to exam
-              </Button>
+              {this.state.examState === 'UPCOMING' ? (
+                <Button
+                  style={{ margin: 20 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={this.createExercise}
+                >
+                  Add exercise to exam
+                </Button>
+              ) : (
+                ''
+              )}
             </Grid>
           </Grid>
           <Paper className={classes.root}>

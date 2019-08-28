@@ -1,21 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Tooltip from "@material-ui/core/Tooltip";
-import Grid from "@material-ui/core/Grid";
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Tooltip from '@material-ui/core/Tooltip'
+import Grid from '@material-ui/core/Grid'
 
-import Moment from "react-moment";
+import Moment from 'react-moment'
 
-import PlayIcon from "@material-ui/icons/PlayArrow";
-import StopIcon from "@material-ui/icons/Stop";
+import PlayIcon from '@material-ui/icons/PlayArrow'
+import StopIcon from '@material-ui/icons/Stop'
 
-import EditExamInRow from "./EditExamInRow";
-import SeeExercises from "./SeeExercises";
+import EditExamInRow from './EditExamInRow'
+import SeeExercises from './SeeExercises'
 
 const styles = theme => ({
   margin: {
@@ -24,30 +24,30 @@ const styles = theme => ({
   extendedIcon: {
     marginRight: theme.spacing.unit
   }
-});
+})
 
 const convertHMS = value => {
-  const sec = parseInt(value, 10); // convert value to number if it's string
-  let hours = Math.floor(sec / 3600); // get hours
-  let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
-  let seconds = sec - hours * 3600 - minutes * 60; //  get seconds
+  const sec = parseInt(value, 10) // convert value to number if it's string
+  let hours = Math.floor(sec / 3600) // get hours
+  let minutes = Math.floor((sec - hours * 3600) / 60) // get minutes
+  let seconds = sec - hours * 3600 - minutes * 60 //  get seconds
   // add 0 if value < 10
   if (hours < 10) {
-    hours = "0" + hours;
+    hours = '0' + hours
   }
   if (minutes < 10) {
-    minutes = "0" + minutes;
+    minutes = '0' + minutes
   }
   if (seconds < 10) {
-    seconds = "0" + seconds;
+    seconds = '0' + seconds
   }
   // return hours+':'+minutes+':'+seconds; // Return is HH : MM : SS
   // return hours+'days '+minutes+'hs '+seconds + 'mins';
-  return minutes + "hs " + seconds + "mins";
-};
+  return minutes + 'hs ' + seconds + 'mins'
+}
 
 function ExamRow(props) {
-  const { classes } = props;
+  const { classes } = props
 
   return (
     <TableRow key={props.id}>
@@ -69,6 +69,7 @@ function ExamRow(props) {
               id={props.id}
               description={props.description}
               startingAt={props.startingAt}
+              state={props.state}
             />
           </Grid>
           <Grid item xs={2}>
@@ -76,6 +77,7 @@ function ExamRow(props) {
               id={props.id}
               description={props.description}
               startingAt={props.startingAt}
+              state={props.state}
             />
           </Grid>
           <Grid item xs={2}>
@@ -116,11 +118,11 @@ function ExamRow(props) {
         </Grid>
       </TableCell>
     </TableRow>
-  );
+  )
 }
 
 ExamRow.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(ExamRow);
+export default withStyles(styles)(ExamRow)

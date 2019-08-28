@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
-import Router from "next/router";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered'
+import Router from 'next/router'
 
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit
   },
   appBar: {
-    position: "relative"
+    position: 'relative'
   },
   flex: {
     flex: 1
   }
-});
+})
 
 class SeeExercises extends React.Component {
   seeExercisesHandler = () => {
@@ -25,13 +25,14 @@ class SeeExercises extends React.Component {
       query: {
         examID: `${this.props.id}`,
         examDescription: `${this.props.description}`,
-        examStartingAt: `${this.props.startingAt}`
+        examStartingAt: `${this.props.startingAt}`,
+        examState: `${this.props.state}`
       }
-    });
-  };
+    })
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div>
         <Tooltip title="See exercises">
@@ -47,12 +48,12 @@ class SeeExercises extends React.Component {
           </IconButton>
         </Tooltip>
       </div>
-    );
+    )
   }
 }
 
 SeeExercises.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(SeeExercises);
+export default withStyles(styles)(SeeExercises)

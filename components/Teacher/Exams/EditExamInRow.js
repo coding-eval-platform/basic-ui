@@ -1,23 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/Edit";
-import Router from "next/router";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import EditIcon from '@material-ui/icons/Edit'
+import Router from 'next/router'
 
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit
   },
   appBar: {
-    position: "relative"
+    position: 'relative'
   },
   flex: {
     flex: 1
   }
-});
-
+})
 
 class EditExamInRow extends React.Component {
   state = {
@@ -25,10 +24,10 @@ class EditExamInRow extends React.Component {
     open: false,
     openNewExerciseModal: false,
     openEditExerciseModal: false
-  };
+  }
 
   modifyExamHandler = () => {
-    if (window.confirm("Are you sure you want to modify this exam?")) {
+    if (window.confirm('Are you sure you want to modify this exam?')) {
       // console.log("thisprops: ", this.props);
 
       Router.push({
@@ -38,12 +37,12 @@ class EditExamInRow extends React.Component {
           examDescription: `${this.props.description}`,
           examStartingAt: `${this.props.startingAt}`
         }
-      });
+      })
     }
-  };
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div>
         <Tooltip title="Edit this exam">
@@ -55,16 +54,16 @@ class EditExamInRow extends React.Component {
             onClick={this.modifyExamHandler}
             color="primary"
           >
-            <EditIcon/>
+            <EditIcon />
           </IconButton>
         </Tooltip>
       </div>
-    );
+    )
   }
 }
 
 EditExamInRow.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(EditExamInRow);
+export default withStyles(styles)(EditExamInRow)
