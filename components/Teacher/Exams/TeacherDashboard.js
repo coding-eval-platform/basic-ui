@@ -256,8 +256,6 @@ class TeacherDashboard extends React.Component {
                     deleteEvent={this.deleteExam.bind(this, index)}
                     startExam={this.startExamHandler.bind(this, index)}
                     finishExam={this.finishExamHandler.bind(this, index)}
-                    // changeEvent={this.changeUserName.bind(this, user.description)}
-                    // key={user.id }
                   />
                 ))}
               </TableBody>
