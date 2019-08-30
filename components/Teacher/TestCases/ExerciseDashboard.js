@@ -190,6 +190,21 @@ class ExerciseDashboard extends React.Component {
     const { classes } = this.props
     return (
       <div>
+        <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
+          All your test cases
+        </Typography>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="contained"
+              color="primary"
+              onClick={this.createTestCase}
+            >
+              Create test case
+            </Button>
+          </Grid>
+        </Grid>
         {!this.state.publicIsLoaded ? (
           <div>Loading...</div>
         ) : this.state.publicTestCases < 1 ? (

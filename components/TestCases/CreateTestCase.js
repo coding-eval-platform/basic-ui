@@ -118,7 +118,9 @@ class CreateTestCase extends React.Component {
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`)
+        Router.push(
+          `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
+        )
       })
       .catch(err => console.log(err))
   }
