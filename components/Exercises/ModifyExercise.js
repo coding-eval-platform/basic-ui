@@ -98,6 +98,32 @@ class ModifyExercise extends React.Component {
       .catch(err => console.log(err))
   }
 
+  addTestCase = () => {
+    Router.push({
+      pathname: `/create_testcase`,
+      query: {
+        exerciseID: `${this.state.exerciseID}`,
+        exerciseQuestion: `${this.state.question}`,
+        exerciseLanguage: `${this.state.language}`,
+        exerciseSolutionTemplate: `${this.state.solutionTemplate}`,
+        exerciseAwardedScore: `${this.state.awardedScore}`
+      }
+    })
+  }
+
+  seeTestCases = () => {
+    Router.push({
+      pathname: `/exercise_dashboard`,
+      query: {
+        exerciseID: `${this.state.exerciseID}`,
+        exerciseQuestion: `${this.state.question}`,
+        exerciseLanguage: `${this.state.language}`,
+        exerciseSolutionTemplate: `${this.state.solutionTemplate}`,
+        exerciseAwardedScore: `${this.state.awardedScore}`
+      }
+    })
+  }
+
   updateExercise = () => {
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}`
 
@@ -225,8 +251,31 @@ public static void main(final String... args) {
           </Grid>
         </Grid>
 
-        {/* <Grid container spacing={24} alignItems="center"> */}
-        {/* </Grid> */}
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              // TODO
+              onClick={this.addTestCase}
+            >
+              Add a test case to this exercise
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              onClick={this.seeTestCases}
+            >
+              View and edit test cases
+            </Button>
+          </Grid>
+        </Grid>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <Button
