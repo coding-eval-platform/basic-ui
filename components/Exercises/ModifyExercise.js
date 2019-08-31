@@ -206,10 +206,6 @@ class ModifyExercise extends React.Component {
                 value={this.state.language}
                 onChange={this.onLanguageChange}
                 style={{ minWidth: '10em' }}
-                // inputProps={{
-                //   name: "age",
-                //   id: "age-simple"
-                // }}
               >
                 <MenuItem value={'JAVA'}>Java</MenuItem>
                 <MenuItem value={'RUBY'}>Ruby</MenuItem>
@@ -257,7 +253,6 @@ public static void main(final String... args) {
               style={{ margin: 20 }}
               variant="outlined"
               color="primary"
-              // TODO
               onClick={this.addTestCase}
             >
               Add a test case to this exercise
