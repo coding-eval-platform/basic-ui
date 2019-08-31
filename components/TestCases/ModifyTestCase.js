@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -41,10 +42,48 @@ class ModifyTestCase extends React.Component {
   state = {
     exerciseID: '',
     exerciseQuestion: '',
+    testCaseID: '',
+    exerciseQuestion: '',
     visibility: '',
     timeout: '',
     inputs: '',
     expectedOutputs: ''
+  }
+
+  componentDidMount = () => {
+    const exerciseID = new URL(window.location.href).searchParams.get(
+      'exerciseID'
+    )
+    const testCaseID = new URL(window.location.href).searchParams.get(
+      'testCaseID'
+    )
+    const exerciseQuestion = new URL(window.location.href).searchParams.get(
+      'exerciseQuestion'
+    )
+
+    const url = `${process.env.API_HOST}/test-cases/${testCaseID}`
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(async res => {
+        const testCaseJSONResponse = await res.json()
+
+        this.setState({
+          exerciseID: exerciseID,
+          exerciseQuestion: exerciseQuestion,
+          testCaseID: testCaseID,
+          visibility: testCaseJSONResponse.visibility,
+          timeout: testCaseJSONResponse.timeout,
+          inputs: testCaseJSONResponse.inputs,
+          expectedOutputs: testCaseJSONResponse.expectedOutputs
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   componentWillMount = async () => {
@@ -67,44 +106,24 @@ class ModifyTestCase extends React.Component {
     this.setState({ expectedOutputs: expectedOutputs.target.value })
   }
 
-  componentDidMount = () => {
-    const exerciseID = new URL(window.location.href).searchParams.get(
-      'exerciseID'
-    )
-    const exerciseQuestion = new URL(window.location.href).searchParams.get(
-      'exerciseQuestion'
-    )
+  modifyTestCase = () => {
+    const inputsArray =
+      this.state.inputs === []
+        ? []
+        : this.state.inputs.split(',').map(str => str.replace(/\s/g, ''))
 
-    this.setState({
-      exerciseID: exerciseID,
-      exerciseQuestion: exerciseQuestion
-    })
-  }
+    const expectedOutputsArray =
+      this.state.expectedOutputs === []
+        ? []
+        : this.state.expectedOutputs
+            .split(',')
+            .map(str => str.replace(/\s/g, ''))
 
-  createTestCase = () => {
-    const inputsArray = this.state.inputs
-      .split(',')
-      .map(str => str.replace(/\s/g, ''))
+    const url = `${process.env.API_HOST}/test-cases/${this.state.testCaseID}`
+    this.props.enqueueSnackbar('Modifying test case', { variant: 'info' })
 
-    const expectedOutputsArray = this.state.expectedOutputs
-      .split(',')
-      .map(str => str.replace(/\s/g, ''))
-
-    console.log(
-      'The created test case is: ',
-      JSON.stringify({
-        visibility: this.state.visibility,
-        timeout: this.state.timeout,
-        inputs: inputsArray,
-        expectedOutputs: expectedOutputsArray
-      })
-    )
-
-    console.log('EL EX ID ES: ', this.state.exerciseID)
-
-    const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}/test-cases`
     fetch(url, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + store.get('accessToken')
@@ -117,7 +136,21 @@ class ModifyTestCase extends React.Component {
       })
     })
       .then(res => {
-        Router.push(`/teacher_dashboard`)
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Test case modified.', {
+            variant: 'success'
+          })
+          Router.push(`/teacher_dashboard`)
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to modify test case.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -128,7 +161,7 @@ class ModifyTestCase extends React.Component {
     return (
       <div>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create a test case for the exercise: {this.state.exerciseQuestion}
+          Modify a test case for the exercise: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
@@ -200,9 +233,9 @@ class ModifyTestCase extends React.Component {
               style={{ margin: 20 }}
               variant="contained"
               color="primary"
-              onClick={this.createTestCase}
+              onClick={this.modifyTestCase}
             >
-              Create test case
+              Modify test case
             </Button>
           </Grid>
         </Grid>
@@ -215,4 +248,4 @@ ModifyTestCase.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ModifyTestCase)
+export default withSnackbar(withStyles(styles)(ModifyTestCase))

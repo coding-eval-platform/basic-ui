@@ -10,7 +10,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Grid from '@material-ui/core/Grid'
 
 import EditTestCaseInRow from './EditTestCaseInRow'
-import SeeTestCases from '../Exercises/SeeTestCases'
 
 const styles = theme => ({
   margin: {
@@ -23,26 +22,23 @@ const styles = theme => ({
 
 function TestCaseRow(props) {
   return (
-    <TableRow key={props.id}>
+    <TableRow key={props.testCaseID}>
       <TableCell align="center" component="th" scope="item">
-        {props.id}
+        {props.testCaseID}
       </TableCell>
       <TableCell align="center">{props.visibility}</TableCell>
       <TableCell align="center">{props.timeout}</TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
-          {/* <Grid item xs={3}>
-            <SeeTestCases
-              testCaseID={props.id}
-              testCaseVisibility={props.visibility}
-              tesetCaseTimeout={props.timeout}
-            />
-          </Grid> */}
           <Grid item xs={6}>
             <EditTestCaseInRow
-              testCaseID={props.id}
+              exerciseID={props.exerciseID}
+              exerciseQuestion={props.exerciseQuestion}
+              testCaseID={props.testCaseID}
               testCaseVisibility={props.visibility}
               tesetCaseTimeout={props.timeout}
+              testCaseInputs={props.inputs}
+              testCaseExpectedOutputs={props.expectedOutputs}
             />
           </Grid>
           <Grid item xs={6}>

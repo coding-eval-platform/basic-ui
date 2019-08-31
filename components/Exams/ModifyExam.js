@@ -62,7 +62,6 @@ class ModifyExam extends Component {
     })
       .then(async res => {
         const examJSONResponse = await res.json()
-        console.log('The exam to be updated is: ', examJSONResponse)
 
         this.setState({
           examID: examJSONResponse.id,
@@ -129,6 +128,7 @@ class ModifyExam extends Component {
       pathname: `/create_exercises`,
       query: {
         examID: `${this.state.examID}`,
+        examState: `${this.state.examState}`,
         examDescription: `${this.state.description}`
       }
     })
@@ -139,6 +139,7 @@ class ModifyExam extends Component {
       pathname: `/exam_dashboard`,
       query: {
         examID: `${this.state.examID}`,
+        examState: `${this.state.examState}`,
         examDescription: `${this.state.description}`
       }
     })
@@ -158,7 +159,6 @@ class ModifyExam extends Component {
             <TextField
               id="outlined-name"
               label="Exam title"
-              // placeholder="Example: OOP first exam"
               style={{ margin: 20 }}
               onChange={this.onDescriptionChange}
               value={this.state.description}
@@ -173,7 +173,6 @@ class ModifyExam extends Component {
             <TextField
               id="outlined-name"
               label="Exam duration (mins)"
-              // placeholder="Example: 120"
               style={{ margin: 20 }}
               onChange={this.onDurationChange}
               value={this.state.duration}

@@ -24,11 +24,13 @@ class EditTestCaseInRow extends React.Component {
       Router.push({
         pathname: `/modify_testcase`,
         query: {
-          exerciseID: `${this.props.id}`,
+          exerciseID: `${this.props.exerciseID}`,
           exerciseQuestion: `${this.props.exerciseQuestion}`,
-          exerciseLanguage: `${this.props.exerciseLanguage}`,
-          exerciseSolutionTemplate: `${this.props.exerciseSolutionTemplate}`,
-          exerciseAwardedScore: `${this.props.exerciseAwardedScore}`
+          testCaseID: `${this.props.testCaseID}`,
+          visibility: `${this.props.testCaseVisibility}`,
+          timeout: `${this.props.tesetCaseTimeout}`,
+          inputs: `${this.props.testCaseInputs}`,
+          expectedOutputs: `${this.props.testCaseExpectedOutputs}`
         }
       })
     }
@@ -41,7 +43,6 @@ class EditTestCaseInRow extends React.Component {
         <Tooltip title="Edit this test case">
           <IconButton
             className={classes.button}
-            // className={classes.margin}
             aria-label="Edit"
             size="small"
             onClick={this.modifyTestCaseHandler}

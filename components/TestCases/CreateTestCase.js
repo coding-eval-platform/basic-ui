@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -49,7 +50,6 @@ class CreateTestCase extends React.Component {
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   onVisibilityChange = visibility => {
@@ -91,19 +91,9 @@ class CreateTestCase extends React.Component {
       .split(',')
       .map(str => str.replace(/\s/g, ''))
 
-    console.log(
-      'The created test case is: ',
-      JSON.stringify({
-        visibility: this.state.visibility,
-        timeout: this.state.timeout,
-        inputs: inputsArray,
-        expectedOutputs: expectedOutputsArray
-      })
-    )
-
-    console.log('EL EX ID ES: ', this.state.exerciseID)
-
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}/test-cases`
+
+    this.props.enqueueSnackbar('Creating test case', { variant: 'info' })
     fetch(url, {
       method: 'POST',
       headers: {
@@ -118,9 +108,23 @@ class CreateTestCase extends React.Component {
       })
     })
       .then(res => {
-        Router.push(
-          `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
-        )
+        console.log('Response status is: ', res.status)
+        if (res.status === 201) {
+          this.props.enqueueSnackbar('Test case created.', {
+            variant: 'success'
+          })
+          Router.push(
+            `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
+          )
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to create test case.', {
+            variant: 'error'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
@@ -195,8 +199,6 @@ class CreateTestCase extends React.Component {
           </Grid>
         </Grid>
 
-        {/* <Grid container spacing={24} alignItems="center"> */}
-        {/* </Grid> */}
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <Button
@@ -218,4 +220,4 @@ CreateTestCase.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CreateTestCase)
+export default withSnackbar(withStyles(styles)(CreateTestCase))

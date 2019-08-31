@@ -191,7 +191,7 @@ class ExerciseDashboard extends React.Component {
     return (
       <div>
         <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-          All your test cases
+          All your test cases for: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -228,7 +228,7 @@ class ExerciseDashboard extends React.Component {
         ) : (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              Public Test cases of the exercise: {this.state.exerciseQuestion}
+              Public Test cases
             </Typography>
             <Paper className={classes.root}>
               <Table className={classes.table}>
@@ -246,15 +246,14 @@ class ExerciseDashboard extends React.Component {
                   {this.state.publicTestCases.map((testCase, index) => (
                     <TestCaseRow
                       key={index}
-                      id={testCase.id}
+                      testCaseID={testCase.id}
+                      exerciseID={this.state.exerciseID}
+                      exerciseQuestion={this.state.exerciseQuestion}
                       visibility={testCase.visibility}
                       timeout={testCase.timeout}
                       inputs={testCase.inputs}
                       expectedOutputs={testCase.expectedOutputs}
-                      deletePublicTestCases={this.deletePublicTestCases.bind(
-                        this,
-                        index
-                      )}
+                      deleteEvent={this.deletePublicTestCases.bind(this, index)}
                     />
                   ))}
                 </TableBody>
@@ -286,7 +285,7 @@ class ExerciseDashboard extends React.Component {
         ) : (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              Private Test cases of the exercise: {this.state.exerciseQuestion}
+              Private Test cases
             </Typography>
             <Paper className={classes.root}>
               <Table className={classes.table}>
@@ -304,12 +303,14 @@ class ExerciseDashboard extends React.Component {
                   {this.state.privateTestCases.map((testCase, index) => (
                     <TestCaseRow
                       key={index}
-                      id={testCase.id}
+                      testCaseID={testCase.id}
+                      exerciseID={this.state.exerciseID}
+                      exerciseQuestion={this.state.exerciseQuestion}
                       visibility={testCase.visibility}
                       timeout={testCase.timeout}
                       inputs={testCase.inputs}
                       expectedOutputs={testCase.expectedOutputs}
-                      deletePrivateTestCases={this.deletePrivateTestCases.bind(
+                      deleteEvent={this.deletePrivateTestCases.bind(
                         this,
                         index
                       )}
