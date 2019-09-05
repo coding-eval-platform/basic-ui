@@ -74,7 +74,7 @@ class CreateExam extends Component {
           exam_id = exam_id[exam_id.length - 1]
 
           Router.push({
-            pathname: `/create_exercises`,
+            pathname: `/exam_dashboard`,
             query: {
               examID: `${exam_id}`,
               examDescription: `${this.state.description}`
