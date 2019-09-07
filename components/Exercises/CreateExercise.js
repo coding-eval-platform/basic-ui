@@ -105,7 +105,7 @@ class CreateExercise extends React.Component {
           exercise_id = exercise_id[exercise_id.length - 1]
 
           Router.push({
-            pathname: `/create_testcase`,
+            pathname: `/exercise_dashboard`,
             query: {
               exerciseID: `${exercise_id}`,
               exerciseQuestion: `${this.state.question}`

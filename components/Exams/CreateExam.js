@@ -77,7 +77,8 @@ class CreateExam extends Component {
             pathname: `/exam_dashboard`,
             query: {
               examID: `${exam_id}`,
-              examDescription: `${this.state.description}`
+              examDescription: `${this.state.description}`,
+              examState: 'UPCOMING'
             }
           })
         } else if (res.status === 422) {
