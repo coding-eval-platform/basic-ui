@@ -192,6 +192,20 @@ class UsersDashboard extends React.Component {
               </Button>
             </Grid>
           </Grid>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  Router.back()
+                }}
+              >
+                Go back
+              </Button>
+            </Grid>
+          </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             You have no users created yet 🤷‍♂️
           </Typography>
@@ -212,6 +226,20 @@ class UsersDashboard extends React.Component {
     } else {
       return (
         <div>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                style={{ margin: 20 }}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  Router.back()
+                }}
+              >
+                Go back
+              </Button>
+            </Grid>
+          </Grid>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
               <Button
