@@ -81,8 +81,14 @@ function ExamRow(props) {
           {props.state}
         </TableCell>
       )}
-      <TableCell align="center">{props.actualStartingMoment}</TableCell>
-      <TableCell align="center">{props.actualDuration}</TableCell>
+      <TableCell align="center">
+        {<Moment format="LLL">{props.actualStartingMoment}</Moment>}
+      </TableCell>
+      <TableCell align="center">
+        {props.actualDuration === null
+          ? 'Not started'
+          : convertHMS(props.actualDuration)}
+      </TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
           <Grid item xs={2}>
