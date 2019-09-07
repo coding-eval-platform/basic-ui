@@ -20,18 +20,16 @@ const styles = theme => ({
 
 class EditExerciseInRow extends React.Component {
   modifyExerciseHandler = () => {
-    if (window.confirm('Are you sure you want to modify this exercise?')) {
-      Router.push({
-        pathname: `/modify_exercise`,
-        query: {
-          exerciseID: `${this.props.exerciseID}`,
-          exerciseQuestion: `${this.props.exerciseQuestion}`,
-          exerciseLanguage: `${this.props.exerciseLanguage}`,
-          exerciseSolutionTemplate: `${this.props.exerciseSolutionTemplate}`,
-          exerciseAwardedScore: `${this.props.exerciseAwardedScore}`
-        }
-      })
-    }
+    Router.push({
+      pathname: `/modify_exercise`,
+      query: {
+        exerciseID: `${this.props.exerciseID}`,
+        exerciseQuestion: `${this.props.exerciseQuestion}`,
+        exerciseLanguage: `${this.props.exerciseLanguage}`,
+        exerciseSolutionTemplate: `${this.props.exerciseSolutionTemplate}`,
+        exerciseAwardedScore: `${this.props.exerciseAwardedScore}`
+      }
+    })
   }
 
   render() {

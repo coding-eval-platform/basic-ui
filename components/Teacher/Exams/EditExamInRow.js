@@ -20,19 +20,15 @@ const styles = theme => ({
 
 class EditExamInRow extends React.Component {
   modifyExamHandler = () => {
-    if (window.confirm('Are you sure you want to modify this exam?')) {
-      // console.log("thisprops: ", this.props);
-
-      Router.push({
-        pathname: `/modify_exam`,
-        query: {
-          examID: `${this.props.id}`,
-          examDescription: `${this.props.description}`,
-          examStartingAt: `${this.props.startingAt}`,
-          examState: `${this.props.state}`
-        }
-      })
-    }
+    Router.push({
+      pathname: `/modify_exam`,
+      query: {
+        examID: `${this.props.id}`,
+        examDescription: `${this.props.description}`,
+        examStartingAt: `${this.props.startingAt}`,
+        examState: `${this.props.state}`
+      }
+    })
   }
 
   render() {

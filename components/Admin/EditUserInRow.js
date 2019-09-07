@@ -24,16 +24,12 @@ class EditUserInRow extends React.Component {
   }
 
   modifyUserHandler = () => {
-    if (window.confirm('Are you sure you want to modify this user?')) {
-      // console.log("thisprops: ", this.props);
-
-      Router.push({
-        pathname: `/modify_user`,
-        query: {
-          username: `${this.props.username}`
-        }
-      })
-    }
+    Router.push({
+      pathname: `/modify_user`,
+      query: {
+        username: `${this.props.username}`
+      }
+    })
   }
 
   render() {

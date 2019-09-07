@@ -20,20 +20,18 @@ const styles = theme => ({
 
 class EditTestCaseInRow extends React.Component {
   modifyTestCaseHandler = () => {
-    if (window.confirm('Are you sure you want to modify this test case?')) {
-      Router.push({
-        pathname: `/modify_testcase`,
-        query: {
-          exerciseID: `${this.props.exerciseID}`,
-          exerciseQuestion: `${this.props.exerciseQuestion}`,
-          testCaseID: `${this.props.testCaseID}`,
-          visibility: `${this.props.testCaseVisibility}`,
-          timeout: `${this.props.tesetCaseTimeout}`,
-          inputs: `${this.props.testCaseInputs}`,
-          expectedOutputs: `${this.props.testCaseExpectedOutputs}`
-        }
-      })
-    }
+    Router.push({
+      pathname: `/modify_testcase`,
+      query: {
+        exerciseID: `${this.props.exerciseID}`,
+        exerciseQuestion: `${this.props.exerciseQuestion}`,
+        testCaseID: `${this.props.testCaseID}`,
+        visibility: `${this.props.testCaseVisibility}`,
+        timeout: `${this.props.tesetCaseTimeout}`,
+        inputs: `${this.props.testCaseInputs}`,
+        expectedOutputs: `${this.props.testCaseExpectedOutputs}`
+      }
+    })
   }
 
   render() {

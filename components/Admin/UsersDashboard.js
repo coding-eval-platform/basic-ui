@@ -107,70 +107,68 @@ class UsersDashboard extends React.Component {
   }
 
   editUserActiveness = username => {
-    if (window.confirm('Are you sure you want to edit this user?')) {
-      const users = Object.assign([], this.state.users)
+    const users = Object.assign([], this.state.users)
 
-      this.setState(state => {
-        const users = state.users.map(user => {
-          if (user.username === username) {
-            console.log('el user es: ', user)
-            // hit API endpoint here
+    this.setState(state => {
+      const users = state.users.map(user => {
+        if (user.username === username) {
+          console.log('el user es: ', user)
+          // hit API endpoint here
 
-            if (user.active) {
-              let url = `${
-                process.env.API_HOST
-              }/users/${user.username.toString()}/active`
+          if (user.active) {
+            let url = `${
+              process.env.API_HOST
+            }/users/${user.username.toString()}/active`
 
-              // Change the user here
-              user.active = true
+            // Change the user here
+            user.active = true
 
-              fetch(url, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: 'Bearer ' + store.get('accessToken')
-                },
-                body: JSON.stringify({
-                  username: user.username
-                })
+            fetch(url, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + store.get('accessToken')
+              },
+              body: JSON.stringify({
+                username: user.username
               })
-                .then(res => res.json())
-                .then(res => console.log(res))
-            } else {
-              let url = `${
-                process.env.API_HOST
-              }/users/${user.username.toString()}/active`
-
-              // Change the user here
-              user.active = false
-
-              fetch(url, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: 'Bearer ' + store.get('accessToken')
-                },
-                body: JSON.stringify({
-                  username: user.username
-                })
-              })
-                .then(res => res.json())
-                .then(res => console.log(res))
-            }
-            return user
+            })
+              .then(res => res.json())
+              .then(res => console.log(res))
           } else {
-            return user
-          }
-        })
+            let url = `${
+              process.env.API_HOST
+            }/users/${user.username.toString()}/active`
 
-        // SEE NEW STATE
-        console.log(users)
-        // CHANGE THE STATE
-        return {
-          users
+            // Change the user here
+            user.active = false
+
+            fetch(url, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + store.get('accessToken')
+              },
+              body: JSON.stringify({
+                username: user.username
+              })
+            })
+              .then(res => res.json())
+              .then(res => console.log(res))
+          }
+          return user
+        } else {
+          return user
         }
       })
-    }
+
+      // SEE NEW STATE
+      console.log(users)
+      // CHANGE THE STATE
+      return {
+        users
+      }
+    })
   }
 
   render() {
