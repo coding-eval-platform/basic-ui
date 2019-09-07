@@ -73,14 +73,14 @@ class CreateExam extends Component {
           let exam_id = res.headers.get('Location').split('/')
           exam_id = exam_id[exam_id.length - 1]
 
-          Router.push({
-            pathname: `/exam_dashboard`,
-            query: {
-              examID: `${exam_id}`,
-              examDescription: `${this.state.description}`,
-              examState: 'UPCOMING'
-            }
-          })
+          // Router.push({
+          //   pathname: `/exam_dashboard`,
+          //   query: {
+          //     examID: `${exam_id}`,
+          //     examDescription: `${this.state.description}`,
+          //     examState: 'UPCOMING'
+          //   }
+          // })
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('422 ???????.', {
             variant: 'warning'

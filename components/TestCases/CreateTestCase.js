@@ -113,9 +113,9 @@ class CreateTestCase extends React.Component {
           this.props.enqueueSnackbar('Test case created.', {
             variant: 'success'
           })
-          Router.push(
-            `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
-          )
+          // Router.push(
+          //   `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
+          // )
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
             variant: 'warning'

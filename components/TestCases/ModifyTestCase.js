@@ -141,7 +141,7 @@ class ModifyTestCase extends React.Component {
           this.props.enqueueSnackbar('Test case modified.', {
             variant: 'success'
           })
-          Router.push(`/teacher_dashboard`)
+          // Router.push(`/teacher_dashboard`)
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
             variant: 'warning'

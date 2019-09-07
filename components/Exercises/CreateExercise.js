@@ -108,13 +108,13 @@ class CreateExercise extends React.Component {
           let exercise_id = res.headers.get('Location').split('/')
           exercise_id = exercise_id[exercise_id.length - 1]
 
-          Router.push({
-            pathname: `/exercise_dashboard`,
-            query: {
-              exerciseID: `${exercise_id}`,
-              exerciseQuestion: `${this.state.question}`
-            }
-          })
+          // Router.push({
+          //   pathname: `/exercise_dashboard`,
+          //   query: {
+          //     exerciseID: `${exercise_id}`,
+          //     exerciseQuestion: `${this.state.question}`
+          //   }
+          // })
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
             variant: 'warning'

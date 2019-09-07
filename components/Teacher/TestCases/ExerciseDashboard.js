@@ -226,7 +226,7 @@ class ExerciseDashboard extends React.Component {
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
               You have no test public cases created in this exercise yet 🤷‍♂️
             </Typography>
-            <Grid container spacing={24} alignItems="center">
+            {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}
@@ -237,7 +237,7 @@ class ExerciseDashboard extends React.Component {
                   Create one!
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </div>
         ) : (
           <div>
@@ -283,7 +283,7 @@ class ExerciseDashboard extends React.Component {
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
               You have no test private cases created in this exercise yet 🤷‍♂️
             </Typography>
-            <Grid container spacing={24} alignItems="center">
+            {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}
@@ -294,7 +294,7 @@ class ExerciseDashboard extends React.Component {
                   Create one!
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </div>
         ) : (
           <div>
