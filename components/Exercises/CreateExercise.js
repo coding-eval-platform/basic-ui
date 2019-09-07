@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { withSnackbar } from 'notistack'
+import dynamic from 'next/dynamic'
+const RubyEditor = dynamic(import('../Editors/RubyEditor'), { ssr: false })
+const CEditor = dynamic(import('../Editors/CEditor'), { ssr: false })
+const JavaEditor = dynamic(import('../Editors/JavaEditor'), { ssr: false })
 
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -60,7 +64,7 @@ class CreateExercise extends React.Component {
   }
 
   onSolutionTemplateChange = solutionTemplate => {
-    this.setState({ solutionTemplate: solutionTemplate.target.value })
+    this.setState({ solutionTemplate })
   }
 
   onAwardedScoreChange = awardedScore => {
@@ -177,51 +181,106 @@ class CreateExercise extends React.Component {
             </FormControl>
           </Grid>
         </Grid>
-
-        <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-          Insert a solution template below:
-        </Typography>
-        <Grid container spacing={24} alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="outlined-full-width"
-              // label="Output of the Ruby editor"
-              style={{ margin: 20 }}
-              multiline
-              rows="10"
-              placeholder="public class Main {
-public static void main(final String... args) {
-\\\\ Write your code here...
-}
-}"
-              onChange={this.onSolutionTemplateChange}
-              value={this.state.solutionTemplate}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-              className={classes.root}
-              InputProps={{
-                className: classes.input
-              }}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={24} alignItems="center">
-          <Grid item xs={6}>
-            <Button
-              style={{ margin: 20 }}
-              variant="contained"
-              color="primary"
-              onClick={this.createExercise}
+        {this.state.language === '' ? (
+          <div>
+            <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
+              Select a language please
+            </Typography>
+          </div>
+        ) : this.state.language === 'JAVA' ? (
+          <div>
+            <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
+              Insert a solution template below:
+            </Typography>
+            <Grid
+              container
+              spacing={24}
+              style={{ margin: 15 }}
+              alignItems="center"
             >
-              Create exercise
-            </Button>
-          </Grid>
-        </Grid>
+              <Grid item xs={12} sm={6}>
+                <JavaEditor
+                  codeToRun={this.state.solutionTemplate}
+                  onChange={this.onSolutionTemplateChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={24} alignItems="center">
+              <Grid item xs={6}>
+                <Button
+                  style={{ margin: 20 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={this.createExercise}
+                >
+                  Create exercise
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        ) : this.state.language === 'RUBY' ? (
+          <div>
+            <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
+              Insert a solution template below:
+            </Typography>
+            <Grid
+              container
+              spacing={24}
+              style={{ margin: 15 }}
+              alignItems="center"
+            >
+              <Grid item xs={12} sm={6}>
+                <RubyEditor
+                  codeToRun={this.state.solutionTemplate}
+                  onChange={this.onSolutionTemplateChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={24} alignItems="center">
+              <Grid item xs={6}>
+                <Button
+                  style={{ margin: 20 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={this.createExercise}
+                >
+                  Create exercise
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        ) : (
+          <div>
+            <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
+              Insert a solution template below:
+            </Typography>
+            <Grid
+              container
+              spacing={24}
+              style={{ margin: 15 }}
+              alignItems="center"
+            >
+              <Grid item xs={12} sm={6}>
+                <CEditor
+                  codeToRun={this.state.solutionTemplate}
+                  onChange={this.onSolutionTemplateChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={24} alignItems="center">
+              <Grid item xs={6}>
+                <Button
+                  style={{ margin: 20 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={this.createExercise}
+                >
+                  Create exercise
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        )}
       </div>
     )
   }
