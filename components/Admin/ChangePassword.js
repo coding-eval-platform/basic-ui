@@ -56,7 +56,9 @@ class ChangePassword extends Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Password changed', { variant: 'success' })
+          this.props.enqueueSnackbar('Password changed', {
+            variant: 'success'
+          })
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('Weak Password', {
             variant: 'error'
@@ -75,6 +77,20 @@ class ChangePassword extends Component {
 
     return (
       <div>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              Go back
+            </Button>
+          </Grid>
+        </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Change password
         </Typography>

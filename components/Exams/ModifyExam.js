@@ -148,6 +148,20 @@ class ModifyExam extends Component {
   render() {
     return (
       <div>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              Go back
+            </Button>
+          </Grid>
+        </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Update the exam: {this.state.description}
         </Typography>

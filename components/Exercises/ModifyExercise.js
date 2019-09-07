@@ -170,6 +170,20 @@ class ModifyExercise extends React.Component {
 
     return (
       <div>
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              style={{ margin: 20 }}
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              Go back
+            </Button>
+          </Grid>
+        </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Update the exercise: {this.state.question}
         </Typography>

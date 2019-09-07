@@ -251,10 +251,10 @@ class ModifyUser extends Component {
               variant="outlined"
               color="primary"
               onClick={() => {
-                Router.push(`/users_dashboard`)
+                Router.back()
               }}
             >
-              Back to users dashboard
+              Go back
             </Button>
           </Grid>
         </Grid>
