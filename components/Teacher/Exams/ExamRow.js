@@ -111,7 +111,6 @@ function ExamRow(props) {
             <Tooltip title="Start this exam">
               <IconButton
                 className={classes.button}
-                // className={classes.margin}
                 aria-label="Play"
                 size="small"
                 onClick={props.startExam}
@@ -125,7 +124,6 @@ function ExamRow(props) {
             <Tooltip title="Finish this exam">
               <IconButton
                 className={classes.button}
-                // className={classes.margin}
                 aria-label="Finish"
                 size="small"
                 onClick={props.finishExam}

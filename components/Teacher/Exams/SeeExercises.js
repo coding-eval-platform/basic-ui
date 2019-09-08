@@ -38,7 +38,6 @@ class SeeExercises extends React.Component {
         <Tooltip title="See exercises">
           <IconButton
             className={classes.button}
-            // className={classes.margin}
             aria-label="SeeExercises"
             size="small"
             onClick={this.seeExercisesHandler}

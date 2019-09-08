@@ -18,6 +18,7 @@ import ExamRow from './ExamRow.js'
 import store from 'store'
 import { handleAccessToken } from '../../../auth'
 import { withSnackbar } from 'notistack'
+import Modal from 'react-awesome-modal'
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,11 @@ const styles = theme => ({
 class TeacherDashboard extends React.Component {
   state = {
     exams: [],
-    isLoaded: false
+    isLoaded: false,
+    visibleDelete: false,
+    visibleStart: false,
+    visibleStop: false,
+    index: ''
   }
 
   componentWillMount = async () => {
@@ -49,7 +54,6 @@ class TeacherDashboard extends React.Component {
     })
       .then(async res => {
         const outputJSONResponse = await res.json()
-        // console.log("The JSON with all the exams is: ", outputJSONResponse);
 
         this.setState({
           isLoaded: true,
@@ -60,127 +64,162 @@ class TeacherDashboard extends React.Component {
   }
 
   deleteExam = index => {
-    if (window.confirm('Are you sure you want to delete this exam?')) {
-      console.log('Deleting exam with ID: ', this.state.exams[index].id)
-      this.props.enqueueSnackbar('Deleting exam', { variant: 'info' })
-      const url = `${process.env.API_HOST}/exams/${this.state.exams[
-        index
-      ].id.toString()}`
+    console.log('deleting', index)
+    this.props.enqueueSnackbar('Deleting exam', { variant: 'info' })
+    const url = `${process.env.API_HOST}/exams/${this.state.exams[
+      index
+    ].id.toString()}`
 
-      // then hit the API
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+    // then hit the API
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exam deleted', { variant: 'success' })
+          // Removes the desired item.
+          this.state.exams.splice(index, 1)
+          this.setState({ exams: this.state.exams })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete exam', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Exam deleted', { variant: 'success' })
-            // Removes the desired item.
-            this.state.exams.splice(index, 1)
-            this.setState({ exams: this.state.exams })
-          } else if (res.status === 422) {
+      .catch(err => console.log(err))
+  }
+
+  startExamHandler = index => {
+    console.log('Starting exam with ID: ', this.state.exams[index].id)
+    this.props.enqueueSnackbar('Starting exam', { variant: 'info' })
+    const url = `${process.env.API_HOST}/exams/${this.state.exams[
+      index
+    ].id.toString()}/start`
+
+    // then hit the API
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exam started', { variant: 'success' })
+          // Change the state in that item
+          this.state.exams[index].state = 'IN_PROGRESS'
+          this.setState({ exams: this.state.exams })
+        } else if (res.status === 422) {
+          if (
+            this.state.exams[index].state.toString() === 'FINISHED' ||
+            this.state.exams[index].state.toString() === 'IN_PROGRESS'
+          ) {
             this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
               variant: 'warning'
             })
           } else {
-            this.props.enqueueSnackbar('Failed to delete exam', {
-              variant: 'error'
-            })
+            this.props.enqueueSnackbar(
+              'Exam has no exercises or an exercise does not have a private test case.',
+              {
+                variant: 'warning'
+              }
+            )
           }
-        })
-        .catch(err => console.log(err))
-    }
-  }
-
-  startExamHandler = index => {
-    if (window.confirm('Are you sure you want to start this exam?')) {
-      console.log('Starting exam with ID: ', this.state.exams[index].id)
-      this.props.enqueueSnackbar('Starting exam', { variant: 'info' })
-      const url = `${process.env.API_HOST}/exams/${this.state.exams[
-        index
-      ].id.toString()}/start`
-
-      // then hit the API
-      fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+        } else {
+          this.props.enqueueSnackbar('Failed to start exam', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Exam started', { variant: 'success' })
-            // Change the state in that item
-            this.state.exams[index].state = 'IN_PROGRESS'
-            this.setState({ exams: this.state.exams })
-          } else if (res.status === 422) {
-            if (
-              this.state.exams[index].state.toString() === 'FINISHED' ||
-              this.state.exams[index].state.toString() === 'IN_PROGRESS'
-            ) {
-              this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-                variant: 'warning'
-              })
-            } else {
-              this.props.enqueueSnackbar(
-                'Exam has no exercises or an exercise does not have a private test case.',
-                {
-                  variant: 'warning'
-                }
-              )
-            }
-          } else {
-            this.props.enqueueSnackbar('Failed to start exam', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   finishExamHandler = index => {
-    if (window.confirm('Are you sure you want to start this exam?')) {
-      this.props.enqueueSnackbar('Finishing exam', { variant: 'info' })
-      const url = `${process.env.API_HOST}/exams/${this.state.exams[
-        index
-      ].id.toString()}/finish`
+    this.props.enqueueSnackbar('Finishing exam', { variant: 'info' })
+    const url = `${process.env.API_HOST}/exams/${this.state.exams[
+      index
+    ].id.toString()}/finish`
 
-      // then hit the API
-      fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+    // then hit the API
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exam finished', { variant: 'success' })
+
+          // Change the state in that item
+          this.state.exams[index].state = 'FINISHED'
+          this.setState({ exams: this.state.exams })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Exam should be in IN_PROGRESS state', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to finish exam', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Exam finished', { variant: 'success' })
-
-            // Change the state in that item
-            this.state.exams[index].state = 'FINISHED'
-            this.setState({ exams: this.state.exams })
-          } else if (res.status === 422) {
-            this.props.enqueueSnackbar('Exam should be in IN_PROGRESS state', {
-              variant: 'warning'
-            })
-          } else {
-            this.props.enqueueSnackbar('Failed to finish exam', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   createExam = () => {
     Router.push(`/create_exam`)
+  }
+
+  openDeleteModal = index => {
+    this.setState({
+      visibleDelete: true,
+      index: index
+    })
+  }
+
+  closeDeleteModal() {
+    this.setState({
+      visibleDelete: false,
+      index: ''
+    })
+  }
+
+  openStartModal = index => {
+    this.setState({
+      visibleStart: true,
+      index: index
+    })
+  }
+
+  closeStartModal() {
+    this.setState({
+      visibleStart: false,
+      index: ''
+    })
+  }
+  openStopModal = index => {
+    this.setState({
+      visibleStop: true,
+      index: index
+    })
+  }
+
+  closeStopModal() {
+    this.setState({
+      visibleStop: false,
+      index: ''
+    })
   }
 
   render() {
@@ -281,12 +320,118 @@ class TeacherDashboard extends React.Component {
                     state={exam.state}
                     actualStartingMoment={exam.actualStartingMoment}
                     actualDuration={exam.actualDuration}
-                    deleteEvent={this.deleteExam.bind(this, index)}
-                    startExam={this.startExamHandler.bind(this, index)}
-                    finishExam={this.finishExamHandler.bind(this, index)}
+                    // deleteEvent={this.deleteExam.bind(this, index)}
+                    deleteEvent={this.openDeleteModal.bind(this, index)}
+                    startExam={this.openStartModal.bind(this, index)}
+                    finishExam={this.openStopModal.bind(this, index)}
                   />
                 ))}
               </TableBody>
+
+              {/* DELETE MODAL */}
+              <Modal
+                visible={this.state.visibleDelete}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeDeleteModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Delete exam
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to delete this exam? Click yes to
+                  delete, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.deleteExam(this.state.index)
+                  }}
+                >
+                  Yes, delete it
+                </Button>
+              </Modal>
+
+              {/* START MODAL */}
+              <Modal
+                visible={this.state.visibleStart}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeStartModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Start exam
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to start this exam? Click yes to start
+                  it, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.startExamHandler(this.state.index)
+                  }}
+                >
+                  Yes, start exam
+                </Button>
+              </Modal>
+
+              {/* STOP MODAL */}
+              <Modal
+                visible={this.state.visibleStop}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeStopModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Finish exam
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to finish this exam? Click yes to finish
+                  it, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.finishExamHandler(this.state.index)
+                  }}
+                >
+                  Yes, finish exam
+                </Button>
+              </Modal>
             </Table>
           </Paper>
         </div>

@@ -38,7 +38,6 @@ class EditExamInRow extends React.Component {
         <Tooltip title="Edit this exam">
           <IconButton
             className={classes.button}
-            // className={classes.margin}
             aria-label="Edit"
             size="small"
             onClick={this.modifyExamHandler}
