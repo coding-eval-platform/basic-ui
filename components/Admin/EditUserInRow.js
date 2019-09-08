@@ -19,10 +19,6 @@ const styles = theme => ({
 })
 
 class EditUserInRow extends React.Component {
-  state = {
-    exercises: []
-  }
-
   modifyUserHandler = () => {
     Router.push({
       pathname: `/modify_user`,
@@ -39,7 +35,6 @@ class EditUserInRow extends React.Component {
         <Tooltip title="Edit user">
           <IconButton
             className={classes.button}
-            // className={classes.margin}
             aria-label="Edit"
             size="small"
             onClick={this.modifyUserHandler}

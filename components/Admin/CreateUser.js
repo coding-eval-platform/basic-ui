@@ -52,7 +52,7 @@ class CreateUser extends Component {
       .then(res => {
         if (res.status === 201) {
           this.props.enqueueSnackbar('User created', { variant: 'success' })
-          Router.push(`/users_dashboard`)
+          // Router.push(`/users_dashboard`)
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('Weak password', {
             variant: 'error'

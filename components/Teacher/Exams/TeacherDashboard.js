@@ -64,7 +64,6 @@ class TeacherDashboard extends React.Component {
   }
 
   deleteExam = index => {
-    console.log('deleting', index)
     this.props.enqueueSnackbar('Deleting exam', { variant: 'info' })
     const url = `${process.env.API_HOST}/exams/${this.state.exams[
       index

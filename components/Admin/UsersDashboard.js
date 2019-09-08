@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
+import Modal from 'react-awesome-modal'
 import { withSnackbar } from 'notistack'
 
 import UserRow from './UserRow.js'
@@ -30,7 +31,9 @@ const styles = theme => ({
 class UsersDashboard extends React.Component {
   state = {
     users: [],
-    isLoaded: false
+    isLoaded: false,
+    visibleDelete: false,
+    index: ''
   }
 
   componentWillMount = async () => {
@@ -62,48 +65,55 @@ class UsersDashboard extends React.Component {
     Router.push(`/create_user`)
   }
 
-  deleteUser = (index, event) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      console.log('Deleting username: ', this.state.users[index].username)
-      this.props.enqueueSnackbar(
-        `Deleting ${this.state.users[index].username}`,
-        {
-          variant: 'info'
-        }
-      )
+  deleteUser = index => {
+    this.props.enqueueSnackbar(`Deleting ${this.state.users[index].username}`, {
+      variant: 'info'
+    })
 
-      const url = `${process.env.API_HOST}/users/${this.state.users[index].username}`
+    const url = `${process.env.API_HOST}/users/${this.state.users[index].username}`
 
-      // then hit the API
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
-        },
-        body: JSON.stringify({
-          username: this.state.users[index].username
-        })
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
+      body: JSON.stringify({
+        username: this.state.users[index].username
       })
-        .then(res => {
-          console.log('Response status is: ', res.status)
-          if (res.status === 204) {
-            this.props.enqueueSnackbar(
-              `${this.state.users[index].username} removed`,
-              { variant: 'success' }
-            )
-            // Removes the desired item.
-            this.state.users.splice(index, 1)
-            // console.log("LOS users DE AHORA SON: ", this.state.users);
-            this.setState({ users: this.state.users })
-          } else {
-            this.props.enqueueSnackbar('Failed to delete user.', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+    })
+      .then(res => {
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar(
+            `${this.state.users[index].username} removed`,
+            { variant: 'success' }
+          )
+
+          // Removes the desired item.
+          this.state.users.splice(index, 1)
+          this.setState({ users: this.state.users })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete user.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  openDeleteModal = index => {
+    this.setState({
+      visibleDelete: true,
+      index: index
+    })
+  }
+
+  closeDeleteModal() {
+    this.setState({
+      visibleDelete: false,
+      index: ''
+    })
   }
 
   editUserActiveness = username => {
@@ -279,10 +289,44 @@ class UsersDashboard extends React.Component {
                       user.username,
                       user.active
                     )}
-                    deleteEvent={this.deleteUser.bind(this, index)}
+                    deleteEvent={this.openDeleteModal.bind(this, index)}
                   />
                 ))}
               </TableBody>
+              {/* DELETE MODAL */}
+              <Modal
+                visible={this.state.visibleDelete}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeDeleteModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Delete user
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to delete this user? Click yes to
+                  delete, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.deleteUser(this.state.index)
+                  }}
+                >
+                  Yes, delete it
+                </Button>
+              </Modal>
             </Table>
           </Paper>
         </div>
