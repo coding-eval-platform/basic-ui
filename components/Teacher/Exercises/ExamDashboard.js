@@ -18,6 +18,7 @@ import ExerciseRow from './ExerciseRow.js'
 
 import store from 'store'
 import { handleAccessToken } from '../../../auth'
+import Modal from 'react-awesome-modal'
 
 const styles = theme => ({
   root: {
@@ -33,7 +34,10 @@ class ExamDashboard extends React.Component {
     examDescription: '',
     examState: '',
     exercises: [],
-    isLoaded: false
+    isLoaded: false,
+    visibleDeleteOne: false,
+    visibleDeleteAll: false,
+    index: ''
   }
 
   componentWillMount = async () => {
@@ -84,74 +88,97 @@ class ExamDashboard extends React.Component {
     })
   }
 
-  deleteExercise = index => {
-    if (window.confirm('Are you sure you want to delete this exercise?')) {
-      this.props.enqueueSnackbar('Deleting exercise', { variant: 'info' })
-      const url = `${process.env.API_HOST}/exercises/${this.state.exercises[
-        index
-      ].id.toString()}`
+  openDeleteOneModal = index => {
+    this.setState({
+      visibleDeleteOne: true,
+      index: index
+    })
+  }
 
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+  closeDeleteOneModal() {
+    this.setState({
+      visibleDeleteOne: false,
+      index: ''
+    })
+  }
+
+  openDeleteAllModal() {
+    this.setState({
+      visibleDeleteAll: true
+    })
+  }
+
+  closeDeleteAllModal() {
+    this.setState({
+      visibleDeleteAll: false
+    })
+  }
+
+  deleteExercise = index => {
+    console.log('deleting', index)
+    this.props.enqueueSnackbar('Deleting exercise', { variant: 'info' })
+    const url = `${process.env.API_HOST}/exercises/${this.state.exercises[
+      index
+    ].id.toString()}`
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Exercise deleted', {
+            variant: 'success'
+          })
+          // Removes the desired item.
+          this.state.exercises.splice(index, 1)
+          this.setState({ exercises: this.state.exercises })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete exam', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Exercise deleted', {
-              variant: 'success'
-            })
-            // Removes the desired item.
-            this.state.exercises.splice(index, 1)
-            this.setState({ exercises: this.state.exercises })
-          } else if (res.status === 422) {
-            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-              variant: 'warning'
-            })
-          } else {
-            this.props.enqueueSnackbar('Failed to delete exam', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   deleteAllExercises = index => {
-    if (window.confirm('Are you sure you want to delete all the exercises?')) {
-      this.props.enqueueSnackbar('Deleting all exercises', { variant: 'info' })
-      const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
+    this.props.enqueueSnackbar('Deleting all exercises', { variant: 'info' })
+    const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
 
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('All exercises deleted', {
+            variant: 'success'
+          })
+          // Removes the desired item.
+          this.state.exercises = []
+          this.setState({ exercises: this.state.exercises })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete all exercises', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('All exercises deleted', {
-              variant: 'success'
-            })
-            // Removes the desired item.
-            this.state.exercises = []
-            this.setState({ exercises: this.state.exercises })
-          } else if (res.status === 422) {
-            this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-              variant: 'warning'
-            })
-          } else {
-            this.props.enqueueSnackbar('Failed to delete all exercises', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   render() {
@@ -231,7 +258,7 @@ class ExamDashboard extends React.Component {
                     style={{ margin: 20 }}
                     variant="outlined"
                     color="secondary"
-                    onClick={this.deleteAllExercises}
+                    onClick={this.openDeleteAllModal.bind(this)}
                   >
                     Delete all exercises
                   </Button>
@@ -263,11 +290,80 @@ class ExamDashboard extends React.Component {
                     language={exercise.language}
                     solutionTemplate={exercise.solutionTemplate}
                     awardedScore={exercise.awardedScore}
-                    deleteExercise={this.deleteExercise.bind(this, exercise.id)}
-                    deleteAllExercises={this.deleteAllExercises.bind(this)}
+                    deleteEvent={this.openDeleteOneModal.bind(this, index)}
                   />
                 ))}
               </TableBody>
+
+              {/* DELETE ONE MODAL */}
+              <Modal
+                visible={this.state.visibleDeleteOne}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeDeleteOneModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Delete exercise
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to delete this exercise? Click yes to
+                  delete, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.deleteExercise(this.state.index)
+                  }}
+                >
+                  Yes, delete it
+                </Button>
+              </Modal>
+
+              {/* DELETE ALL MODAL */}
+              <Modal
+                visible={this.state.visibleDeleteAll}
+                width="400"
+                height="200"
+                effect="fadeInUp"
+                onClickAway={() => this.closeDeleteAllModal()}
+              >
+                <Typography
+                  variant="h5"
+                  style={{ margin: '20px 0px 0px 20px' }}
+                  gutterBottom
+                >
+                  Delete all exercises
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ margin: '20px' }}
+                  gutterBottom
+                >
+                  Are you sure you want to delete all the exercises? Click yes
+                  to delete, click outside if not.
+                </Typography>
+                <Button
+                  style={{ marginLeft: '20px' }}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    this.deleteAllExercises()
+                  }}
+                >
+                  Yes, delete them
+                </Button>
+              </Modal>
             </Table>
           </Paper>
         </div>
