@@ -17,6 +17,7 @@ import TestCaseRow from './TestCaseRow.js'
 import { handleAccessToken } from '../../../auth'
 import { withSnackbar } from 'notistack'
 import store from 'store'
+import Modal from 'react-awesome-modal'
 
 const styles = theme => ({
   root: {
@@ -33,7 +34,10 @@ class ExerciseDashboard extends React.Component {
     publicTestCases: [],
     privateTestCases: [],
     publicIsLoaded: false,
-    privateIsLoaded: false
+    privateIsLoaded: false,
+    visiblePrivateDelete: false,
+    visiblePublicDelete: false,
+    index: ''
   }
 
   componentWillMount = async () => {
@@ -69,10 +73,6 @@ class ExerciseDashboard extends React.Component {
     })
       .then(async res => {
         const outputJSONResponsePublicTestCases = await res.json()
-        console.log(
-          'The JSON with all the publicTestCases is: ',
-          outputJSONResponsePublicTestCases
-        )
 
         this.setState({
           publicIsLoaded: true,
@@ -91,10 +91,6 @@ class ExerciseDashboard extends React.Component {
     })
       .then(async res => {
         const outputJSONResponsePrivateTestCases = await res.json()
-        console.log(
-          'The JSON with all the privateTestCases is: ',
-          outputJSONResponsePrivateTestCases
-        )
 
         this.setState({
           privateIsLoaded: true,
@@ -114,76 +110,100 @@ class ExerciseDashboard extends React.Component {
     })
   }
 
-  deletePublicTestCases = index => {
-    if (window.confirm('Are you sure you want to delete this test case?')) {
-      this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
-      const url = `${
-        process.env.API_HOST
-      }/test-cases/${this.state.publicTestCases[index].id.toString()}`
+  openDeletePrivateModal = index => {
+    this.setState({
+      visiblePrivateDelete: true,
+      index: index
+    })
+  }
 
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+  closeDeletePrivateModal() {
+    this.setState({
+      visiblePrivateDelete: false,
+      index: ''
+    })
+  }
+
+  openDeletePublicModal = index => {
+    this.setState({
+      visiblePublicDelete: true,
+      index: index
+    })
+  }
+
+  closeDeletePublicModal() {
+    this.setState({
+      visiblePublicDelete: false,
+      index: ''
+    })
+  }
+
+  deletePublicTestCases = index => {
+    this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
+    const url = `${
+      process.env.API_HOST
+    }/test-cases/${this.state.publicTestCases[index].id.toString()}`
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Test case deleted', {
+            variant: 'success'
+          })
+          // Removes the desired item.
+          this.state.publicTestCases.splice(index, 1)
+          this.setState({ publicTestCases: this.state.publicTestCases })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete test case', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Test case deleted', {
-              variant: 'success'
-            })
-            // Removes the desired item.
-            this.state.publicTestCases.splice(index, 1)
-            this.setState({ publicTestCases: this.state.publicTestCases })
-          } else if (res.status === 422) {
-            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-              variant: 'warning'
-            })
-          } else {
-            this.props.enqueueSnackbar('Failed to delete test case', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   deletePrivateTestCases = index => {
-    if (window.confirm('Are you sure you want to delete this test case?')) {
-      this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
-      const url = `${
-        process.env.API_HOST
-      }/test-cases/${this.state.privateTestCases[index].id.toString()}`
+    this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
+    const url = `${
+      process.env.API_HOST
+    }/test-cases/${this.state.privateTestCases[index].id.toString()}`
 
-      fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + store.get('accessToken')
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Test case deleted', {
+            variant: 'success'
+          })
+          // Removes the desired item.
+          this.state.privateTestCases.splice(index, 1)
+          this.setState({ privateTestCases: this.state.privateTestCases })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Failed to delete test case', {
+            variant: 'error'
+          })
         }
       })
-        .then(res => {
-          if (res.status === 204) {
-            this.props.enqueueSnackbar('Test case deleted', {
-              variant: 'success'
-            })
-            // Removes the desired item.
-            this.state.privateTestCases.splice(index, 1)
-            this.setState({ privateTestCases: this.state.privateTestCases })
-          } else if (res.status === 422) {
-            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-              variant: 'warning'
-            })
-          } else {
-            this.props.enqueueSnackbar('Failed to delete test case', {
-              variant: 'error'
-            })
-          }
-        })
-        .catch(err => console.log(err))
-    }
+      .catch(err => console.log(err))
   }
 
   render() {
@@ -267,10 +287,44 @@ class ExerciseDashboard extends React.Component {
                       timeout={testCase.timeout}
                       inputs={testCase.inputs}
                       expectedOutputs={testCase.expectedOutputs}
-                      deleteEvent={this.deletePublicTestCases.bind(this, index)}
+                      deleteEvent={this.openDeletePublicModal.bind(this, index)}
                     />
                   ))}
                 </TableBody>
+                {/* DELETE MODAL */}
+                <Modal
+                  visible={this.state.visiblePublicDelete}
+                  width="400"
+                  height="200"
+                  effect="fadeInUp"
+                  onClickAway={() => this.closeDeletePublicModal()}
+                >
+                  <Typography
+                    variant="h5"
+                    style={{ margin: '20px 0px 0px 20px' }}
+                    gutterBottom
+                  >
+                    Delete test case
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    style={{ margin: '20px' }}
+                    gutterBottom
+                  >
+                    Are you sure you want to delete this test case? Click yes to
+                    delete, click outside if not.
+                  </Typography>
+                  <Button
+                    style={{ marginLeft: '20px' }}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      this.deletePublicTestCases(this.state.index)
+                    }}
+                  >
+                    Yes, delete it
+                  </Button>
+                </Modal>
               </Table>
             </Paper>
           </div>
@@ -324,13 +378,47 @@ class ExerciseDashboard extends React.Component {
                       timeout={testCase.timeout}
                       inputs={testCase.inputs}
                       expectedOutputs={testCase.expectedOutputs}
-                      deleteEvent={this.deletePrivateTestCases.bind(
+                      deleteEvent={this.openDeletePrivateModal.bind(
                         this,
                         index
                       )}
                     />
                   ))}
                 </TableBody>
+                {/* DELETE MODAL */}
+                <Modal
+                  visible={this.state.visiblePrivateDelete}
+                  width="400"
+                  height="200"
+                  effect="fadeInUp"
+                  onClickAway={() => this.closeDeletePrivateModal()}
+                >
+                  <Typography
+                    variant="h5"
+                    style={{ margin: '20px 0px 0px 20px' }}
+                    gutterBottom
+                  >
+                    Delete test case
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    style={{ margin: '20px' }}
+                    gutterBottom
+                  >
+                    Are you sure you want to delete this test case? Click yes to
+                    delete, click outside if not.
+                  </Typography>
+                  <Button
+                    style={{ marginLeft: '20px' }}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      this.deletePrivateTestCases(this.state.index)
+                    }}
+                  >
+                    Yes, delete it
+                  </Button>
+                </Modal>
               </Table>
             </Paper>
           </div>
