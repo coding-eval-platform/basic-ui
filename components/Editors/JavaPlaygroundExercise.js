@@ -47,7 +47,6 @@ class JavaPlaygroundExercise extends Component {
       'import java.util.Arrays;\npublic class Main {\n    public static void main(String... args) throws InterruptedException {\n        Arrays.stream(args).forEach(System.out::println);\n Thread.sleep(2000L);\n    }\n}\n',
     timeout: 10000,
     language: 'JAVA',
-    // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
     input: ''
   }
 
@@ -66,7 +65,7 @@ class JavaPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        inputs: final_input
+        programArguments: final_input
       })
     })
       .then(res => {

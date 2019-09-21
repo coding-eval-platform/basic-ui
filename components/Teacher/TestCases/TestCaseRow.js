@@ -37,7 +37,7 @@ function TestCaseRow(props) {
               testCaseID={props.testCaseID}
               testCaseVisibility={props.visibility}
               tesetCaseTimeout={props.timeout}
-              testCaseInputs={props.inputs}
+              testCaseInputs={props.programArguments}
               testCaseExpectedOutputs={props.expectedOutputs}
             />
           </Grid>

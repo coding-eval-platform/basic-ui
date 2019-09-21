@@ -28,7 +28,7 @@ class EditTestCaseInRow extends React.Component {
         testCaseID: `${this.props.testCaseID}`,
         visibility: `${this.props.testCaseVisibility}`,
         timeout: `${this.props.tesetCaseTimeout}`,
-        inputs: `${this.props.testCaseInputs}`,
+        programArguments: `${this.props.testCaseInputs}`,
         expectedOutputs: `${this.props.testCaseExpectedOutputs}`
       }
     })

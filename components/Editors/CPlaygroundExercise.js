@@ -45,7 +45,6 @@ class CPlaygroundExercise extends Component {
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
     timeout: 10002,
     language: 'C',
-    // inputs: ["Hola", "Como", "andas?", "Re bien!", "ñoño", "人物"]
     input: ''
   }
 
@@ -64,7 +63,7 @@ class CPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        inputs: final_input
+        programArguments: final_input
       })
     })
       .then(res => {

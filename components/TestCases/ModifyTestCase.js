@@ -46,7 +46,7 @@ class ModifyTestCase extends React.Component {
     exerciseQuestion: '',
     visibility: '',
     timeout: '',
-    inputs: '',
+    programArguments: '',
     expectedOutputs: ''
   }
 
@@ -79,7 +79,7 @@ class ModifyTestCase extends React.Component {
           testCaseID: testCaseID,
           visibility: testCaseJSONResponse.visibility,
           timeout: testCaseJSONResponse.timeout,
-          inputs: testCaseJSONResponse.inputs,
+          programArguments: testCaseJSONResponse.programArguments,
           expectedOutputs: testCaseJSONResponse.expectedOutputs
         })
       })
@@ -98,8 +98,8 @@ class ModifyTestCase extends React.Component {
     this.setState({ timeout: timeout.target.value })
   }
 
-  onInputsChange = inputs => {
-    this.setState({ inputs: inputs.target.value })
+  onInputsChange = programArguments => {
+    this.setState({ programArguments: programArguments.target.value })
   }
 
   onExpectedOutputsChange = expectedOutputs => {
@@ -107,10 +107,12 @@ class ModifyTestCase extends React.Component {
   }
 
   modifyTestCase = () => {
-    const inputsArray =
-      this.state.inputs === []
+    const programArgumentsArray =
+      this.state.programArguments === []
         ? []
-        : this.state.inputs.split(',').map(str => str.replace(/\s/g, ''))
+        : this.state.programArguments
+            .split(',')
+            .map(str => str.replace(/\s/g, ''))
 
     const expectedOutputsArray =
       this.state.expectedOutputs === []
@@ -131,7 +133,7 @@ class ModifyTestCase extends React.Component {
       body: JSON.stringify({
         visibility: this.state.visibility,
         timeout: this.state.timeout,
-        inputs: inputsArray,
+        programArguments: programArgumentsArray,
         expectedOutputs: expectedOutputsArray
       })
     })
@@ -215,7 +217,7 @@ class ModifyTestCase extends React.Component {
               placeholder="input1, input2, input3"
               style={{ margin: 20 }}
               onChange={this.onInputsChange}
-              value={this.state.inputs}
+              value={this.state.programArguments}
               fullWidth
               margin="normal"
               variant="outlined"

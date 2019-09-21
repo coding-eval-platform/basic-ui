@@ -64,7 +64,7 @@ class JavaPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        inputs: final_input
+        programArguments: final_input
       })
     })
       .then(res => {

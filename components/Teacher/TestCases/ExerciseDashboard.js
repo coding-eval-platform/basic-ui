@@ -285,7 +285,7 @@ class ExerciseDashboard extends React.Component {
                       exerciseQuestion={this.state.exerciseQuestion}
                       visibility={testCase.visibility}
                       timeout={testCase.timeout}
-                      inputs={testCase.inputs}
+                      programArguments={testCase.programArguments}
                       expectedOutputs={testCase.expectedOutputs}
                       deleteEvent={this.openDeletePublicModal.bind(this, index)}
                     />
@@ -376,7 +376,7 @@ class ExerciseDashboard extends React.Component {
                       exerciseQuestion={this.state.exerciseQuestion}
                       visibility={testCase.visibility}
                       timeout={testCase.timeout}
-                      inputs={testCase.inputs}
+                      programArguments={testCase.programArguments}
                       expectedOutputs={testCase.expectedOutputs}
                       deleteEvent={this.openDeletePrivateModal.bind(
                         this,
