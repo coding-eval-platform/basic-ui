@@ -80,7 +80,8 @@ class RubyPlaygroundExercise extends Component {
 
   polling = result_id => {
     this.IntervalPolling = setInterval(() => {
-      let url = `${process.env.API_HOST}/execution-requests/result_id/result/`
+      console.log('object', result_id)
+      let url = `${process.env.API_HOST}/execution-requests/${result_id}/response/`
 
       // console.log("url: ", url);
       fetch(url, {
