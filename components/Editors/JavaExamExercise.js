@@ -40,20 +40,20 @@ const styles = theme => ({
 class JavaPlaygroundExercise extends Component {
   state = {
     output: {},
-    programInput: '',
-    compileFlags: '',
+    stdin: '',
+    compilerFlags: '',
     pendingOutput: false,
     code: '',
     timeout: '',
     language: 'JAVA',
-    input: ''
+    programArguments: ''
   }
 
   sendCodeinSandBox = () => {
     this.setState({ output: {} })
 
     this.setState({ pendingOutput: true })
-    const final_input = this.state.input
+    const final_input = this.state.programArguments
       .split(',')
       .map(str => str.replace(/\s/g, ''))
 
@@ -107,16 +107,16 @@ class JavaPlaygroundExercise extends Component {
 
   onCodeChange = code => this.setState({ code })
 
-  onInputChange = input => {
-    this.setState({ input: input.target.value })
+  onProgramArgumentsChange = programArguments => {
+    this.setState({ programArguments: programArguments.target.value })
   }
 
-  onProgramInputChange = programInput => {
-    this.setState({ programInput: programInput.target.value })
+  onStdinChange = stdin => {
+    this.setState({ stdin: stdin.target.value })
   }
 
-  onCompileFlagsChange = compileFlags => {
-    this.setState({ compileFlags: compileFlags.target.value })
+  onCompilerFlagsChange = compilerFlags => {
+    this.setState({ compilerFlags: compilerFlags.target.value })
   }
 
   render() {
@@ -150,8 +150,8 @@ class JavaPlaygroundExercise extends Component {
               rows="19"
               placeholder="input1, input2, input3"
               fullWidth
-              onChange={this.onInputChange}
-              value={this.state.input}
+              onChange={this.onProgramArgumentsChange}
+              value={this.state.programArguments}
               margin="normal"
               variant="outlined"
               InputLabelProps={{
@@ -165,8 +165,8 @@ class JavaPlaygroundExercise extends Component {
               style={{ margin: 8 }}
               rows="1"
               placeholder="Any text you want"
-              onChange={this.onProgramInputChange}
-              value={this.state.programInput}
+              onChange={this.onStdinChange}
+              value={this.state.stdin}
               fullWidth
               margin="normal"
               variant="outlined"
@@ -181,8 +181,8 @@ class JavaPlaygroundExercise extends Component {
               style={{ margin: 8 }}
               rows="1"
               placeholder="-d -g"
-              onChange={this.onCompileFlagsChange}
-              value={this.state.compileFlags}
+              onChange={this.onCompilerFlagsChange}
+              value={this.state.compilerFlags}
               fullWidth
               margin="normal"
               variant="outlined"
