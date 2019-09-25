@@ -39,8 +39,8 @@ const styles = theme => ({
 class RubyPlaygroundExercise extends Component {
   state = {
     output: {},
-    stdin: '',
     pending: false,
+    stdin: [],
     code: 'ARGV.each do |a|\n\tputs a\nend\n',
     timeout: 1000,
     language: 'RUBY',
@@ -59,6 +59,7 @@ class RubyPlaygroundExercise extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        stdin: this.state.stdin,
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
@@ -66,12 +67,8 @@ class RubyPlaygroundExercise extends Component {
       })
     })
       .then(res => {
-        // console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get('Location').split('/')
         result_id = result_id[result_id.length - 1]
-        // console.log("RESULT_ID IS: ", result_id);
-
-        // once the code is executed, wait for the response on the output box
         this.polling(result_id)
       })
       .catch(err => console.log(err))
@@ -82,7 +79,6 @@ class RubyPlaygroundExercise extends Component {
       console.log('object', result_id)
       let url = `${process.env.API_HOST}/execution-requests/${result_id}/response/`
 
-      // console.log("url: ", url);
       fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -92,10 +88,16 @@ class RubyPlaygroundExercise extends Component {
           console.log('json: ', outputJSONResponse)
           if (
             outputJSONResponse &&
-            (outputJSONResponse.type === 'FINISHED' ||
-              outputJSONResponse.type === 'UNKNOWN_ERROR')
+            (outputJSONResponse.result === 'COMPLETED' ||
+              outputJSONResponse.result === 'TIMEOUT' ||
+              outputJSONResponse.result === 'COMPILE_ERROR' ||
+              outputJSONResponse.result === 'INITIALIZATION_ERROR' ||
+              outputJSONResponse.result === 'UNKNOWN_ERROR')
           ) {
-            console.log('Finished polling, state is: ', outputJSONResponse.type)
+            console.log(
+              'Finished polling, state is: ',
+              outputJSONResponse.result
+            )
             this.setState({ output: outputJSONResponse })
             this.setState({ pending: false })
             clearInterval(this.IntervalPolling)
@@ -119,13 +121,20 @@ class RubyPlaygroundExercise extends Component {
     const { classes } = this.props
     let pending = this.state.pending
 
+    // VER ESTO
     const output =
-      this.state.output.type === 'UNKNOWN_ERROR'
+      this.state.output.result === 'UNKNOWN_ERROR'
         ? 'COMPILATION ERROR'
         : (this.state.output.stdout || []).reduce(
             (memo, line) => memo + line + '\n',
             ''
           )
+
+    // VER ESTO
+    // const stderr =
+    //   this.state.output.result === "TIMEOUT"
+    //     ? "The compilation phase failed (i.e the code could not be compiled)."
+    //     : "";
 
     return (
       <div>
@@ -189,35 +198,76 @@ class RubyPlaygroundExercise extends Component {
               onChange={this.onCodeChange}
             />
           </Grid>
-
-          {/* RUBY OUTPUT */}
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" gutterBottom>
-              Output of the Ruby editor
-            </Typography>
-            <TextField
-              id="outlined-full-width"
-              // label="Output of the Ruby editor"
-              style={{ margin: 0 }}
-              multiline
-              rows="17"
-              placeholder="You will see the output of the editor here..."
-              //helperText="Full width!"
-              value={
-                output ||
-                (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
-              }
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-              className={classes.root}
-              InputProps={{
-                className: classes.input
-              }}
-            />
+            <Grid container spacing={24}>
+              {console.log(this.state.output.result)}
+              {this.state.output.result === undefined ? (
+                ''
+              ) : (
+                <Grid item xs={12} sm={12}>
+                  <Typography variant="body1" gutterBottom>
+                    Exit code: {this.state.output.exitCode}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Execution result: {this.state.output.result}
+                  </Typography>
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={12}>
+                <Typography variant="h6" gutterBottom>
+                  Output of the Ruby editor
+                </Typography>
+                <TextField
+                  id="outlined-full-width"
+                  // label="Output of the Ruby editor"
+                  style={{ margin: 0 }}
+                  multiline
+                  rows="17"
+                  placeholder="You will see the output of the editor here..."
+                  // helperText="Full width!"
+                  value={
+                    output ||
+                    (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
+                  }
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  className={classes.root}
+                  InputProps={{
+                    className: classes.input
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Typography variant="h6" gutterBottom>
+                  Error logs
+                </Typography>
+                <TextField
+                  id="outlined-full-width"
+                  style={{ margin: 0 }}
+                  multiline
+                  rows="17"
+                  value={
+                    output ||
+                    (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
+                  }
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  className={classes.root}
+                  InputProps={{
+                    className: classes.input
+                  }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </div>
