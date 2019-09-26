@@ -5,6 +5,7 @@ const CEditor = dynamic(import('./CEditor'), { ssr: false })
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
+import ClearIcon from '@material-ui/icons/Clear'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
@@ -15,7 +16,9 @@ const styles = theme => ({
     background: '#202020'
   },
   input: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Monospace',
+    fontSize: 15
   },
   button: {
     margin: theme.spacing.unit
@@ -32,47 +35,54 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  multilineColor: {
+    color: 'red',
+    fontFamily: 'Monospace',
+    fontSize: 15
   }
 })
 
 class CPlaygroundExercise extends Component {
   state = {
     output: {},
+    pending: false,
     stdin: '',
     compilerFlags: '',
-    pending: false,
     code:
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
-    timeout: 10002,
+    timeout: '',
     language: 'C',
     programArguments: ''
   }
 
   sendCodeinSandBox = () => {
     this.setState({ output: {} })
-
     this.setState({ pending: true })
-    const final_input = this.state.programArguments
-      .split(',')
-      .map(str => str.replace(/\s/g, ''))
+
+    const final_programArguments = this.state.programArguments
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
+
+    const final_stdin = this.state.stdin
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
 
     fetch(`${process.env.API_HOST}/execution-requests`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        stdin: final_stdin,
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        programArguments: final_input
+        programArguments: final_programArguments,
+        compilerFlags: this.state.compilerFlags
       })
     })
       .then(res => {
-        // console.log("RESPONSE IS: ", res.headers.get("Location"));
         let result_id = res.headers.get('Location').split('/')
         result_id = result_id[result_id.length - 1]
-        // console.log("RESULT_ID IS: ", result_id);
-
-        // once the code is executed, wait for the response on the output box
         this.polling(result_id)
       })
       .catch(err => console.log(err))
@@ -81,7 +91,7 @@ class CPlaygroundExercise extends Component {
   polling = result_id => {
     this.IntervalPolling = setInterval(() => {
       let url = `${process.env.API_HOST}/execution-requests/${result_id}/response/`
-      console.log('url: ', url)
+
       fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -91,10 +101,16 @@ class CPlaygroundExercise extends Component {
           console.log('json: ', outputJSONResponse)
           if (
             outputJSONResponse &&
-            (outputJSONResponse.type === 'FINISHED' ||
-              outputJSONResponse.type === 'COMPILE_ERROR')
+            (outputJSONResponse.result === 'COMPLETED' ||
+              outputJSONResponse.result === 'TIMEOUT' ||
+              outputJSONResponse.result === 'COMPILE_ERROR' ||
+              outputJSONResponse.result === 'INITIALIZATION_ERROR' ||
+              outputJSONResponse.result === 'UNKNOWN_ERROR')
           ) {
-            console.log('Finished polling, state is: ', outputJSONResponse.type)
+            console.log(
+              'Finished polling, state is: ',
+              outputJSONResponse.result
+            )
             this.setState({ output: outputJSONResponse })
             this.setState({ pending: false })
             clearInterval(this.IntervalPolling)
@@ -114,31 +130,40 @@ class CPlaygroundExercise extends Component {
     this.setState({ stdin: stdin.target.value })
   }
 
+  onTimemoutChange = timeout => {
+    this.setState({ timeout: timeout.target.value })
+  }
+
   onCompilerFlagsChange = compilerFlags => {
     this.setState({ compilerFlags: compilerFlags.target.value })
+  }
+
+  clearAllFields = () => {
+    this.setState({
+      output: {},
+      programArguments: '',
+      stdin: '',
+      compilerFlags: '',
+      timeout: ''
+    })
   }
 
   render() {
     const { classes } = this.props
     let pending = this.state.pending
 
-    const output =
-      this.state.output.type === 'COMPILE_ERROR'
-        ? '️️☠️ COMPILATION ERROR  ☠️\n========================\n\n' +
-          this.state.output.compilerErrors.reduce(
-            (memo, line) => memo + line + '\n',
-            ''
-          )
-        : (this.state.output.stdout || []).reduce(
-            (memo, line) => memo + line + '\n',
-            ''
-          )
+    const stdout = (this.state.output.stdout || []).reduce(
+      (memo, line) => memo + line + '\n',
+      ''
+    )
+
+    const stderr = (this.state.output.stderr || []).reduce(
+      (memo, line) => memo + line + '\n',
+      ''
+    )
 
     return (
       <div>
-        {/* <Typography variant="h4" gutterBottom>
-          C programming language playground
-        </Typography> */}
         <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
@@ -147,7 +172,7 @@ class CPlaygroundExercise extends Component {
               label="Insert Program Arguments"
               style={{ margin: 8 }}
               rows="19"
-              placeholder="input1, input2, input3"
+              placeholder="comma+space separated, ie: input1, input2, input3"
               fullWidth
               onChange={this.onProgramArgumentsChange}
               value={this.state.programArguments}
@@ -188,6 +213,22 @@ class CPlaygroundExercise extends Component {
                 shrink: true
               }}
             />
+
+            <TextField
+              id="outlined-full-width"
+              label="Insert timeout"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Example (ms): 1000"
+              onChange={this.onTimemoutChange}
+              value={this.state.timeout}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
           </Grid>
 
           {/* EXECUTES */}
@@ -201,6 +242,15 @@ class CPlaygroundExercise extends Component {
               Execute code inside editor
               <SendIcon className={classes.rightIcon} />
             </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={this.clearAllFields}
+            >
+              Clear all fields and logs
+              <ClearIcon className={classes.rightIcon} />
+            </Button>
           </Grid>
         </Grid>
 
@@ -212,32 +262,76 @@ class CPlaygroundExercise extends Component {
 
           {/* C OUPUT */}
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" gutterBottom>
-              Output of the C editor
-            </Typography>
-            <TextField
-              id="outlined-full-width"
-              // label="Output of the Ruby editor"
-              style={{ margin: 0 }}
-              multiline
-              rows="17"
-              placeholder="You will see the output of the editor here..."
-              //helperText="Full width!"
-              value={
-                output ||
-                (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
-              }
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-              className={classes.root}
-              InputProps={{
-                className: classes.input
-              }}
-            />
+            <Grid container spacing={24}>
+              {this.state.output.result === undefined ? (
+                ''
+              ) : (
+                <Grid item xs={12} sm={12}>
+                  <Typography variant="h6" gutterBottom>
+                    Exit code: {this.state.output.exitCode}
+                  </Typography>
+                  <Typography variant="h6" gutterBottom>
+                    Execution result: {this.state.output.result}
+                  </Typography>
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={12}>
+                <Typography variant="h6" gutterBottom>
+                  Output of the C editor
+                </Typography>
+                <TextField
+                  id="outlined-full-width"
+                  // label="Output of the Ruby editor"
+                  style={{ margin: 0 }}
+                  multiline
+                  rows="17"
+                  placeholder="You will see the output of the editor here..."
+                  //helperText="Full width!"
+                  value={
+                    stdout ||
+                    (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
+                  }
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  className={classes.root}
+                  InputProps={{
+                    className: classes.input
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Typography variant="h6" gutterBottom>
+                  Error logs
+                </Typography>
+                <TextField
+                  id="outlined-full-width"
+                  style={{ margin: 0 }}
+                  multiline
+                  rows="17"
+                  value={
+                    stderr ||
+                    (pending
+                      ? "Loading...\nIf there's stderr, it will be shown here"
+                      : '')
+                  }
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  className={classes.root}
+                  InputProps={{
+                    className: classes.multilineColor
+                  }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </div>

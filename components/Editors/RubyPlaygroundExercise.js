@@ -243,7 +243,7 @@ class RubyPlaygroundExercise extends Component {
               className={classes.button}
               onClick={this.clearAllFields}
             >
-              Clear all fields
+              Clear all fields and logs
               <ClearIcon className={classes.rightIcon} />
             </Button>
           </Grid>

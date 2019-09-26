@@ -18,7 +18,9 @@ const styles = theme => ({
     background: '#202020'
   },
   input: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Monospace',
+    fontSize: 15
   },
   button: {
     margin: theme.spacing.unit
@@ -107,7 +109,10 @@ class JavaPlaygroundExercise extends Component {
               outputJSONResponse.result === 'INITIALIZATION_ERROR' ||
               outputJSONResponse.result === 'UNKNOWN_ERROR')
           ) {
-            console.log('Finished polling, state is: ', outputJSONResponse.type)
+            console.log(
+              'Finished polling, state is: ',
+              outputJSONResponse.result
+            )
             this.setState({ output: outputJSONResponse })
             this.setState({ pending: false })
             clearInterval(this.IntervalPolling)
@@ -246,7 +251,7 @@ class JavaPlaygroundExercise extends Component {
               className={classes.button}
               onClick={this.clearAllFields}
             >
-              Clear all fields
+              Clear all fields and logs
               <ClearIcon className={classes.rightIcon} />
             </Button>
           </Grid>
