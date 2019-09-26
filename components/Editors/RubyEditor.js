@@ -35,7 +35,7 @@ class RubyEditor extends Component {
         showGutter={true}
         showPrintMargin={true}
         highlightActiveLine={true}
-        style={{ height: '825px', width: '95%' }}
+        style={{ height: '845px', width: '95%' }}
         ref={instance => {
           this.ace = instance
         }} // Let's put things into scope

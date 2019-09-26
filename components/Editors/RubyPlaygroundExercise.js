@@ -5,6 +5,7 @@ const RubyEditor = dynamic(import('./RubyEditor'), { ssr: false })
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
+import ClearIcon from '@material-ui/icons/Clear'
 import { withStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
@@ -16,7 +17,9 @@ const styles = theme => ({
     background: '#202020'
   },
   input: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Monospace',
+    fontSize: 15
   },
   button: {
     margin: theme.spacing.unit
@@ -33,6 +36,11 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  multilineColor: {
+    color: 'red',
+    fontFamily: 'Monospace',
+    fontSize: 15
   }
 })
 
@@ -42,7 +50,7 @@ class RubyPlaygroundExercise extends Component {
     pending: false,
     stdin: [],
     code: 'ARGV.each do |a|\n\tputs a\nend\n',
-    timeout: 1000,
+    timeout: '',
     language: 'RUBY',
     programArguments: ''
   }
@@ -117,18 +125,41 @@ class RubyPlaygroundExercise extends Component {
     this.setState({ stdin: stdin.target.value })
   }
 
+  onTimemoutChange = timeout => {
+    this.setState({ timeout: timeout.target.value })
+  }
+
+  clearAllFields = () => {
+    this.setState({
+      stdin: [],
+      output: {},
+      timeout: '',
+      programArguments: ''
+    })
+  }
+
   render() {
     const { classes } = this.props
     let pending = this.state.pending
 
     // VER ESTO
-    const output =
-      this.state.output.result === 'UNKNOWN_ERROR'
-        ? 'COMPILATION ERROR'
-        : (this.state.output.stdout || []).reduce(
-            (memo, line) => memo + line + '\n',
-            ''
-          )
+    // const output =
+    //   this.state.output.result === "UNKNOWN_ERROR"
+    //     ? "COMPILATION ERROR"
+    //     : (this.state.output.stdout || []).reduce(
+    //         (memo, line) => memo + line + "\n",
+    //         ""
+    //       );
+
+    const stdout = (this.state.output.stdout || []).reduce(
+      (memo, line) => memo + line + '\n',
+      ''
+    )
+
+    const stderr = (this.state.output.stderr || []).reduce(
+      (memo, line) => memo + line + '\n',
+      ''
+    )
 
     // VER ESTO
     // const stderr =
@@ -138,9 +169,6 @@ class RubyPlaygroundExercise extends Component {
 
     return (
       <div>
-        {/* <Typography variant="h4" gutterBottom>
-          Ruby programming language playground
-        </Typography> */}
         <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
@@ -174,6 +202,21 @@ class RubyPlaygroundExercise extends Component {
                 shrink: true
               }}
             />
+            <TextField
+              id="outlined-full-width"
+              label="Insert timeout"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Example (ms): 1000"
+              onChange={this.onTimemoutChange}
+              value={this.state.timeout}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
           </Grid>
 
           {/* EXECUTE */}
@@ -186,6 +229,15 @@ class RubyPlaygroundExercise extends Component {
             >
               Execute code inside editor
               <SendIcon className={classes.rightIcon} />
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={this.clearAllFields}
+            >
+              Clear all fields
+              <ClearIcon className={classes.rightIcon} />
             </Button>
           </Grid>
         </Grid>
@@ -200,15 +252,14 @@ class RubyPlaygroundExercise extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Grid container spacing={24}>
-              {console.log(this.state.output.result)}
               {this.state.output.result === undefined ? (
                 ''
               ) : (
                 <Grid item xs={12} sm={12}>
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="h6" gutterBottom>
                     Exit code: {this.state.output.exitCode}
                   </Typography>
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="h6" gutterBottom>
                     Execution result: {this.state.output.result}
                   </Typography>
                 </Grid>
@@ -220,14 +271,12 @@ class RubyPlaygroundExercise extends Component {
                 </Typography>
                 <TextField
                   id="outlined-full-width"
-                  // label="Output of the Ruby editor"
                   style={{ margin: 0 }}
                   multiline
                   rows="17"
                   placeholder="You will see the output of the editor here..."
-                  // helperText="Full width!"
                   value={
-                    output ||
+                    stdout ||
                     (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
                   }
                   fullWidth
@@ -252,8 +301,10 @@ class RubyPlaygroundExercise extends Component {
                   multiline
                   rows="17"
                   value={
-                    output ||
-                    (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
+                    stderr ||
+                    (pending
+                      ? "Loading...\nIf there's stderr, it will be shown here"
+                      : '')
                   }
                   fullWidth
                   margin="normal"
@@ -263,7 +314,7 @@ class RubyPlaygroundExercise extends Component {
                   }}
                   className={classes.root}
                   InputProps={{
-                    className: classes.input
+                    className: classes.multilineColor
                   }}
                 />
               </Grid>
