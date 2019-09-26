@@ -48,7 +48,7 @@ class RubyPlaygroundExercise extends Component {
   state = {
     output: {},
     pending: false,
-    stdin: [],
+    stdin: '',
     code: 'ARGV.each do |a|\n\tputs a\nend\n',
     timeout: '',
     language: 'RUBY',
@@ -59,19 +59,28 @@ class RubyPlaygroundExercise extends Component {
     this.setState({ output: {} })
     this.setState({ pending: true })
 
-    const final_input = this.state.programArguments
-      .split(',')
-      .map(str => str.replace(/\s/g, ''))
+    // const final_programArguments = this.state.programArguments
+    //   .split(",")
+    //   .map(str => str.replace(/\s/g, ""));
+
+    // const final_programArguments = this.state.programArguments.split(", ");
+    const final_programArguments = this.state.programArguments
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
+
+    const final_stdin = this.state.stdin
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
 
     fetch(`${process.env.API_HOST}/execution-requests`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        stdin: this.state.stdin,
+        stdin: final_stdin,
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        programArguments: final_input
+        programArguments: final_programArguments
       })
     })
       .then(res => {
@@ -84,7 +93,6 @@ class RubyPlaygroundExercise extends Component {
 
   polling = result_id => {
     this.IntervalPolling = setInterval(() => {
-      console.log('object', result_id)
       let url = `${process.env.API_HOST}/execution-requests/${result_id}/response/`
 
       fetch(url, {
@@ -131,10 +139,10 @@ class RubyPlaygroundExercise extends Component {
 
   clearAllFields = () => {
     this.setState({
-      stdin: [],
       output: {},
-      timeout: '',
-      programArguments: ''
+      programArguments: '',
+      stdin: '',
+      timeout: ''
     })
   }
 
@@ -161,7 +169,6 @@ class RubyPlaygroundExercise extends Component {
       ''
     )
 
-    // VER ESTO
     // const stderr =
     //   this.state.output.result === "TIMEOUT"
     //     ? "The compilation phase failed (i.e the code could not be compiled)."
@@ -177,7 +184,7 @@ class RubyPlaygroundExercise extends Component {
               label="Insert Program Arguments"
               style={{ margin: 8 }}
               rows="19"
-              placeholder="input1, input2, input3"
+              placeholder="comma+space separated, ie: input1, input2, input3"
               onChange={this.onProgramArgumentsChange}
               value={this.state.programArguments}
               fullWidth
