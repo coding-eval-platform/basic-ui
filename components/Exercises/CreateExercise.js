@@ -85,7 +85,7 @@ class CreateExercise extends React.Component {
   createExercise = () => {
     const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
 
-    this.props.enqueueSnackbar('Creating exercise', { variant: 'info' })
+    this.props.enqueueSnackbar('Creando el ejercicio', { variant: 'info' })
     fetch(url, {
       method: 'POST',
       headers: {
@@ -102,7 +102,7 @@ class CreateExercise extends React.Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 201) {
-          this.props.enqueueSnackbar('Exercise created.', {
+          this.props.enqueueSnackbar('Ejercicio creado.', {
             variant: 'success'
           })
           let exercise_id = res.headers.get('Location').split('/')
@@ -116,11 +116,14 @@ class CreateExercise extends React.Component {
           //   }
           // })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to create exercise.', {
+          this.props.enqueueSnackbar('Falló en crear el ejercicio.', {
             variant: 'error'
           })
         }
@@ -143,19 +146,19 @@ class CreateExercise extends React.Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create an exercise for the exam: {this.state.examDescription}
+          Crear un ejercicio para el examen: {this.state.examDescription}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Exercise question"
-              placeholder="Example: Write a function that, given an integer number, indicates if it is divisible by two"
+              label="Consigna"
+              placeholder="Ejemplo: Escribir una función que, dado un número entero, diga si es divisible por dos."
               style={{ margin: 20 }}
               onChange={this.onQuestionChange}
               value={this.state.question}
@@ -170,8 +173,8 @@ class CreateExercise extends React.Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Score (integer)"
-              placeholder="Example: 5"
+              label="Puntaje (entero)"
+              placeholder="Ejemplo: 5"
               style={{ margin: 20 }}
               onChange={this.onAwardedScoreChange}
               value={this.state.awardedScore}
@@ -182,7 +185,7 @@ class CreateExercise extends React.Component {
           </Grid>
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl>
-              <InputLabel>Language</InputLabel>
+              <InputLabel>Lenguaje</InputLabel>
               <Select
                 value={this.state.language}
                 onChange={this.onLanguageChange}
@@ -198,13 +201,13 @@ class CreateExercise extends React.Component {
         {this.state.language === '' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Select a language please
+              Elija un lenguaje por favor:
             </Typography>
           </div>
         ) : this.state.language === 'JAVA' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -227,7 +230,7 @@ class CreateExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Create exercise
+                  Crear ejercicio
                 </Button>
               </Grid>
             </Grid>
@@ -235,7 +238,7 @@ class CreateExercise extends React.Component {
         ) : this.state.language === 'RUBY' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -258,7 +261,7 @@ class CreateExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Create exercise
+                  Crear ejercicio
                 </Button>
               </Grid>
             </Grid>
@@ -266,7 +269,7 @@ class CreateExercise extends React.Component {
         ) : (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -289,7 +292,7 @@ class CreateExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Create exercise
+                  Crear ejercicio
                 </Button>
               </Grid>
             </Grid>

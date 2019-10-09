@@ -42,7 +42,7 @@ function TestCaseRow(props) {
             />
           </Grid>
           <Grid item xs={6}>
-            <Tooltip title="Delete this test case">
+            <Tooltip title="Borrar este test case">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
               </IconButton>

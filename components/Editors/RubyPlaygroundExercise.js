@@ -181,7 +181,7 @@ class RubyPlaygroundExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert Program Arguments"
+              label="Insertar argumentos del programa"
               style={{ margin: 8 }}
               rows="19"
               placeholder="comma+space separated, ie: input1, input2, input3"
@@ -196,10 +196,10 @@ class RubyPlaygroundExercise extends Component {
             />
             <TextField
               id="outlined-full-width"
-              label="Insert Program Input"
+              label="Insertar input del programa"
               style={{ margin: 8 }}
               rows="1"
-              placeholder="Any text you want"
+              placeholder="El texto deseado"
               onChange={this.onStdinChange}
               value={this.state.stdin}
               fullWidth
@@ -211,7 +211,7 @@ class RubyPlaygroundExercise extends Component {
             />
             <TextField
               id="outlined-full-width"
-              label="Insert timeout"
+              label="Insertar timeout"
               style={{ margin: 8 }}
               rows="1"
               placeholder="Example (ms): 1000"
@@ -234,7 +234,7 @@ class RubyPlaygroundExercise extends Component {
               className={classes.button}
               onClick={this.sendCodeinSandBox}
             >
-              Execute code inside editor
+              Correr código
               <SendIcon className={classes.rightIcon} />
             </Button>
             <Button
@@ -243,7 +243,7 @@ class RubyPlaygroundExercise extends Component {
               className={classes.button}
               onClick={this.clearAllFields}
             >
-              Clear all fields and logs
+              Clear
               <ClearIcon className={classes.rightIcon} />
             </Button>
           </Grid>
@@ -264,27 +264,26 @@ class RubyPlaygroundExercise extends Component {
               ) : (
                 <Grid item xs={12} sm={12}>
                   <Typography variant="h6" gutterBottom>
-                    Exit code: {this.state.output.exitCode}
+                    Código de salida {this.state.output.exitCode}
                   </Typography>
                   <Typography variant="h6" gutterBottom>
-                    Execution result: {this.state.output.result}
+                    Resultado: {this.state.output.result}
                   </Typography>
                 </Grid>
               )}
 
               <Grid item xs={12} sm={12}>
                 <Typography variant="h6" gutterBottom>
-                  Output of the Ruby editor
+                  Ruby editor (stdout)
                 </Typography>
                 <TextField
                   id="outlined-full-width"
                   style={{ margin: 0 }}
                   multiline
                   rows="17"
-                  placeholder="You will see the output of the editor here..."
+                  placeholder="La salida estándar aparecerá aquí...."
                   value={
-                    stdout ||
-                    (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
+                    stdout || (pending ? '👩🏻‍🚀 Buscando la respuesta...' : '')
                   }
                   fullWidth
                   margin="normal"
@@ -300,7 +299,7 @@ class RubyPlaygroundExercise extends Component {
               </Grid>
               <Grid item xs={12} sm={12}>
                 <Typography variant="h6" gutterBottom>
-                  Error logs
+                  Log de errores (stderr)
                 </Typography>
                 <TextField
                   id="outlined-full-width"
@@ -310,7 +309,7 @@ class RubyPlaygroundExercise extends Component {
                   value={
                     stderr ||
                     (pending
-                      ? "Loading...\nIf there's stderr, it will be shown here"
+                      ? 'Cargando...\nSi hay salida de errores (stderr), aparecerá aquí...'
                       : '')
                   }
                   fullWidth

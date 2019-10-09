@@ -35,7 +35,7 @@ class SeeExercises extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Tooltip title="See exercises">
+        <Tooltip title="Ver ejercicios">
           <IconButton
             className={classes.button}
             aria-label="SeeExercises"

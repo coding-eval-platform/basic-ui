@@ -64,7 +64,7 @@ class TeacherDashboard extends React.Component {
   }
 
   deleteExam = index => {
-    this.props.enqueueSnackbar('Deleting exam', { variant: 'info' })
+    this.props.enqueueSnackbar('Borrando examen', { variant: 'info' })
     const url = `${process.env.API_HOST}/exams/${this.state.exams[
       index
     ].id.toString()}`
@@ -79,16 +79,19 @@ class TeacherDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exam deleted', { variant: 'success' })
+          this.props.enqueueSnackbar('Examen borrado', { variant: 'success' })
           // Removes the desired item.
           this.state.exams.splice(index, 1)
           this.setState({ exams: this.state.exams })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to delete exam', {
+          this.props.enqueueSnackbar('Falló en borrar el examen', {
             variant: 'error'
           })
         }
@@ -98,7 +101,7 @@ class TeacherDashboard extends React.Component {
 
   startExamHandler = index => {
     console.log('Starting exam with ID: ', this.state.exams[index].id)
-    this.props.enqueueSnackbar('Starting exam', { variant: 'info' })
+    this.props.enqueueSnackbar('Comenzando examen', { variant: 'info' })
     const url = `${process.env.API_HOST}/exams/${this.state.exams[
       index
     ].id.toString()}/start`
@@ -113,7 +116,9 @@ class TeacherDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exam started', { variant: 'success' })
+          this.props.enqueueSnackbar('Examen comenzado', {
+            variant: 'success'
+          })
           // Change the state in that item
           this.state.exams[index].state = 'IN_PROGRESS'
           this.setState({ exams: this.state.exams })
@@ -122,19 +127,22 @@ class TeacherDashboard extends React.Component {
             this.state.exams[index].state.toString() === 'FINISHED' ||
             this.state.exams[index].state.toString() === 'IN_PROGRESS'
           ) {
-            this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-              variant: 'warning'
-            })
+            this.props.enqueueSnackbar(
+              'El examen debería estar en estado UPCOMING',
+              {
+                variant: 'warning'
+              }
+            )
           } else {
             this.props.enqueueSnackbar(
-              'Exam has no exercises or an exercise does not have a private test case.',
+              'El examen no tiene ejercicios o algún ejercicio no tiene private test cases.',
               {
                 variant: 'warning'
               }
             )
           }
         } else {
-          this.props.enqueueSnackbar('Failed to start exam', {
+          this.props.enqueueSnackbar('Falló en comenzar el examen', {
             variant: 'error'
           })
         }
@@ -143,7 +151,7 @@ class TeacherDashboard extends React.Component {
   }
 
   finishExamHandler = index => {
-    this.props.enqueueSnackbar('Finishing exam', { variant: 'info' })
+    this.props.enqueueSnackbar('Terminando exam', { variant: 'info' })
     const url = `${process.env.API_HOST}/exams/${this.state.exams[
       index
     ].id.toString()}/finish`
@@ -158,17 +166,19 @@ class TeacherDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exam finished', { variant: 'success' })
+          this.props.enqueueSnackbar('Examen terminado', {
+            variant: 'success'
+          })
 
           // Change the state in that item
           this.state.exams[index].state = 'FINISHED'
           this.setState({ exams: this.state.exams })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Exam should be in IN_PROGRESS state', {
+          this.props.enqueueSnackbar('El examen debería estar en IN_PROGRESS', {
             variant: 'warning'
           })
         } else {
-          this.props.enqueueSnackbar('Failed to finish exam', {
+          this.props.enqueueSnackbar('Falló en terminar el examen', {
             variant: 'error'
           })
         }
@@ -238,12 +248,12 @@ class TeacherDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            You have no exams created yet 🤷‍♂️
+            No tiene exámenes creados aún 🤷‍♂️
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -253,7 +263,7 @@ class TeacherDashboard extends React.Component {
                 color="primary"
                 onClick={this.createExam}
               >
-                Create one!
+                Crear uno!
               </Button>
             </Grid>
           </Grid>
@@ -272,12 +282,12 @@ class TeacherDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            All your exams 📚
+            Todos sus exámenes 📚
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -287,7 +297,7 @@ class TeacherDashboard extends React.Component {
                 color="primary"
                 onClick={this.createExam}
               >
-                Create exam
+                Crear examen
               </Button>
             </Grid>
           </Grid>
@@ -298,17 +308,16 @@ class TeacherDashboard extends React.Component {
                   <TableCell align="center" style={{ maxWidth: '2px' }}>
                     Exam ID
                   </TableCell>
-                  <TableCell align="center">Title</TableCell>
-                  <TableCell align="center">Starting Date & Time</TableCell>
-                  <TableCell align="center">Expected Duration</TableCell>
-                  <TableCell align="center">State</TableCell>
-                  <TableCell align="center">Actual Starting Moment</TableCell>
-                  <TableCell align="center">Actual Duration</TableCell>
-                  <TableCell align="center">Actions</TableCell>
+                  <TableCell align="center">Titulo</TableCell>
+                  <TableCell align="center">Fecha y hora de comienzo</TableCell>
+                  <TableCell align="center">Duración Estimada</TableCell>
+                  <TableCell align="center">Estado</TableCell>
+                  <TableCell align="center">Momento real de comienzo</TableCell>
+                  <TableCell align="center">Duración</TableCell>
+                  <TableCell align="center">Comandos</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {console.log("los exams sons: ", this.state.exams)} */}
                 {this.state.exams.map((exam, index) => (
                   <ExamRow
                     key={index}
@@ -319,7 +328,6 @@ class TeacherDashboard extends React.Component {
                     state={exam.state}
                     actualStartingMoment={exam.actualStartingMoment}
                     actualDuration={exam.actualDuration}
-                    // deleteEvent={this.deleteExam.bind(this, index)}
                     deleteEvent={this.openDeleteModal.bind(this, index)}
                     startExam={this.openStartModal.bind(this, index)}
                     finishExam={this.openStopModal.bind(this, index)}
@@ -340,15 +348,15 @@ class TeacherDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Delete exam
+                  Borrar examen
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to delete this exam? Click yes to
-                  delete, click outside if not.
+                  Está seguro de borrar este examen? Click SI para borrarlo,
+                  click fuera del recuadro para salir.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -358,7 +366,7 @@ class TeacherDashboard extends React.Component {
                     this.deleteExam(this.state.index)
                   }}
                 >
-                  Yes, delete it
+                  Si, borrarlo
                 </Button>
               </Modal>
 
@@ -375,15 +383,15 @@ class TeacherDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Start exam
+                  Comenzar examen
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to start this exam? Click yes to start
-                  it, click outside if not.
+                  Está seguro de comenzar este examen? Click SI para comenzarlo,
+                  click fuera del recuadro para salir.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -393,7 +401,7 @@ class TeacherDashboard extends React.Component {
                     this.startExamHandler(this.state.index)
                   }}
                 >
-                  Yes, start exam
+                  Si, comenzar examen
                 </Button>
               </Modal>
 
@@ -410,15 +418,15 @@ class TeacherDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Finish exam
+                  Terminar examen
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to finish this exam? Click yes to finish
-                  it, click outside if not.
+                  Está seguro de finalizar este examen? Click SI para
+                  finalizarlo, click fuera del recuadro para salir.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -428,7 +436,7 @@ class TeacherDashboard extends React.Component {
                     this.finishExamHandler(this.state.index)
                   }}
                 >
-                  Yes, finish exam
+                  Si, finalizar examen
                 </Button>
               </Modal>
             </Table>

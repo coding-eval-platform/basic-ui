@@ -131,7 +131,7 @@ class ModifyExercise extends React.Component {
   updateExercise = () => {
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}`
 
-    this.props.enqueueSnackbar('Modifying exercise', { variant: 'info' })
+    this.props.enqueueSnackbar('Modificando ejercicio', { variant: 'info' })
     fetch(url, {
       method: 'PUT',
       headers: {
@@ -148,16 +148,19 @@ class ModifyExercise extends React.Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exercise modified.', {
+          this.props.enqueueSnackbar('Ejercicio modificado.', {
             variant: 'success'
           })
           // Router.push(`/exam_dashboard`)
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to modify exercise.', {
+          this.props.enqueueSnackbar('Falló en modificar el ejercicio.', {
             variant: 'error'
           })
         }
@@ -180,19 +183,19 @@ class ModifyExercise extends React.Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update the exercise: {this.state.question}
+          Editar el ejercicio: {this.state.question}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Exercise question"
-              placeholder="Example: Write a function that, given an integer number, indicates if it is divisible by two"
+              label="Consigna"
+              placeholder="Ejemplo: Escribir una función que, dado un número entero, diga si es divisible por dos."
               style={{ margin: 20 }}
               onChange={this.onQuestionChange}
               value={this.state.question}
@@ -207,8 +210,8 @@ class ModifyExercise extends React.Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Integer: awarded Score for this exercise"
-              placeholder="Example: 5"
+              label="Puntaje (entero)"
+              placeholder="Ejemplo: 5"
               style={{ margin: 20 }}
               onChange={this.onAwardedScoreChange}
               value={this.state.awardedScore}
@@ -219,7 +222,7 @@ class ModifyExercise extends React.Component {
           </Grid>
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl>
-              <InputLabel>Language</InputLabel>
+              <InputLabel>Lenguaje</InputLabel>
               <Select
                 value={this.state.language}
                 onChange={this.onLanguageChange}
@@ -236,13 +239,13 @@ class ModifyExercise extends React.Component {
         {this.state.language === '' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Select a language please
+              Elija un lenguaje por favor:
             </Typography>
           </div>
         ) : this.state.language === 'JAVA' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -265,7 +268,7 @@ class ModifyExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Modify exercise
+                  Editar ejercicio
                 </Button>
               </Grid>
             </Grid>
@@ -273,7 +276,7 @@ class ModifyExercise extends React.Component {
         ) : this.state.language === 'RUBY' ? (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -296,7 +299,7 @@ class ModifyExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Modify exercise
+                  Editar ejercicio
                 </Button>
               </Grid>
             </Grid>
@@ -304,7 +307,7 @@ class ModifyExercise extends React.Component {
         ) : (
           <div>
             <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-              Insert a solution template below:
+              Inserte un template de solución:
             </Typography>
             <Grid
               container
@@ -327,7 +330,7 @@ class ModifyExercise extends React.Component {
                   color="primary"
                   onClick={this.createExercise}
                 >
-                  Modify exercise
+                  Editar ejercicio
                 </Button>
               </Grid>
             </Grid>

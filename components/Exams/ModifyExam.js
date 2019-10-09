@@ -90,7 +90,7 @@ class ModifyExam extends Component {
   updateExam = () => {
     const url = `${process.env.API_HOST}/exams/${this.state.examID}`
 
-    this.props.enqueueSnackbar('Modifying exam', { variant: 'info' })
+    this.props.enqueueSnackbar('Editando examen', { variant: 'info' })
     fetch(url, {
       method: 'PUT',
       headers: {
@@ -106,16 +106,19 @@ class ModifyExam extends Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exam modified.', {
+          this.props.enqueueSnackbar('Examen editado.', {
             variant: 'success'
           })
           // Router.push(`/teacher_dashboard`)
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING.',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to modify exam.', {
+          this.props.enqueueSnackbar('Falló la edición del examens.', {
             variant: 'error'
           })
         }
@@ -158,21 +161,21 @@ class ModifyExam extends Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Update the exam: {this.state.description}
+          Editar el examen: {this.state.description}
         </Typography>
         <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
-          Exam status: {this.state.examState}
+          Estado del examen: {this.state.examState}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Exam title"
+              label="Título del examen"
               style={{ margin: 20 }}
               onChange={this.onDescriptionChange}
               value={this.state.description}
@@ -186,7 +189,7 @@ class ModifyExam extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Exam duration (mins)"
+              label="Duracion (mins)"
               style={{ margin: 20 }}
               onChange={this.onDurationChange}
               value={this.state.duration}
@@ -198,7 +201,7 @@ class ModifyExam extends Component {
           <Grid item xs={3}>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DateTimePicker
-                label="Insert date and time"
+                label="Inserte fecha y hora"
                 value={this.state.startingAt}
                 style={{ margin: 20 }}
                 onChange={this.onDateTimeChange}
@@ -214,7 +217,7 @@ class ModifyExam extends Component {
               color="primary"
               onClick={this.addExercise}
             >
-              Add an exercise to the exam
+              Agregar un ejercicio al examen
             </Button>
           </Grid>
         </Grid>
@@ -226,7 +229,7 @@ class ModifyExam extends Component {
               color="primary"
               onClick={this.seeExercises}
             >
-              View and edit exercises
+              Ver y editar ejercicios
             </Button>
           </Grid>
         </Grid>
@@ -238,7 +241,7 @@ class ModifyExam extends Component {
               color="primary"
               onClick={this.updateExam}
             >
-              Modify exam
+              Editar examen
             </Button>
           </Grid>
         </Grid>

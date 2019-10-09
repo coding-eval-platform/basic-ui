@@ -108,7 +108,7 @@ function ExamRow(props) {
             />
           </Grid>
           <Grid item xs={2}>
-            <Tooltip title="Start this exam">
+            <Tooltip title="Comenzar examen">
               <IconButton
                 className={classes.button}
                 aria-label="Play"
@@ -121,7 +121,7 @@ function ExamRow(props) {
             </Tooltip>
           </Grid>
           <Grid item xs={2}>
-            <Tooltip title="Finish this exam">
+            <Tooltip title="Terminar examen">
               <IconButton
                 className={classes.button}
                 aria-label="Finish"
@@ -134,7 +134,7 @@ function ExamRow(props) {
             </Tooltip>
           </Grid>
           <Grid item xs={2}>
-            <Tooltip title="Delete this exam">
+            <Tooltip title="Borrar examen">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
               </IconButton>

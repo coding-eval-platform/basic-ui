@@ -56,10 +56,10 @@ class SignUpForm extends React.Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 201) {
-          this.props.enqueueSnackbar('User created', { variant: 'success' })
+          this.props.enqueueSnackbar('Usuario creado', { variant: 'success' })
           Router.push(`/`)
         } else {
-          this.props.enqueueSnackbar('User failed to be created', {
+          this.props.enqueueSnackbar('Creación de usuario fallida', {
             variant: 'error'
           })
         }

@@ -35,7 +35,7 @@ class EditExamInRow extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Tooltip title="Edit this exam">
+        <Tooltip title="Editar el examen">
           <IconButton
             className={classes.button}
             aria-label="Edit"

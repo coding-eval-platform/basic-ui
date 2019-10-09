@@ -139,7 +139,7 @@ class ExerciseDashboard extends React.Component {
   }
 
   deletePublicTestCases = index => {
-    this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
+    this.props.enqueueSnackbar('Borrando test case', { variant: 'info' })
     const url = `${
       process.env.API_HOST
     }/test-cases/${this.state.publicTestCases[index].id.toString()}`
@@ -153,18 +153,21 @@ class ExerciseDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Test case deleted', {
+          this.props.enqueueSnackbar('Test case borrado', {
             variant: 'success'
           })
           // Removes the desired item.
           this.state.publicTestCases.splice(index, 1)
           this.setState({ publicTestCases: this.state.publicTestCases })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to delete test case', {
+          this.props.enqueueSnackbar('Falló al borrar test case', {
             variant: 'error'
           })
         }
@@ -173,7 +176,7 @@ class ExerciseDashboard extends React.Component {
   }
 
   deletePrivateTestCases = index => {
-    this.props.enqueueSnackbar('Deleting test case', { variant: 'info' })
+    this.props.enqueueSnackbar('Borrando test case', { variant: 'info' })
     const url = `${
       process.env.API_HOST
     }/test-cases/${this.state.privateTestCases[index].id.toString()}`
@@ -187,18 +190,21 @@ class ExerciseDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Test case deleted', {
+          this.props.enqueueSnackbar('Test case borrado', {
             variant: 'success'
           })
           // Removes the desired item.
           this.state.privateTestCases.splice(index, 1)
           this.setState({ privateTestCases: this.state.privateTestCases })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to delete test case', {
+          this.props.enqueueSnackbar('Falló al borrar test case', {
             variant: 'error'
           })
         }
@@ -220,12 +226,12 @@ class ExerciseDashboard extends React.Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-          All your test cases for: {this.state.exerciseQuestion}
+          Todos sus test cases para: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -235,16 +241,16 @@ class ExerciseDashboard extends React.Component {
               color="primary"
               onClick={this.createTestCase}
             >
-              Create test case
+              Crear test case
             </Button>
           </Grid>
         </Grid>
         {!this.state.publicIsLoaded ? (
-          <div>Loading...</div>
+          <div>Cargando...</div>
         ) : this.state.publicTestCases < 1 ? (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              You have no test public cases created in this exercise yet 🤷‍♂️
+              No tiene test cases creados aún 🤷‍♂️
             </Typography>
             {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
@@ -262,7 +268,7 @@ class ExerciseDashboard extends React.Component {
         ) : (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              Public Test cases
+              Test cases publicos
             </Typography>
             <Paper className={classes.root}>
               <Table className={classes.table}>
@@ -271,9 +277,9 @@ class ExerciseDashboard extends React.Component {
                     <TableCell align="center" style={{ maxWidth: '2px' }}>
                       Test Case ID
                     </TableCell>
-                    <TableCell align="center">Visibility</TableCell>
+                    <TableCell align="center">Visibilidad</TableCell>
                     <TableCell align="center">Timeout (ms)</TableCell>
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">Comandos</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -304,15 +310,15 @@ class ExerciseDashboard extends React.Component {
                     style={{ margin: '20px 0px 0px 20px' }}
                     gutterBottom
                   >
-                    Delete test case
+                    Borrar test case
                   </Typography>
                   <Typography
                     variant="body1"
                     style={{ margin: '20px' }}
                     gutterBottom
                   >
-                    Are you sure you want to delete this test case? Click yes to
-                    delete, click outside if not.
+                    Está seguro de borrar este test case? Click SI para
+                    borrarlo, click fuera del recuadro para salir.
                   </Typography>
                   <Button
                     style={{ marginLeft: '20px' }}
@@ -322,7 +328,7 @@ class ExerciseDashboard extends React.Component {
                       this.deletePublicTestCases(this.state.index)
                     }}
                   >
-                    Yes, delete it
+                    Si, borrarlo
                   </Button>
                 </Modal>
               </Table>
@@ -331,11 +337,11 @@ class ExerciseDashboard extends React.Component {
         )}
 
         {!this.state.privateIsLoaded ? (
-          <div>Loading...</div>
+          <div>Cargando...</div>
         ) : this.state.privateTestCases < 1 ? (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              You have no test private cases created in this exercise yet 🤷‍♂️
+              No tiene test cases creados aún 🤷‍♂️
             </Typography>
             {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
@@ -353,7 +359,7 @@ class ExerciseDashboard extends React.Component {
         ) : (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              Private Test cases
+              Test cases privados
             </Typography>
             <Paper className={classes.root}>
               <Table className={classes.table}>
@@ -362,9 +368,9 @@ class ExerciseDashboard extends React.Component {
                     <TableCell align="center" style={{ maxWidth: '2px' }}>
                       Test Case ID
                     </TableCell>
-                    <TableCell align="center">Visibility</TableCell>
+                    <TableCell align="center">Visibilidad</TableCell>
                     <TableCell align="center">Timeout (ms)</TableCell>
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">Comandos</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -398,15 +404,15 @@ class ExerciseDashboard extends React.Component {
                     style={{ margin: '20px 0px 0px 20px' }}
                     gutterBottom
                   >
-                    Delete test case
+                    Borrar test case
                   </Typography>
                   <Typography
                     variant="body1"
                     style={{ margin: '20px' }}
                     gutterBottom
                   >
-                    Are you sure you want to delete this test case? Click yes to
-                    delete, click outside if not.
+                    Está seguro de borrar este test case? Click SI para
+                    borrarlo, click fuera del recuadro para salir.
                   </Typography>
                   <Button
                     style={{ marginLeft: '20px' }}
@@ -416,7 +422,7 @@ class ExerciseDashboard extends React.Component {
                       this.deletePrivateTestCases(this.state.index)
                     }}
                   >
-                    Yes, delete it
+                    Si, borrarlo
                   </Button>
                 </Modal>
               </Table>

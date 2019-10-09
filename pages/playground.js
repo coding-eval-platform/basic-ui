@@ -1,22 +1,22 @@
-import Layout from "../components/MyLayout.js";
-import RubyPlaygroundExercise from "../components/Editors/RubyPlaygroundExercise.js";
-import JavaPlaygroundExercise from "../components/Editors/JavaPlaygroundExercise.js";
-import CPlaygroundExercise from "../components/Editors/CPlaygroundExercise.js";
+import Layout from '../components/MyLayout.js'
+import RubyPlaygroundExercise from '../components/Editors/RubyPlaygroundExercise.js'
+import JavaPlaygroundExercise from '../components/Editors/JavaPlaygroundExercise.js'
+import CPlaygroundExercise from '../components/Editors/CPlaygroundExercise.js'
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 class Playground extends Component {
   state = {
-    value: "ruby"
-  };
+    value: 'ruby'
+  }
 
   handleRadioButton(value) {
     this.setState({
       value: value
-    });
+    })
   }
 
   render() {
@@ -24,35 +24,34 @@ class Playground extends Component {
       <div>
         <Layout>
           <Typography style={{ margin: 8 }} variant="h5" gutterBottom>
-            Select a language to play with:
-            &nbsp;
+            Elija un lenguaje: &nbsp;
             <input
               type="radio"
-              checked={this.state.value === "ruby"}
-              onChange={() => this.handleRadioButton("ruby")}
+              checked={this.state.value === 'ruby'}
+              onChange={() => this.handleRadioButton('ruby')}
             />
-            Ruby
-            &nbsp;
+            Ruby &nbsp;
             <input
               type="radio"
-              checked={this.state.value === "java"}
-              onChange={() => this.handleRadioButton("java")}
+              checked={this.state.value === 'java'}
+              onChange={() => this.handleRadioButton('java')}
             />
-            Java
-            &nbsp;
+            Java &nbsp;
             <input
               type="radio"
-              checked={this.state.value === "c"}
-              onChange={() => this.handleRadioButton("c")}
+              checked={this.state.value === 'c'}
+              onChange={() => this.handleRadioButton('c')}
             />
             C
           </Typography>
 
-          { this.state.value === 'ruby' ? <RubyPlaygroundExercise /> : 
-            this.state.value === 'java' ? <JavaPlaygroundExercise /> :
+          {this.state.value === 'ruby' ? (
+            <RubyPlaygroundExercise />
+          ) : this.state.value === 'java' ? (
+            <JavaPlaygroundExercise />
+          ) : (
             <CPlaygroundExercise />
-          }
-          
+          )}
 
           {/* <hr style={{ margin: 50 }} /> */}
 
@@ -63,13 +62,13 @@ class Playground extends Component {
           {/* <CPlaygroundExercise /> */}
         </Layout>
       </div>
-    );
+    )
   }
 }
 
 Playground.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default Playground;
+export default Playground
 // export default withStyles(styles)(RubyPlaygroundExercise);

@@ -122,7 +122,7 @@ class ModifyTestCase extends React.Component {
             .map(str => str.replace(/\s/g, ''))
 
     const url = `${process.env.API_HOST}/test-cases/${this.state.testCaseID}`
-    this.props.enqueueSnackbar('Modifying test case', { variant: 'info' })
+    this.props.enqueueSnackbar('Modificando test case', { variant: 'info' })
 
     fetch(url, {
       method: 'PUT',
@@ -140,16 +140,19 @@ class ModifyTestCase extends React.Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Test case modified.', {
+          this.props.enqueueSnackbar('Test case modificado.', {
             variant: 'success'
           })
           // Router.push(`/teacher_dashboard`)
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to modify test case.', {
+          this.props.enqueueSnackbar('Falló en modificar test case.', {
             variant: 'error'
           })
         }
@@ -172,19 +175,20 @@ class ModifyTestCase extends React.Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Modify a test case for the exercise: {this.state.exerciseQuestion}
+          Modificar un test case para el ejercicio:{' '}
+          {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Timeout in ms"
-              placeholder="Example: 600"
+              label="Timeout (ms)"
+              placeholder="Ejemplo: 600"
               style={{ margin: 20 }}
               onChange={this.onTimeoutChange}
               value={this.state.timeout}
@@ -195,15 +199,14 @@ class ModifyTestCase extends React.Component {
           </Grid>
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl>
-              <InputLabel>Visibility</InputLabel>
+              <InputLabel>Visibilidad</InputLabel>
               <Select
                 value={this.state.visibility}
                 onChange={this.onVisibilityChange}
                 style={{ minWidth: '10em' }}
-                // PONER DEFAULT VALUES!
               >
-                <MenuItem value={'PUBLIC'}>Public</MenuItem>
-                <MenuItem value={'PRIVATE'}>Private</MenuItem>
+                <MenuItem value={'PUBLIC'}>Publico</MenuItem>
+                <MenuItem value={'PRIVATE'}>Privado</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -251,7 +254,7 @@ class ModifyTestCase extends React.Component {
               color="primary"
               onClick={this.modifyTestCase}
             >
-              Modify test case
+              Modificar test case
             </Button>
           </Grid>
         </Grid>

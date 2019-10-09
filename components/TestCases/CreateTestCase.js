@@ -110,18 +110,21 @@ class CreateTestCase extends React.Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 201) {
-          this.props.enqueueSnackbar('Test case created.', {
+          this.props.enqueueSnackbar('Test case creado.', {
             variant: 'success'
           })
           // Router.push(
           //   `/exercise_dashboard?exerciseID=${this.state.exerciseID}&exerciseQuestion=${this.state.exerciseQuestion}`
           // )
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to create test case.', {
+          this.props.enqueueSnackbar('Falló en crear un test case.', {
             variant: 'error'
           })
         }
@@ -144,19 +147,19 @@ class CreateTestCase extends React.Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create a test case for the exercise: {this.state.exerciseQuestion}
+          Crear un test case para el ejercicio: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Timeout in ms"
-              placeholder="Example: 600"
+              label="Timeout (ms)"
+              placeholder="Ejemplo: 600"
               style={{ margin: 20 }}
               onChange={this.onTimeoutChange}
               value={this.state.timeout}
@@ -167,15 +170,14 @@ class CreateTestCase extends React.Component {
           </Grid>
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl>
-              <InputLabel>Visibility</InputLabel>
+              <InputLabel>Visibilidad</InputLabel>
               <Select
                 value={this.state.visibility}
                 onChange={this.onVisibilityChange}
                 style={{ minWidth: '10em' }}
-                // PONER DEFAULT VALUES!
               >
-                <MenuItem value={'PUBLIC'}>Public</MenuItem>
-                <MenuItem value={'PRIVATE'}>Private</MenuItem>
+                <MenuItem value={'PUBLIC'}>Publico</MenuItem>
+                <MenuItem value={'PRIVATE'}>Privado</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -221,7 +223,7 @@ class CreateTestCase extends React.Component {
               color="primary"
               onClick={this.createTestCase}
             >
-              Create test case
+              Crear test case
             </Button>
           </Grid>
         </Grid>

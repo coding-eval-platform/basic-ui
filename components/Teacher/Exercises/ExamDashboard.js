@@ -116,7 +116,7 @@ class ExamDashboard extends React.Component {
 
   deleteExercise = index => {
     console.log('deleting', index)
-    this.props.enqueueSnackbar('Deleting exercise', { variant: 'info' })
+    this.props.enqueueSnackbar('Borrando ejercicio', { variant: 'info' })
     const url = `${process.env.API_HOST}/exercises/${this.state.exercises[
       index
     ].id.toString()}`
@@ -130,18 +130,21 @@ class ExamDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Exercise deleted', {
+          this.props.enqueueSnackbar('Ejercicio borrado', {
             variant: 'success'
           })
           // Removes the desired item.
           this.state.exercises.splice(index, 1)
           this.setState({ exercises: this.state.exercises })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Exam should be in UPCOMING state', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to delete exam', {
+          this.props.enqueueSnackbar('Falló en borrar ejercicio', {
             variant: 'error'
           })
         }
@@ -150,7 +153,9 @@ class ExamDashboard extends React.Component {
   }
 
   deleteAllExercises = index => {
-    this.props.enqueueSnackbar('Deleting all exercises', { variant: 'info' })
+    this.props.enqueueSnackbar('Borrando todos los ejercicios', {
+      variant: 'info'
+    })
     const url = `${process.env.API_HOST}/exams/${this.state.examID}/exercises`
 
     fetch(url, {
@@ -162,18 +167,21 @@ class ExamDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('All exercises deleted', {
+          this.props.enqueueSnackbar('Todos los ejercicios borrados', {
             variant: 'success'
           })
           // Removes the desired item.
           this.state.exercises = []
           this.setState({ exercises: this.state.exercises })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('The exam is not in UPCOMING state.', {
-            variant: 'warning'
-          })
+          this.props.enqueueSnackbar(
+            'El examen debería estar en estado UPCOMING',
+            {
+              variant: 'warning'
+            }
+          )
         } else {
-          this.props.enqueueSnackbar('Failed to delete all exercises', {
+          this.props.enqueueSnackbar('Falló en borrar todos los ejercicios', {
             variant: 'error'
           })
         }
@@ -184,7 +192,7 @@ class ExamDashboard extends React.Component {
   render() {
     const { classes } = this.props
     if (!this.state.isLoaded) {
-      return <div>Loading...</div>
+      return <div>Cargando...</div>
     } else if (this.state.exercises < 1) {
       return (
         <div>
@@ -198,12 +206,12 @@ class ExamDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            You have no exercises created in this exam yet 🤷‍♂️
+            No tiene ejercicios creados aún 🤷‍♂️
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -213,7 +221,7 @@ class ExamDashboard extends React.Component {
                 color="primary"
                 onClick={this.createExercise}
               >
-                Create one!
+                Crear uno!
               </Button>
             </Grid>
           </Grid>
@@ -232,7 +240,7 @@ class ExamDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
@@ -240,7 +248,7 @@ class ExamDashboard extends React.Component {
             Exam status: {this.state.examState}
           </Typography> */}
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Exercises of the exam: {this.state.examDescription}
+            Ejercicios del examen: {this.state.examDescription}
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -252,7 +260,7 @@ class ExamDashboard extends React.Component {
                     color="primary"
                     onClick={this.createExercise}
                   >
-                    Add exercise to exam
+                    Agregar ejercicio al examen
                   </Button>
                   <Button
                     style={{ margin: 20 }}
@@ -260,7 +268,7 @@ class ExamDashboard extends React.Component {
                     color="secondary"
                     onClick={this.openDeleteAllModal.bind(this)}
                   >
-                    Delete all exercises
+                    Borrar todos los ejercicios
                   </Button>
                 </div>
               ) : (
@@ -275,10 +283,10 @@ class ExamDashboard extends React.Component {
                   <TableCell align="center" style={{ maxWidth: '2px' }}>
                     Exercise ID
                   </TableCell>
-                  <TableCell align="center">Question</TableCell>
-                  <TableCell align="center">Language</TableCell>
-                  <TableCell align="center">Awarded Score</TableCell>
-                  <TableCell align="center">Actions</TableCell>
+                  <TableCell align="center">Pregunta</TableCell>
+                  <TableCell align="center">Lenguaje</TableCell>
+                  <TableCell align="center">Puntaje</TableCell>
+                  <TableCell align="center">Comandos</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -308,15 +316,15 @@ class ExamDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Delete exercise
+                  Borrar ejercicio
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to delete this exercise? Click yes to
-                  delete, click outside if not.
+                  Está seguro que desa borrar el ejercicio? Click SI para
+                  borrarlo, click afuera del recuadro para salir.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -326,7 +334,7 @@ class ExamDashboard extends React.Component {
                     this.deleteExercise(this.state.index)
                   }}
                 >
-                  Yes, delete it
+                  Si, borrar ejercicio
                 </Button>
               </Modal>
 
@@ -343,15 +351,15 @@ class ExamDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Delete all exercises
+                  Borrar todos los ejercicios
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to delete all the exercises? Click yes
-                  to delete, click outside if not.
+                  Está seguro que desa borrar todos los ejercicios? Click SI
+                  para borrarlos, click afuera del recuadro para salir.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -361,7 +369,7 @@ class ExamDashboard extends React.Component {
                     this.deleteAllExercises()
                   }}
                 >
-                  Yes, delete them
+                  Si, borrar todos los ejercicios
                 </Button>
               </Modal>
             </Table>

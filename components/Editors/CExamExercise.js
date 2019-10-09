@@ -140,7 +140,7 @@ class CExamExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insert Program Arguments"
+              label="Insertar argumentos del programa"
               style={{ margin: 8 }}
               rows="19"
               placeholder="input1, input2, input3"
@@ -155,10 +155,10 @@ class CExamExercise extends Component {
             />
             <TextField
               id="outlined-full-width"
-              label="Insert Program Input"
+              label="Insertar input del programa"
               style={{ margin: 8 }}
               rows="1"
-              placeholder="Any text you want"
+              placeholder="El texto deseado"
               onChange={this.onStdinChange}
               value={this.state.stdin}
               fullWidth
@@ -194,7 +194,7 @@ class CExamExercise extends Component {
               className={classes.button}
               onClick={this.sendCodeinSandBox}
             >
-              Execute code inside editor
+              Correr código
               <SendIcon className={classes.rightIcon} />
             </Button>
           </Grid>
@@ -213,16 +213,13 @@ class CExamExercise extends Component {
             </Typography>
             <TextField
               id="outlined-full-width"
-              // label="Output of the Ruby editor"
+              // label="Ruby editor (stdout)"
               style={{ margin: 0 }}
               multiline
               rows="17"
-              placeholder="You will see the output of the editor here..."
+              placeholder="La salida estándar aparecerá aquí...."
               //helperText="Full width!"
-              value={
-                output ||
-                (pending ? '👩🏻‍🚀 bringing your output from Mars...' : '')
-              }
+              value={output || (pending ? '👩🏻‍🚀 Buscando la respuesta...' : '')}
               fullWidth
               margin="normal"
               variant="outlined"

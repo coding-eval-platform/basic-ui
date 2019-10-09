@@ -31,7 +31,6 @@ class CreateExam extends Component {
   }
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
   }
 
   onDescriptionChange = description => {
@@ -51,7 +50,7 @@ class CreateExam extends Component {
   createExam = () => {
     const url = `${process.env.API_HOST}/exams`
 
-    this.props.enqueueSnackbar('Creating exam', { variant: 'info' })
+    this.props.enqueueSnackbar('Creando examen', { variant: 'info' })
     fetch(url, {
       method: 'POST',
       headers: {
@@ -67,7 +66,7 @@ class CreateExam extends Component {
       .then(res => {
         console.log('Response status is: ', res.status)
         if (res.status === 201) {
-          this.props.enqueueSnackbar('Exam created.', {
+          this.props.enqueueSnackbar('Examen creado.', {
             variant: 'success'
           })
           let exam_id = res.headers.get('Location').split('/')
@@ -86,7 +85,7 @@ class CreateExam extends Component {
             variant: 'warning'
           })
         } else {
-          this.props.enqueueSnackbar('Failed to create exam.', {
+          this.props.enqueueSnackbar('Falló la creación del examen.', {
             variant: 'error'
           })
         }
@@ -107,19 +106,19 @@ class CreateExam extends Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create an exam
+          Crear un examen
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Exam title"
-              placeholder="Example: OOP first exam"
+              label="Título del examen"
+              placeholder="Ejemplo: Primer Parcial de OOP"
               style={{ margin: 20 }}
               onChange={this.onDescriptionChange}
               value={this.state.description}
@@ -133,8 +132,8 @@ class CreateExam extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
-              label="Exam duration (mins)"
-              placeholder="Example: 120"
+              label="Duración (mins)"
+              placeholder="Ejemplo: 120"
               style={{ margin: 20 }}
               onChange={this.onDurationChange}
               value={this.state.duration}
@@ -157,7 +156,7 @@ class CreateExam extends Component {
             /> */}
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DateTimePicker
-                label="Insert date and time"
+                label="Inserte fecha y hora"
                 value={this.state.startingAt}
                 fullWidth
                 style={{ margin: 20 }}
@@ -174,7 +173,7 @@ class CreateExam extends Component {
               color="primary"
               onClick={this.createExam}
             >
-              Create exam
+              Crear examen
             </Button>
           </Grid>
         </Grid>

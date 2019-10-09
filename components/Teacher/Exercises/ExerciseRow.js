@@ -48,7 +48,7 @@ function ExerciseRow(props) {
             />
           </Grid>
           <Grid item xs={4}>
-            <Tooltip title="Delete this exercise">
+            <Tooltip title="Borrar este ejercicio">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
               </IconButton>
