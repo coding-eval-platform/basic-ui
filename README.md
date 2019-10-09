@@ -17,11 +17,6 @@ npm run dev
 npm run build
 ```
 
-## Micro deploy (to test)
-
-```
-now
-```
 
 ## License
 
