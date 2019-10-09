@@ -231,7 +231,7 @@ class ExerciseDashboard extends React.Component {
           </Grid>
         </Grid>
         <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-          Todos sus test cases para: {this.state.exerciseQuestion}
+          Todos sus test cases para el ejercicio: {this.state.exerciseQuestion}
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
@@ -250,7 +250,7 @@ class ExerciseDashboard extends React.Component {
         ) : this.state.publicTestCases < 1 ? (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              No tiene test cases creados aún 🤷‍♂️
+              No tiene test cases públicos creados aún 🤷‍♂️
             </Typography>
             {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
@@ -341,7 +341,7 @@ class ExerciseDashboard extends React.Component {
         ) : this.state.privateTestCases < 1 ? (
           <div>
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-              No tiene test cases creados aún 🤷‍♂️
+              No tiene test cases privados creados aún 🤷‍♂️
             </Typography>
             {/* <Grid container spacing={24} alignItems="center">
               <Grid item xs={6}>
