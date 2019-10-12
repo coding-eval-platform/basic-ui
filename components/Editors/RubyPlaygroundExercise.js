@@ -47,7 +47,7 @@ const styles = theme => ({
     color: 'white'
   },
   responseStylesNotOk: {
-    background: '#d50000',
+    background: '#f44336',
     color: 'white'
   }
 })
