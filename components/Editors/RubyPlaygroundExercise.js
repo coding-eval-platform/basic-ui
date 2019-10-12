@@ -274,7 +274,7 @@ class RubyPlaygroundExercise extends Component {
 
               <Grid item xs={12} sm={12}>
                 <Typography variant="h6" gutterBottom>
-                  Ruby editor (stdout)
+                  Salida estándar del editor de Ruby
                 </Typography>
                 <TextField
                   id="outlined-full-width"

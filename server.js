@@ -32,6 +32,25 @@ app
   .then(() => {
     const server = express()
 
+    server.get('/playground/:page', (req, res) => {
+      const page = req.params.page
+      let file = ''
+      switch (page) {
+        case 'ruby':
+          file = '/ruby'
+          break
+        case 'java':
+          file = '/java'
+          break
+        case 'c':
+          file = '/c'
+          break
+        default:
+          file = '/index'
+      }
+      return app.render(req, res, file, { page })
+    })
+
     server.get('*', (req, res) => {
       return handle(req, res)
     })
