@@ -183,7 +183,7 @@ class RubyPlaygroundExercise extends Component {
               id="outlined-full-width"
               label="Insertar argumentos del programa"
               style={{ margin: 8 }}
-              rows="19"
+              rows="1"
               placeholder="comma+space separated, ie: input1, input2, input3"
               onChange={this.onProgramArgumentsChange}
               value={this.state.programArguments}
@@ -194,6 +194,8 @@ class RubyPlaygroundExercise extends Component {
                 shrink: true
               }}
             />
+          </Grid>
+          <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
               label="Insertar input del programa"
@@ -209,6 +211,8 @@ class RubyPlaygroundExercise extends Component {
                 shrink: true
               }}
             />
+          </Grid>
+          <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
               label="Insertar timeout"
@@ -264,7 +268,7 @@ class RubyPlaygroundExercise extends Component {
               ) : (
                 <Grid item xs={12} sm={12}>
                   <Typography variant="h6" gutterBottom>
-                    Código de salida {this.state.output.exitCode}
+                    Código de salida: {this.state.output.exitCode}
                   </Typography>
                   <Typography variant="h6" gutterBottom>
                     Resultado: {this.state.output.result}
@@ -280,7 +284,7 @@ class RubyPlaygroundExercise extends Component {
                   id="outlined-full-width"
                   style={{ margin: 0 }}
                   multiline
-                  rows="17"
+                  rows="10"
                   placeholder="La salida estándar aparecerá aquí...."
                   value={
                     stdout || (pending ? '👩🏻‍🚀 Buscando la respuesta...' : '')
@@ -305,7 +309,7 @@ class RubyPlaygroundExercise extends Component {
                   id="outlined-full-width"
                   style={{ margin: 0 }}
                   multiline
-                  rows="17"
+                  rows="10"
                   value={
                     stderr ||
                     (pending
