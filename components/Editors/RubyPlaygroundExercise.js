@@ -41,6 +41,14 @@ const styles = theme => ({
     color: 'red',
     fontFamily: 'Monospace',
     fontSize: 15
+  },
+  responseStylesOk: {
+    background: '#3f51b5',
+    color: 'white'
+  },
+  responseStylesNotOk: {
+    background: '#d50000',
+    color: 'white'
   }
 })
 
@@ -265,12 +273,37 @@ class RubyPlaygroundExercise extends Component {
             <Grid container spacing={24}>
               {this.state.output.result === undefined ? (
                 ''
-              ) : (
+              ) : this.state.output.result === 'COMPLETED' ? (
                 <Grid item xs={12} sm={12}>
-                  <Typography variant="h6" gutterBottom>
+                  <Typography
+                    className={classes.responseStylesOk}
+                    variant="h6"
+                    gutterBottom
+                  >
                     Código de salida: {this.state.output.exitCode}
                   </Typography>
-                  <Typography variant="h6" gutterBottom>
+                  <Typography
+                    className={classes.responseStylesOk}
+                    variant="h6"
+                    gutterBottom
+                  >
+                    Resultado: {this.state.output.result}
+                  </Typography>
+                </Grid>
+              ) : (
+                <Grid item xs={12} sm={12}>
+                  <Typography
+                    className={classes.responseStylesNotOk}
+                    variant="h6"
+                    gutterBottom
+                  >
+                    Código de salida: {this.state.output.exitCode}
+                  </Typography>
+                  <Typography
+                    className={classes.responseStylesNotOk}
+                    variant="h6"
+                    gutterBottom
+                  >
                     Resultado: {this.state.output.result}
                   </Typography>
                 </Grid>
