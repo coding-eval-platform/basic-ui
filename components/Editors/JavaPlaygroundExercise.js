@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import ClearIcon from '@material-ui/icons/Clear'
+import InfoIcon from '@material-ui/icons/Info'
+import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
@@ -30,6 +32,10 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
+  },
+  infoIcon: {
+    color: '#ff9800',
+    marginRight: theme.spacing.unit
   },
   iconSmall: {
     fontSize: 20
@@ -248,6 +254,10 @@ class JavaPlaygroundExercise extends Component {
 
           {/* EXECUTES */}
           <Grid container spacing={24} alignItems="center" justify="flex-end">
+            <Tooltip title="Se está usando el paquete default de Java">
+              <InfoIcon className={classes.infoIcon}></InfoIcon>
+            </Tooltip>
+
             <Grid item xs={3}>
               <Button
                 variant="contained"
