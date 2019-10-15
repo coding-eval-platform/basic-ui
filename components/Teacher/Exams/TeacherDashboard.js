@@ -190,6 +190,17 @@ class TeacherDashboard extends React.Component {
     Router.push(`/create_exam`)
   }
 
+  seeSubmissions = index => {
+    const examID = this.state.exams[index].id.toString()
+
+    Router.push({
+      pathname: `/submissions_dashboard`,
+      query: {
+        examID: examID
+      }
+    })
+  }
+
   openDeleteModal = index => {
     this.setState({
       visibleDelete: true,
@@ -330,6 +341,7 @@ class TeacherDashboard extends React.Component {
                     actualDuration={exam.actualDuration}
                     deleteEvent={this.openDeleteModal.bind(this, index)}
                     startExam={this.openStartModal.bind(this, index)}
+                    seeSubmissions={this.seeSubmissions.bind(this, index)}
                     finishExam={this.openStopModal.bind(this, index)}
                   />
                 ))}

@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
+import GroupIcon from '@material-ui/icons/Group'
 import Tooltip from '@material-ui/core/Tooltip'
 import Grid from '@material-ui/core/Grid'
 
@@ -91,6 +92,19 @@ function ExamRow(props) {
       </TableCell>
       <TableCell align="center">
         <Grid container spacing={24}>
+          <Grid item xs={2}>
+            <Tooltip title="Ver entregas">
+              <IconButton
+                className={classes.button}
+                aria-label="See"
+                size="small"
+                onClick={props.seeSubmissions}
+                color="primary"
+              >
+                <GroupIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
           <Grid item xs={2}>
             <SeeExercises
               id={props.id}
