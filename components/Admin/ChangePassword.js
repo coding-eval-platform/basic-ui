@@ -56,15 +56,15 @@ class ChangePassword extends Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Password changed', {
+          this.props.enqueueSnackbar('Contraseña cambiada', {
             variant: 'success'
           })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Weak Password', {
+          this.props.enqueueSnackbar('Contraseña débil', {
             variant: 'error'
           })
         } else {
-          this.props.enqueueSnackbar('Failed to change password', {
+          this.props.enqueueSnackbar('Falló en crear contraseña', {
             variant: 'error'
           })
         }
@@ -87,18 +87,18 @@ class ChangePassword extends Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Change password
+          Cambiar c
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-currentpassword"
-              label="Current password"
+              label="Contraseña actual"
               type="password"
               style={{ margin: 20 }}
               onChange={this.onCurrentPasswordChange}
@@ -113,7 +113,7 @@ class ChangePassword extends Component {
           <Grid item xs={6}>
             <TextField
               id="outlined-newpassword"
-              label="New Password"
+              label="Nueva contraseña"
               type="password"
               style={{ margin: 20 }}
               onChange={this.onNewPasswordChange}
@@ -132,7 +132,7 @@ class ChangePassword extends Component {
               color="primary"
               onClick={this.changePassword}
             >
-              Change Password
+              Cambiar contraseña
             </Button>
           </Grid>
         </Grid>
