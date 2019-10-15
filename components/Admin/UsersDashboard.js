@@ -66,9 +66,12 @@ class UsersDashboard extends React.Component {
   }
 
   deleteUser = index => {
-    this.props.enqueueSnackbar(`Deleting ${this.state.users[index].username}`, {
-      variant: 'info'
-    })
+    this.props.enqueueSnackbar(
+      `Eliminando ${this.state.users[index].username}`,
+      {
+        variant: 'info'
+      }
+    )
 
     const url = `${process.env.API_HOST}/users/${this.state.users[index].username}`
 
@@ -83,10 +86,10 @@ class UsersDashboard extends React.Component {
       })
     })
       .then(res => {
-        console.log('Response status is: ', res.status)
+        // console.log('Response status is: ', res.status)
         if (res.status === 204) {
           this.props.enqueueSnackbar(
-            `${this.state.users[index].username} removed`,
+            `${this.state.users[index].username} eliminado`,
             { variant: 'success' }
           )
 
@@ -94,7 +97,7 @@ class UsersDashboard extends React.Component {
           this.state.users.splice(index, 1)
           this.setState({ users: this.state.users })
         } else {
-          this.props.enqueueSnackbar('Failed to delete user.', {
+          this.props.enqueueSnackbar('Falló eliminar el usuario.', {
             variant: 'error'
           })
         }
@@ -122,7 +125,7 @@ class UsersDashboard extends React.Component {
     this.setState(state => {
       const users = state.users.map(user => {
         if (user.username === username) {
-          console.log('el user es: ', user)
+          // console.log("el user es: ", user);
           // hit API endpoint here
 
           if (user.active) {
@@ -184,7 +187,7 @@ class UsersDashboard extends React.Component {
   render() {
     const { classes } = this.props
     if (!this.state.isLoaded) {
-      return <div>Loading...</div>
+      return <div>Cargando...</div>
     } else if (this.state.users < 1) {
       return (
         <div>
@@ -198,7 +201,7 @@ class UsersDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
@@ -212,12 +215,12 @@ class UsersDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            You have no users created yet 🤷‍♂️
+            No tiene usuarios creados aún 🤷‍♂️
           </Typography>
           <Grid container spacing={24} alignItems="center">
             <Grid item xs={6}>
@@ -227,7 +230,7 @@ class UsersDashboard extends React.Component {
                 color="primary"
                 onClick={this.createUser}
               >
-                Create one!
+                Crear uno!
               </Button>
             </Grid>
           </Grid>
@@ -246,7 +249,7 @@ class UsersDashboard extends React.Component {
                   Router.back()
                 }}
               >
-                Go back
+                Ir atrás
               </Button>
             </Grid>
           </Grid>
@@ -258,24 +261,24 @@ class UsersDashboard extends React.Component {
                 color="primary"
                 onClick={this.createUser}
               >
-                Create user
+                Crear usuario
               </Button>
             </Grid>
           </Grid>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Here are all the users
+            Los usuarios son:
           </Typography>
           <Paper style={{ margin: 20 }} className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center" style={{ maxWidth: '2px' }}>
-                    Username
+                    Nombre de usuario
                   </TableCell>
-                  <TableCell align="center">Is Active?</TableCell>
+                  <TableCell align="center">Activo?</TableCell>
                   {/* <TableCell align="center">Language</TableCell>
                   <TableCell align="center">Awarded Score</TableCell> */}
-                  <TableCell align="center">Actions</TableCell>
+                  <TableCell align="center">Comandos</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody align="center">
@@ -306,15 +309,15 @@ class UsersDashboard extends React.Component {
                   style={{ margin: '20px 0px 0px 20px' }}
                   gutterBottom
                 >
-                  Delete user
+                  Borrar usuario
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ margin: '20px' }}
                   gutterBottom
                 >
-                  Are you sure you want to delete this user? Click yes to
-                  delete, click outside if not.
+                  Está seguro que desea eliminar este usuario? Click SI para
+                  eliminarlo, click fuera del recuadro para no eliminarlo.
                 </Typography>
                 <Button
                   style={{ marginLeft: '20px' }}
@@ -324,7 +327,7 @@ class UsersDashboard extends React.Component {
                     this.deleteUser(this.state.index)
                   }}
                 >
-                  Yes, delete it
+                  Si, eliminar usuario
                 </Button>
               </Modal>
             </Table>

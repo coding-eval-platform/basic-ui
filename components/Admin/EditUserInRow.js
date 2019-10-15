@@ -32,7 +32,7 @@ class EditUserInRow extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Tooltip title="Edit user">
+        <Tooltip title="Editar usuario">
           <IconButton
             className={classes.button}
             aria-label="Edit"

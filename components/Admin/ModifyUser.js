@@ -79,13 +79,12 @@ class ModifyUser extends Component {
 
   handleActivenessChange = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked })
-    console.log('state ', this.state)
 
     switch (this.state.active) {
       case false:
         // ACTIVATE3
-        console.log('Activating user')
-        this.props.enqueueSnackbar(`Activating user`, {
+        // console.log("Activating user");
+        this.props.enqueueSnackbar(`Activando usuario`, {
           variant: 'info'
         })
         fetch(`${process.env.API_HOST}/users/${this.state.username}/active`, {
@@ -96,13 +95,13 @@ class ModifyUser extends Component {
           }
         })
           .then(res => {
-            console.log('Response status is: ', res.status)
+            // console.log("Response status is: ", res.status);
             if (res.status === 204) {
-              this.props.enqueueSnackbar(`User activated`, {
+              this.props.enqueueSnackbar(`Usuario activado`, {
                 variant: 'success'
               })
             } else {
-              this.props.enqueueSnackbar('Failed to activate user.', {
+              this.props.enqueueSnackbar('Falló al activar el usuario', {
                 variant: 'error'
               })
             }
@@ -112,8 +111,8 @@ class ModifyUser extends Component {
 
       case true:
         // INACTIVATE
-        console.log('Deactivating user')
-        this.props.enqueueSnackbar(`Deactivating user`, {
+        // console.log("Deactivating user");
+        this.props.enqueueSnackbar(`Desactivando usuario`, {
           variant: 'info'
         })
         fetch(`${process.env.API_HOST}/users/${this.state.username}/active`, {
@@ -124,13 +123,13 @@ class ModifyUser extends Component {
           }
         })
           .then(res => {
-            console.log('Response status is: ', res.status)
+            // console.log("Response status is: ", res.status);
             if (res.status === 204) {
-              this.props.enqueueSnackbar(`User deactivated`, {
+              this.props.enqueueSnackbar(`Usuario desactivado`, {
                 variant: 'success'
               })
             } else {
-              this.props.enqueueSnackbar('Failed to deactivate user.', {
+              this.props.enqueueSnackbar('Falló al desactivar el usuario', {
                 variant: 'error'
               })
             }
@@ -143,16 +142,19 @@ class ModifyUser extends Component {
   removeRole = (index, event) => {
     if (!this.state.realRoles.includes(this.state.roles[index])) {
       this.props.enqueueSnackbar(
-        `User does not have the ${this.state.roles[index]} role`,
+        `El usuario no contiene el rol de ${this.state.roles[index]}`,
         {
           variant: 'warning'
         }
       )
     } else {
-      console.log('Removing the role: ', this.state.roles[index])
-      this.props.enqueueSnackbar(`Removing role ${this.state.roles[index]}`, {
-        variant: 'info'
-      })
+      // console.log("Eliminando el rol: ", this.state.roles[index]);
+      this.props.enqueueSnackbar(
+        `Eliminando el rol de ${this.state.roles[index]}`,
+        {
+          variant: 'info'
+        }
+      )
       fetch(
         `${process.env.API_HOST}/users/${this.state.username}/roles/${this.state.roles[index]}`,
         {
@@ -164,14 +166,14 @@ class ModifyUser extends Component {
         }
       )
         .then(res => {
-          console.log('Response status is: ', res.status)
+          // console.log("Response status is: ", res.status);
           if (res.status === 204) {
             this.props.enqueueSnackbar(
-              `${this.state.roles[index]} role removed`,
+              `${this.state.roles[index]} rol eliminado.`,
               { variant: 'success' }
             )
           } else {
-            this.props.enqueueSnackbar('Failed to delete role.', {
+            this.props.enqueueSnackbar('Falló al eliminar el rol', {
               variant: 'error'
             })
           }
@@ -183,16 +185,19 @@ class ModifyUser extends Component {
   addRole = (index, event) => {
     if (this.state.realRoles.includes(this.state.roles[index])) {
       this.props.enqueueSnackbar(
-        `User already has the ${this.state.roles[index]} role`,
+        `El usuario ya tiene el rol de ${this.state.roles[index]}`,
         {
           variant: 'warning'
         }
       )
     } else {
-      console.log('Adding the role: ', this.state.roles[index])
-      this.props.enqueueSnackbar(`Adding role ${this.state.roles[index]}`, {
-        variant: 'info'
-      })
+      // console.log("Agregando el rol de ", this.state.roles[index]);
+      this.props.enqueueSnackbar(
+        `Agregando el rol de ${this.state.roles[index]}`,
+        {
+          variant: 'info'
+        }
+      )
       fetch(
         `${process.env.API_HOST}/users/${this.state.username}/roles/${this.state.roles[index]}`,
         {
@@ -204,10 +209,10 @@ class ModifyUser extends Component {
         }
       )
         .then(res => {
-          console.log('Response status is: ', res.status)
+          // console.log("Response status is: ", res.status);
           if (res.status === 204) {
             this.props.enqueueSnackbar(
-              `${this.state.roles[index]} role added`,
+              `${this.state.roles[index]} rol agregado`,
               {
                 variant: 'success'
               }
@@ -219,7 +224,7 @@ class ModifyUser extends Component {
               realRoles: newRoles
             })
           } else {
-            this.props.enqueueSnackbar('Failed to add role.', {
+            this.props.enqueueSnackbar('Falló al agregar el rol.', {
               variant: 'error'
             })
           }
@@ -254,12 +259,12 @@ class ModifyUser extends Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Edit user: {this.state.username}
+          Editar usuario: {this.state.username}
           <FormControlLabel
             style={{ margin: 20 }}
             control={
@@ -269,14 +274,14 @@ class ModifyUser extends Component {
                 // value={'active'}
               />
             }
-            label="Activate user"
+            label="Activar usuario"
           />
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="select-multiple-checkbox">
-                Edit the roles listed here
+                Editar los roles listados a continuación
               </InputLabel>
               <Select
                 style={{ minWidth: '30em' }}
@@ -308,7 +313,7 @@ class ModifyUser extends Component {
                   </Grid>
                   <Grid container spacing={24}>
                     <Grid item xs={2}>
-                      <Tooltip title="Add this role">
+                      <Tooltip title="Agregar rol">
                         <IconButton
                           aria-label="Add"
                           onClick={this.addRole.bind(this, index)}
@@ -318,7 +323,7 @@ class ModifyUser extends Component {
                       </Tooltip>
                     </Grid>
                     <Grid item xs={2}>
-                      <Tooltip title="Remove this role">
+                      <Tooltip title="Eliminar rol">
                         <IconButton
                           aria-label="Delete"
                           onClick={this.removeRole.bind(this, index)}

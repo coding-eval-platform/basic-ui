@@ -31,7 +31,7 @@ function UserRow(props) {
             <EditUserInRow username={props.username} active={props.active} />
           </Grid>
           <Grid item xs={4}>
-            <Tooltip title="Delete this user">
+            <Tooltip title="Borrar este usuario">
               <IconButton aria-label="Delete" onClick={props.deleteEvent}>
                 <DeleteIcon />
               </IconButton>

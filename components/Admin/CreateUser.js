@@ -37,7 +37,7 @@ class CreateUser extends Component {
   }
 
   createUser = () => {
-    this.props.enqueueSnackbar('Creating user', { variant: 'info' })
+    this.props.enqueueSnackbar('Creando usuario', { variant: 'info' })
     fetch(`${process.env.API_HOST}/users`, {
       method: 'POST',
       headers: {
@@ -51,14 +51,14 @@ class CreateUser extends Component {
     })
       .then(res => {
         if (res.status === 201) {
-          this.props.enqueueSnackbar('User created', { variant: 'success' })
+          this.props.enqueueSnackbar('Usuario creado', { variant: 'success' })
           // Router.push(`/users_dashboard`)
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Weak password', {
+          this.props.enqueueSnackbar('Contraseña débil', {
             variant: 'error'
           })
         } else {
-          this.props.enqueueSnackbar('User failed to be created', {
+          this.props.enqueueSnackbar('Falló al crear un usuario', {
             variant: 'error'
           })
         }
@@ -81,19 +81,19 @@ class CreateUser extends Component {
                 Router.back()
               }}
             >
-              Go back
+              Ir atrás
             </Button>
           </Grid>
         </Grid>
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-          Create a user
+          Crear usuario
         </Typography>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Username"
-              placeholder="Example: username123"
+              label="Nombre de usuario"
+              placeholder="Ejemplo: username123"
               style={{ margin: 20 }}
               onChange={this.onUsernameChange}
               value={this.state.username}
@@ -107,7 +107,7 @@ class CreateUser extends Component {
           <Grid item xs={6}>
             <TextField
               id="outlined-password"
-              label="Password"
+              label="Contraseña"
               type="password"
               style={{ margin: 20 }}
               onChange={this.onPasswordChange}
@@ -126,7 +126,7 @@ class CreateUser extends Component {
               color="primary"
               onClick={this.createUser}
             >
-              Create user
+              Crear usuario
             </Button>
           </Grid>
         </Grid>
