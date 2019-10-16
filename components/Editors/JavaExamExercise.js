@@ -35,8 +35,8 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit
   },
   infoIcon: {
-    color: '#ff9800',
-    marginRight: theme.spacing.unit
+    color: '#ff9800'
+    // marginRight: theme.spacing.unit
   },
   iconSmall: {
     fontSize: 20
@@ -183,10 +183,10 @@ class JavaExamExercise extends Component {
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={9}>
             <Typography style={{ margin: 20 }} variant="body1" gutterBottom>
-              {props.question}
+              {this.props.question}
             </Typography>
             <Typography style={{ margin: 20 }} variant="subtitle1" gutterBottom>
-              El puntaje es de: {props.awardedScore}
+              El puntaje es de: {this.props.awardedScore}
             </Typography>
           </Grid>
           <Grid justify="flex-end" item xs={3}>
@@ -206,41 +206,6 @@ class JavaExamExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
-              label="Insertar argumentos del programa"
-              style={{ margin: 8 }}
-              rows="1"
-              placeholder="comma+space separated, ie: input1, input2, input3"
-              fullWidth
-              onChange={this.onProgramArgumentsChange}
-              value={this.state.programArguments}
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
-              label="Insertar input del programa"
-              style={{ margin: 1 }}
-              rows="1"
-              placeholder="El texto deseado"
-              onChange={this.onStdinChange}
-              value={this.state.stdin}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
               label="Insertar Compile Flags"
               style={{ margin: 1 }}
               rows="1"
@@ -255,51 +220,30 @@ class JavaExamExercise extends Component {
               }}
             />
           </Grid>
+
           <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
-              label="Insertar timeout"
-              style={{ margin: 1 }}
-              rows="1"
-              placeholder="Example (ms): 1000"
-              onChange={this.onTimemoutChange}
-              value={this.state.timeout}
-              fullWidth
-              margin="normal"
+            <Button
               variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
+              color="primary"
+              className={classes.button}
+              onClick={this.sendCodeinSandBox}
+            >
+              Correr código
+              <SendIcon className={classes.rightIcon} />
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={this.clearAllFields}
+            >
+              Clear
+              <ClearIcon className={classes.rightIcon} />
+            </Button>
           </Grid>
-
-          {/* EXECUTES */}
-          <Grid container spacing={24} alignItems="center" justify="flex-end">
-            <Tooltip title="Se está usando el paquete default de Java">
-              <InfoIcon className={classes.infoIcon}></InfoIcon>
-            </Tooltip>
-
-            <Grid item xs={3}>
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                onClick={this.sendCodeinSandBox}
-              >
-                Correr código
-                <SendIcon className={classes.rightIcon} />
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
-                onClick={this.clearAllFields}
-              >
-                Clear
-                <ClearIcon className={classes.rightIcon} />
-              </Button>
-            </Grid>
-          </Grid>
+          <Tooltip title="Se está usando el paquete default de Java">
+            <InfoIcon className={classes.infoIcon}></InfoIcon>
+          </Tooltip>
         </Grid>
 
         {/* JAVA EDITOR */}

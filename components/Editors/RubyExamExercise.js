@@ -207,59 +207,6 @@ class RubyExamExercise extends Component {
           </Grid>
         </Grid>
         <Grid container spacing={24} alignItems="center">
-          {/* INPUTS */}
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
-              label="Insertar argumentos del programa"
-              style={{ margin: 8 }}
-              rows="1"
-              placeholder="comma+space separated, ie: input1, input2, input3"
-              onChange={this.onProgramArgumentsChange}
-              value={this.state.programArguments}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
-              label="Insertar input del programa"
-              style={{ margin: 8 }}
-              rows="1"
-              placeholder="El texto deseado"
-              onChange={this.onStdinChange}
-              value={this.state.stdin}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="outlined-full-width"
-              label="Insertar timeout"
-              style={{ margin: 8 }}
-              rows="1"
-              placeholder="Example (ms): 1000"
-              onChange={this.onTimemoutChange}
-              value={this.state.timeout}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-
           {/* EXECUTE */}
           <Grid item xs={3}>
             <Button
