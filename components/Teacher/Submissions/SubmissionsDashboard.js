@@ -168,11 +168,16 @@ class SubmissionsDashboard extends React.Component {
               </TableHead>
               <TableBody align="center">
                 {this.state.submitters.map((submitter, index) => (
+                  // console.log("submitter ", submitter)
                   <SubmitterRow
                     key={index}
                     submitterID={submitter.id}
                     submitter={submitter.submitter}
-                    score={submitter.score || '-'}
+                    score={
+                      submitter.score === null
+                        ? '-'
+                        : submitter.score.toString()
+                    }
                     viewExercisesEvent={this.viewExamExercises.bind(
                       this,
                       index,
