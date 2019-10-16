@@ -66,7 +66,7 @@ class JavaExamExercise extends Component {
     pending: false,
     stdin: '',
     compilerFlags: '',
-    code: '',
+    code: this.props.solutionTemplate,
     timeout: '',
     language: 'JAVA',
     programArguments: ''

@@ -58,7 +58,7 @@ class RubyExamExercise extends Component {
     output: {},
     pending: false,
     stdin: '',
-    code: '',
+    code: this.props.solutionTemplate,
     timeout: '',
     language: 'RUBY',
     programArguments: ''

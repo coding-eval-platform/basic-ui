@@ -58,7 +58,7 @@ class CExamExercise extends Component {
     pending: false,
     stdin: '',
     compilerFlags: '',
-    code: '',
+    code: this.props.solutionTemplate,
     timeout: '',
     language: 'C',
     programArguments: ''

@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
 import Divider from '@material-ui/core/Divider'
+import AssignmentIcon from '@material-ui/icons/Assignment'
 
 import store from 'store'
 import { handleAccessToken } from '../../auth'
@@ -86,9 +87,28 @@ class ExamExercises extends React.Component {
     } else {
       return (
         <div>
-          <Typography variant="h4" style={{ margin: 20 }} gutterBottom>
-            Examen: {this.state.examDescription}
-          </Typography>
+          <Grid container spacing={24} alignItems="center">
+            <Grid item xs={10}>
+              <Typography variant="h4" style={{ margin: 20 }} gutterBottom>
+                Examen: {this.state.examDescription}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                // onClick={this.sendCodeinSandBox}
+              >
+                Entregar examen
+                <AssignmentIcon className={classes.rightIcon} />
+              </Button>
+            </Grid>
+          </Grid>
+          <Divider
+            style={{ marginTop: 40, marginBottom: 20 }}
+            variant="middle"
+          />
           {this.state.exercises.map((exercise, index) =>
             exercise.language.toString() === 'RUBY' ? (
               <div>
