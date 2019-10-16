@@ -22,7 +22,7 @@ import { handleAccessToken } from '../../../auth'
 
 const styles = theme => ({
   root: {
-    width: '60%',
+    width: '80%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto'
   }
