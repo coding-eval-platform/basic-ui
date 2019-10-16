@@ -15,25 +15,26 @@ import Router from 'next/router'
 import Modal from 'react-awesome-modal'
 import { withSnackbar } from 'notistack'
 
-import SubmitterRow from './SubmitterRow.js'
+import SubmissionExerciseRow from './SubmissionExerciseRow.js'
 
 import store from 'store'
 import { handleAccessToken } from '../../../auth'
 
 const styles = theme => ({
   root: {
-    width: '60%',
+    width: '8 0%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto'
   }
 })
 
-class SubmissionsDashboard extends React.Component {
+class SubmissionDetails extends React.Component {
   state = {
-    submitters: [],
-    isLoaded: false
+    solutions: [],
+    isLoaded: false,
     // visibleDelete: false,
-    // index: ""
+    // index: "",
+    submitter: ''
   }
 
   componentWillMount = async () => {
@@ -41,8 +42,13 @@ class SubmissionsDashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    const examID = new URL(window.location.href).searchParams.get('examID')
-    const url = `${process.env.API_HOST}/exams/${examID}/solutions-submissions`
+    const submissionID = new URL(window.location.href).searchParams.get(
+      'submissionID'
+    )
+    const submitter = new URL(window.location.href).searchParams.get(
+      'submitter'
+    )
+    const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`
 
     fetch(url, {
       method: 'GET',
@@ -56,49 +62,49 @@ class SubmissionsDashboard extends React.Component {
 
         this.setState({
           isLoaded: true,
-          submitters: outputJSONResponse
+          solutions: outputJSONResponse,
+          submitter: submitter
         })
       })
       .catch(err => console.log(err))
   }
 
-  viewExamExercises = (index, submitter) => {
-    const submissionID = this.state.submitters[index].id
-    const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`
+  // viewExamExercises = index => {
+  //   const submissionID = this.state.solutions[index].id;
+  //   const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`;
 
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + store.get('accessToken')
-      }
-    })
-      .then(res => {
-        if (res.status === 200) {
-          Router.push({
-            pathname: `/submission_details`,
-            query: {
-              submissionID: submissionID,
-              submitter: submitter
-            }
-          })
-        } else {
-          this.props.enqueueSnackbar(
-            'Falló ver los ejercicios de ese examen.',
-            {
-              variant: 'error'
-            }
-          )
-        }
-      })
-      .catch(err => console.log(err))
-  }
+  //   fetch(url, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + store.get("accessToken")
+  //     }
+  //   })
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         Router.push({
+  //           pathname: `/submission_details`,
+  //           query: {
+  //             submissionID: `${submissionID}`
+  //           }
+  //         });
+  //       } else {
+  //         this.props.enqueueSnackbar(
+  //           "Falló ver los ejercicios de ese examen.",
+  //           {
+  //             variant: "error"
+  //           }
+  //         );
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
   render() {
     const { classes } = this.props
     if (!this.state.isLoaded) {
       return <div>Cargando...</div>
-    } else if (this.state.submitters < 1) {
+    } else if (this.state.solutions < 1) {
       return (
         <div>
           <Grid container spacing={24} alignItems="center">
@@ -115,8 +121,9 @@ class SubmissionsDashboard extends React.Component {
               </Button>
             </Grid>
           </Grid>
+          {/* This case should never actually happen to be honest */}
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            No tiene alumnos registrados en el examen aún 🤷‍♂️
+            No tiene ejercicios entregados en el examen aún 🤷‍♂️
           </Typography>
         </div>
       )
@@ -150,34 +157,33 @@ class SubmissionsDashboard extends React.Component {
             </Grid>
           </Grid> */}
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Los alumnos registrados son:
+            Los ejercicios entregados del alumno {this.state.submitter} son:
           </Typography>
           <Paper style={{ margin: 20 }} className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center" style={{ maxWidth: '2px' }}>
-                    ID del alumno
+                    Solution ID
                   </TableCell>
-                  <TableCell align="center">Nombre del alumno</TableCell>
-                  {/* <TableCell align="center">Language</TableCell>
-                  <TableCell align="center">Awarded Score</TableCell> */}
-                  <TableCell align="center">Puntaje</TableCell>
+                  <TableCell align="center">ID del ejercicio</TableCell>
+                  <TableCell align="center">Compiler Flags</TableCell>
+                  <TableCell align="center">Respuesta</TableCell>
                   <TableCell align="center">Comandos</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody align="center">
-                {this.state.submitters.map((submitter, index) => (
-                  <SubmitterRow
+                {this.state.solutions.map((solution, index) => (
+                  <SubmissionExerciseRow
                     key={index}
-                    submitterID={submitter.id}
-                    submitter={submitter.submitter}
-                    score={submitter.score || '-'}
-                    viewExercisesEvent={this.viewExamExercises.bind(
-                      this,
-                      index,
-                      submitter.submitter
-                    )}
+                    solutionID={solution.id}
+                    exerciseID={solution.exerciseId}
+                    answer={solution.answer}
+                    compilerFlags={solution.compilerFlags || '-'}
+                    // viewSolutionDetail={this.viewSolutionDetail.bind(
+                    //   this,
+                    //   index
+                    // )}
                   />
                 ))}
               </TableBody>
@@ -223,8 +229,8 @@ class SubmissionsDashboard extends React.Component {
   }
 }
 
-SubmissionsDashboard.propTypes = {
+SubmissionDetails.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withSnackbar(withStyles(styles)(SubmissionsDashboard))
+export default withSnackbar(withStyles(styles)(SubmissionDetails))

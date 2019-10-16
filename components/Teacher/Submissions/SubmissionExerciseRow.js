@@ -18,20 +18,21 @@ const styles = theme => ({
   }
 })
 
-function SubmitterRow(props) {
+function SubmissionExerciseRow(props) {
   return (
-    <TableRow key={props.submitterID}>
-      <TableCell align="center">{props.submitterID}</TableCell>
-      <TableCell align="center">{props.submitter.toString()}</TableCell>
-      <TableCell align="center">{props.score.toString()}</TableCell>
+    <TableRow key={props.solutionID}>
+      <TableCell align="center">{props.solutionID}</TableCell>
+      <TableCell align="center">{props.exerciseID.toString()}</TableCell>
+      <TableCell align="center">{props.compilerFlags}</TableCell>
+      <TableCell align="center">PONER UN BUTTON ACA</TableCell>
       <TableCell align="center" style={{ maxWidth: '25px' }}>
         <Grid container spacing={24}>
           {/* <Grid item xs={4}>
             <EditUserInRow username={props.username} active={props.active} />
           </Grid> */}
           <Grid item xs={4}>
-            <Tooltip title="Ver los ejercicios de esta entrega">
-              <IconButton aria-label="See" onClick={props.viewExercisesEvent}>
+            <Tooltip title="Ver este ejercicio en detalle">
+              <IconButton aria-label="See" onClick={props.viewSolutionDetail}>
                 <FormatListNumberedIcon />
               </IconButton>
             </Tooltip>
@@ -42,8 +43,8 @@ function SubmitterRow(props) {
   )
 }
 
-SubmitterRow.propTypes = {
+SubmissionExerciseRow.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SubmitterRow)
+export default withStyles(styles)(SubmissionExerciseRow)
