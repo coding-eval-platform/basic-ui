@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
-const RubyEditor = dynamic(import('./RubyEditor'), { ssr: false })
+const CEditor = dynamic(import('./CEditor'), { ssr: false })
 
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
-import DoneIcon from '@material-ui/icons/Done'
 import ClearIcon from '@material-ui/icons/Clear'
+import DoneIcon from '@material-ui/icons/Done'
 import { withStyles } from '@material-ui/core/styles'
-
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -53,14 +52,15 @@ const styles = theme => ({
   }
 })
 
-class RubyExamExercise extends Component {
+class CExamExercise extends Component {
   state = {
     output: {},
     pending: false,
     stdin: '',
+    compilerFlags: '',
     code: '',
     timeout: '',
-    language: 'RUBY',
+    language: 'C',
     programArguments: ''
   }
 
@@ -68,11 +68,6 @@ class RubyExamExercise extends Component {
     this.setState({ output: {} })
     this.setState({ pending: true })
 
-    // const final_programArguments = this.state.programArguments
-    //   .split(",")
-    //   .map(str => str.replace(/\s/g, ""));
-
-    // const final_programArguments = this.state.programArguments.split(", ");
     const final_programArguments = this.state.programArguments
       .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
       .map(str => str.replace(/"/g, ''))
@@ -89,7 +84,8 @@ class RubyExamExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        programArguments: final_programArguments
+        programArguments: final_programArguments,
+        compilerFlags: this.state.compilerFlags
       })
     })
       .then(res => {
@@ -146,11 +142,16 @@ class RubyExamExercise extends Component {
     this.setState({ timeout: timeout.target.value })
   }
 
+  onCompilerFlagsChange = compilerFlags => {
+    this.setState({ compilerFlags: compilerFlags.target.value })
+  }
+
   clearAllFields = () => {
     this.setState({
       output: {},
       programArguments: '',
       stdin: '',
+      compilerFlags: '',
       timeout: ''
     })
   }
@@ -158,15 +159,6 @@ class RubyExamExercise extends Component {
   render() {
     const { classes } = this.props
     let pending = this.state.pending
-
-    // VER ESTO
-    // const output =
-    //   this.state.output.result === "UNKNOWN_ERROR"
-    //     ? "COMPILATION ERROR"
-    //     : (this.state.output.stdout || []).reduce(
-    //         (memo, line) => memo + line + "\n",
-    //         ""
-    //       );
 
     const stdout = (this.state.output.stdout || []).reduce(
       (memo, line) => memo + line + '\n',
@@ -177,11 +169,6 @@ class RubyExamExercise extends Component {
       (memo, line) => memo + line + '\n',
       ''
     )
-
-    // const stderr =
-    //   this.state.output.result === "TIMEOUT"
-    //     ? "The compilation phase failed (i.e the code could not be compiled)."
-    //     : "";
 
     return (
       <div>
@@ -228,11 +215,11 @@ class RubyExamExercise extends Component {
               id="outlined-full-width"
               label="Insertar argumentos del programa"
               style={{ margin: 8 }}
-              rows="1"
+              rows="19"
               placeholder="comma+space separated, ie: input1, input2, input3"
+              fullWidth
               onChange={this.onProgramArgumentsChange}
               value={this.state.programArguments}
-              fullWidth
               margin="normal"
               variant="outlined"
               InputLabelProps={{
@@ -244,7 +231,7 @@ class RubyExamExercise extends Component {
             <TextField
               id="outlined-full-width"
               label="Insertar input del programa"
-              style={{ margin: 8 }}
+              style={{ margin: 1 }}
               rows="1"
               placeholder="El texto deseado"
               onChange={this.onStdinChange}
@@ -260,8 +247,25 @@ class RubyExamExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
+              label="Insertar GCC Compile Flags"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="-Wall -g"
+              onChange={this.onCompilerFlagsChange}
+              value={this.state.compilerFlags}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
               label="Insertar timeout"
-              style={{ margin: 8 }}
+              style={{ margin: 1 }}
               rows="1"
               placeholder="Example (ms): 1000"
               onChange={this.onTimemoutChange}
@@ -275,37 +279,38 @@ class RubyExamExercise extends Component {
             />
           </Grid>
 
-          {/* EXECUTE */}
-          <Grid item xs={3}>
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.button}
-              onClick={this.sendCodeinSandBox}
-            >
-              Correr código
-              <SendIcon className={classes.rightIcon} />
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              className={classes.button}
-              onClick={this.clearAllFields}
-            >
-              Clear
-              <ClearIcon className={classes.rightIcon} />
-            </Button>
+          {/* EXECUTES */}
+          <Grid container spacing={24} alignItems="center" justify="flex-end">
+            <Grid item xs={3}>
+              <Button
+                variant="outlined"
+                color="primary"
+                className={classes.button}
+                onClick={this.sendCodeinSandBox}
+              >
+                Correr código
+                <SendIcon className={classes.rightIcon} />
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                className={classes.button}
+                onClick={this.clearAllFields}
+              >
+                Clear
+                <ClearIcon className={classes.rightIcon} />
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
 
+        {/* C EDITOR */}
         <Grid container spacing={24}>
-          {/* RUBY EDITOR */}
           <Grid item xs={12} sm={6}>
-            <RubyEditor
-              codeToRun={this.state.code}
-              onChange={this.onCodeChange}
-            />
+            <CEditor codeToRun={this.state.code} onChange={this.onCodeChange} />
           </Grid>
+
+          {/* C OUPUT */}
           <Grid item xs={12} sm={6}>
             <Grid container spacing={24}>
               {this.state.output.result === undefined ? (
@@ -348,14 +353,16 @@ class RubyExamExercise extends Component {
 
               <Grid item xs={12} sm={12}>
                 <Typography variant="h6" gutterBottom>
-                  Salida estándar del editor de Ruby
+                  Salida estándar del editor de C
                 </Typography>
                 <TextField
                   id="outlined-full-width"
+                  // label="Ruby editor (stdout)"
                   style={{ margin: 0 }}
                   multiline
                   rows="10"
                   placeholder="La salida estándar aparecerá aquí...."
+                  //helperText="Full width!"
                   value={
                     stdout || (pending ? '👩🏻‍🚀 Buscando la respuesta...' : '')
                   }
@@ -406,8 +413,8 @@ class RubyExamExercise extends Component {
   }
 }
 
-RubyExamExercise.propTypes = {
+CExamExercise.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(RubyExamExercise)
+export default withStyles(styles)(CExamExercise)
