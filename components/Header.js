@@ -60,6 +60,7 @@ class Header extends Component {
             <RenderButton href="/playground" content="Playground" />
             <RenderButton href="/student-login" content="Student" />
             <RenderButton href="/lti-exam-registration" content="LTI" />
+            <RenderButton href="/takeexam" content="Take Exam" />
             {/* <RenderButton href='/create_exam' content='Create Exam'/> */}
             {/* <RenderButton href='/create_exercises' content='Create Exercises'/> */}
           </Toolbar>
