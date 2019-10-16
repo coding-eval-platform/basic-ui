@@ -94,6 +94,39 @@ class SubmissionsDashboard extends React.Component {
       .catch(err => console.log(err))
   }
 
+  markExamHandler = index => {
+    this.props.enqueueSnackbar('Puntuando examen', { variant: 'info' })
+    const submissionID = this.state.submitters[index].id
+    const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}/score`
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Examen puntuado.', {
+            variant: 'success'
+          })
+        } else if (res.status === 404) {
+          this.props.enqueueSnackbar('Examen no encontrado', {
+            variant: 'error'
+          })
+        } else {
+          this.props.enqueueSnackbar(
+            'Falló al puntuar el examen: posiblemente el alumno no haya entregado aún.',
+            {
+              variant: 'error'
+            }
+          )
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     const { classes } = this.props
     if (!this.state.isLoaded) {
@@ -183,6 +216,7 @@ class SubmissionsDashboard extends React.Component {
                       index,
                       submitter.submitter
                     )}
+                    markExamEvent={this.markExamHandler.bind(this, index)}
                   />
                 ))}
               </TableBody>

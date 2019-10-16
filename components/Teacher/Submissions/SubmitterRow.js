@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
@@ -33,6 +34,13 @@ function SubmitterRow(props) {
             <Tooltip title="Ver los ejercicios de esta entrega">
               <IconButton aria-label="See" onClick={props.viewExercisesEvent}>
                 <FormatListNumberedIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid item xs={4}>
+            <Tooltip title="Puntuar el examen">
+              <IconButton aria-label="Mark" onClick={props.markExamEvent}>
+                <CheckCircleOutlineIcon />
               </IconButton>
             </Tooltip>
           </Grid>
