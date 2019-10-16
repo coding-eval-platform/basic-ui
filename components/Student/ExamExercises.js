@@ -13,14 +13,13 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
-
-import ExerciseRow from './ExerciseRow.js'
+import Divider from '@material-ui/core/Divider'
 
 import store from 'store'
-import { handleAccessToken } from '../../../auth'
-import JavaPlaygroundExercise from '../Editors/JavaPlaygroundExercise.js'
-import RubyPlaygroundExercise from '../Editors/RubyPlaygroundExercise.js'
-import CPlaygroundExercise from '../Editors/CPlaygroundExercise.js'
+import { handleAccessToken } from '../../auth'
+import RubyExamExercise from '../Editors/RubyExamExercise.js'
+import JavaExamExercise from '../Editors/JavaExamExercise.js'
+import CExamExercise from '../Editors/CExamExercise.js'
 
 const styles = theme => ({
   root: {
@@ -34,21 +33,16 @@ class ExamExercises extends React.Component {
   state = {
     examID: '',
     examDescription: '',
-    examState: '',
     exercises: [],
     isLoaded: false
   }
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-    // hacer un POST y guardar el resultado de:
   }
 
   componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
-    const examState = new URL(window.location.href).searchParams.get(
-      'examState'
-    )
     const examDescription = new URL(window.location.href).searchParams.get(
       'examDescription'
     )
@@ -56,8 +50,7 @@ class ExamExercises extends React.Component {
 
     this.setState({
       examID: examID,
-      examDescription: examDescription,
-      examState: examState
+      examDescription: examDescription
     })
 
     fetch(url, {
@@ -81,54 +74,66 @@ class ExamExercises extends React.Component {
   render() {
     const { classes } = this.props
     if (!this.state.isLoaded) {
-      return <div>Loading...</div>
+      return <div>Cargando...</div>
     } else if (this.state.exercises < 1) {
       return (
         <div>
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            This exam has no exercises 🤷‍♂️
+            Este examen no tiene ejercicios 🤷‍♂️
           </Typography>
         </div>
       )
     } else {
       return (
         <div>
-          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Exam status: {this.state.examState}
+          <Typography variant="h4" style={{ margin: 20 }} gutterBottom>
+            Examen: {this.state.examDescription}
           </Typography>
-          <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-            Exercises of the exam: {this.state.examDescription}
-          </Typography>
-          {this.state.exercises.map(exercise =>
+          {this.state.exercises.map((exercise, index) =>
             exercise.language.toString() === 'RUBY' ? (
               <div>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Question: {exercise.question}
+                <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
+                  Ejercicio: {index + 1}
                 </Typography>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Score: {exercise.awardedScore}
-                </Typography>
-                <RubyPlaygroundExercise />
+                <RubyExamExercise
+                  question={exercise.question}
+                  solutionTemplate={exercise.solutionTemplate}
+                  awardedScore={exercise.awardedScore}
+                />
+                <Divider
+                  style={{ marginTop: 40, marginBottom: 20 }}
+                  variant="middle"
+                />
               </div>
             ) : exercise.language.toString() === 'JAVA' ? (
               <div>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Question: {exercise.question}
+                <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
+                  Ejercicio: {index + 1}
                 </Typography>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Score: {exercise.awardedScore}
-                </Typography>
-                <JavaPlaygroundExercise />
+                <JavaExamExercise
+                  question={exercise.question}
+                  solutionTemplate={exercise.solutionTemplate}
+                  awardedScore={exercise.awardedScore}
+                />
+                <Divider
+                  style={{ marginTop: 40, marginBottom: 20 }}
+                  variant="middle"
+                />
               </div>
             ) : (
               <div>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Question: {exercise.question}
+                <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
+                  Ejercicio: {index + 1}
                 </Typography>
-                <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
-                  Score: {exercise.awardedScore}
-                </Typography>
-                <CPlaygroundExercise />
+                <CExamExercise
+                  question={exercise.question}
+                  solutionTemplate={exercise.solutionTemplate}
+                  awardedScore={exercise.awardedScore}
+                />
+                <Divider
+                  style={{ marginTop: 40, marginBottom: 20 }}
+                  variant="middle"
+                />
               </div>
             )
           )}

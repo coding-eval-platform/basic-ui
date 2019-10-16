@@ -187,26 +187,11 @@ class RubyExamExercise extends Component {
       <div>
         <Grid container spacing={24} alignItems="center">
           <Grid item xs={9}>
-            <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
-              Ejercicio n1
-            </Typography>
             <Typography style={{ margin: 20 }} variant="body1" gutterBottom>
-              Enunciado del ejercicio acáEnunciado del ejercicio acáEnunciado
-              del ejercicio acáEnunciado del ejercicio acáEnunciado del
-              ejercicio acáEnunciado del ejercicio acáEnunciado del ejercicio
-              acáEnunciado del ejercicio acáEnunciado del ejercicio acáEnunciado
-              del ejercicio acáEnunciado del ejercicio acáEnunciado del
-              ejercicio acáEnunciado del ejercicio acáEnunciado del ejercicio
-              acáEnunciado del ejercicio acáEnunciado del ejercicio acáEnunciado
-              del ejercicio acáEnunciado del ejercicio acáEnunciado del
-              ejercicio acáEnunciado del ejercicio acáEnunciado del ejercicio
-              acáEnunciado del ejercicio acáEnunciado del ejercicio acáEnunciado
-              del ejercicio acáEnunciado del ejercicio acáEnunciado del
-              ejercicio acáEnunciado del ejercicio acáEnunciado del ejercicio
-              acáEnunciado del ejercicio acáEnunciado del ejercicio acá
+              {this.props.question}
             </Typography>
             <Typography style={{ margin: 20 }} variant="subtitle1" gutterBottom>
-              El puntaje es de:
+              El puntaje es de: {this.props.awardedScore}
             </Typography>
           </Grid>
           <Grid justify="flex-end" item xs={3}>

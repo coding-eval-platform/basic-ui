@@ -22,14 +22,14 @@ class StudentLogin extends React.Component {
   state = {
     description: '',
     duration: '',
-    examID: '20',
+    examID: '',
     startingAt: ''
   }
 
   componentWillMount = async () => {
     const accessToken = await handleAccessToken()
-
-    const url = `${process.env.API_HOST}/exams/${this.state.examID}`
+    const examID = new URL(window.location.href).searchParams.get('examID')
+    const url = `${process.env.API_HOST}/exams/${examID}`
 
     fetch(url, {
       method: 'GET',
@@ -99,14 +99,13 @@ class StudentLogin extends React.Component {
           let submission_id = res.headers.get('Location').split('/')
           submission_id = submission_id[submission_id.length - 1]
 
-          // Router.push({
-          //   pathname: `/exam_dashboard`,
-          //   query: {
-          //     examID: `${submission_id}`,
-          //     examDescription: `${this.state.description}`,
-          //     examState: 'UPCOMING'
-          //   }
-          // })
+          Router.push({
+            pathname: `/takeexam`,
+            query: {
+              examID: `${this.state.examID}`,
+              examDescription: `${this.state.description}`
+            }
+          })
         } else if (res.status === 422) {
           this.props.enqueueSnackbar(
             'No puede entrar aún. El examen no comenzó.',
