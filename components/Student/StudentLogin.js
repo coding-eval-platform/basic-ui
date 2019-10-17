@@ -103,7 +103,8 @@ class StudentLogin extends React.Component {
             pathname: `/takeexam`,
             query: {
               examID: `${this.state.examID}`,
-              examDescription: `${this.state.description}`
+              examDescription: `${this.state.description}`,
+              submissionID: submission_id
             }
           })
         } else if (res.status === 422) {

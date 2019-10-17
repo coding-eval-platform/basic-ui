@@ -22,6 +22,8 @@ import RubyExamExercise from '../Editors/RubyExamExercise.js'
 import JavaExamExercise from '../Editors/JavaExamExercise.js'
 import CExamExercise from '../Editors/CExamExercise.js'
 
+import axios from 'axios'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -33,43 +35,68 @@ const styles = theme => ({
 class ExamExercises extends React.Component {
   state = {
     examID: '',
+    submissionID: '',
     examDescription: '',
     exercises: [],
+    solutions: [],
     isLoaded: false
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const accessToken = await handleAccessToken()
-  }
 
-  componentDidMount = () => {
     const examID = new URL(window.location.href).searchParams.get('examID')
+    const submissionID = new URL(window.location.href).searchParams.get(
+      'submissionID'
+    )
     const examDescription = new URL(window.location.href).searchParams.get(
       'examDescription'
     )
-    const url = `${process.env.API_HOST}/exams/${examID}/exercises`
 
     this.setState({
       examID: examID,
-      examDescription: examDescription
+      examDescription: examDescription,
+      submissionID: submissionID
     })
 
-    fetch(url, {
-      method: 'GET',
+    // get all the exam exercises
+    const url_exercises = `${process.env.API_HOST}/exams/${examID}/exercises`
+    // get all the solutions of this submission
+    const url_solutions = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`
+
+    const headers = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + store.get('accessToken')
       }
-    })
-      .then(async res => {
-        const outputJSONResponse = await res.json()
+    }
 
-        this.setState({
-          isLoaded: true,
-          exercises: outputJSONResponse
+    axios
+      .all([
+        axios.get(url_exercises, headers),
+        axios.get(url_solutions, headers)
+      ])
+      .then(
+        axios.spread(async (exercises, solutions) => {
+          //this will be executed only when all requests are complete
+          const exercisesJSONResponse = await exercises.data
+          const solutionsJSONResponse = await solutions.data
+
+          console.log('Exercises: ', exercisesJSONResponse)
+          console.log('Solutions: ', solutionsJSONResponse)
+
+          this.setState({
+            exercises: exercisesJSONResponse,
+            solutions: solutionsJSONResponse,
+            isLoaded: true
+          })
+          console.log('state ex', this.state.exercises)
+          console.log('state sol', this.state.solutions)
         })
+      )
+      .catch(function(error) {
+        console.log(error)
       })
-      .catch(err => console.log(err))
   }
 
   render() {
@@ -109,13 +136,24 @@ class ExamExercises extends React.Component {
             style={{ marginTop: 40, marginBottom: 20 }}
             variant="middle"
           />
-          {this.state.exercises.map((exercise, index) =>
-            exercise.language.toString() === 'RUBY' ? (
-              <div>
+          {this.state.exercises.map((exercise, index) => {
+            // search for the corresponding solution
+            const solution = this.state.solutions.filter(solution => {
+              console.log(
+                'solution.exerciseId === exercise.id: ',
+                solution.exerciseId === exercise.id
+              )
+              if (solution.exerciseId === exercise.id) {
+                return solution
+              }
+            })
+            return exercise.language.toString() === 'RUBY' ? (
+              <div key={index}>
                 <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
                   Ejercicio: {index + 1}
                 </Typography>
                 <RubyExamExercise
+                  solutionID={solution.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -126,11 +164,12 @@ class ExamExercises extends React.Component {
                 />
               </div>
             ) : exercise.language.toString() === 'JAVA' ? (
-              <div>
+              <div key={index}>
                 <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
                   Ejercicio: {index + 1}
                 </Typography>
                 <JavaExamExercise
+                  solutionID={solution.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -141,11 +180,12 @@ class ExamExercises extends React.Component {
                 />
               </div>
             ) : (
-              <div>
+              <div key={index}>
                 <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
                   Ejercicio: {index + 1}
                 </Typography>
                 <CExamExercise
+                  solutionID={solution.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -156,7 +196,7 @@ class ExamExercises extends React.Component {
                 />
               </div>
             )
-          )}
+          })}
         </div>
       )
     }

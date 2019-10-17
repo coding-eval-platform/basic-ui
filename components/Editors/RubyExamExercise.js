@@ -57,11 +57,11 @@ class RubyExamExercise extends Component {
   state = {
     output: {},
     pending: false,
-    stdin: '',
+    // stdin: "",
     code: this.props.solutionTemplate,
-    timeout: '',
-    language: 'RUBY',
-    programArguments: ''
+    // timeout: "",
+    language: 'RUBY'
+    // programArguments: ""
   }
 
   sendCodeinSandBox = () => {
@@ -69,27 +69,22 @@ class RubyExamExercise extends Component {
     this.setState({ pending: true })
 
     // const final_programArguments = this.state.programArguments
-    //   .split(",")
-    //   .map(str => str.replace(/\s/g, ""));
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
 
-    // const final_programArguments = this.state.programArguments.split(", ");
-    const final_programArguments = this.state.programArguments
-      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-      .map(str => str.replace(/"/g, ''))
-
-    const final_stdin = this.state.stdin
-      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-      .map(str => str.replace(/"/g, ''))
+    // const final_stdin = this.state.stdin
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
 
     fetch(`${process.env.API_HOST}/execution-requests`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        stdin: final_stdin,
+        // stdin: final_stdin,
         code: this.state.code,
-        timeout: this.state.timeout,
-        language: this.state.language,
-        programArguments: final_programArguments
+        // timeout: this.state.timeout,
+        language: this.state.language
+        // programArguments: final_programArguments
       })
     })
       .then(res => {
@@ -134,24 +129,25 @@ class RubyExamExercise extends Component {
 
   onCodeChange = code => this.setState({ code })
 
-  onProgramArgumentsChange = programArguments => {
-    this.setState({ programArguments: programArguments.target.value })
-  }
+  // onProgramArgumentsChange = programArguments => {
+  //   this.setState({ programArguments: programArguments.target.value });
+  // };
 
-  onStdinChange = stdin => {
-    this.setState({ stdin: stdin.target.value })
-  }
+  // onStdinChange = stdin => {
+  //   this.setState({ stdin: stdin.target.value });
+  // };
 
-  onTimemoutChange = timeout => {
-    this.setState({ timeout: timeout.target.value })
-  }
+  // onTimemoutChange = timeout => {
+  //   this.setState({ timeout: timeout.target.value });
+  // };
 
   clearAllFields = () => {
     this.setState({
       output: {},
-      programArguments: '',
-      stdin: '',
-      timeout: ''
+      // programArguments: "",
+      // stdin: "",
+      // timeout: "",
+      compilerFlags: ''
     })
   }
 
@@ -194,12 +190,12 @@ class RubyExamExercise extends Component {
               El puntaje es de: {this.props.awardedScore}
             </Typography>
           </Grid>
-          <Grid justify="flex-end" item xs={3}>
+          <Grid item xs={3}>
             <Button
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick={this.sendCodeinSandBox}
+              // onClick={this.sendCodeinSandBox}
             >
               Entregar ejercicio
               <DoneIcon className={classes.rightIcon} />
