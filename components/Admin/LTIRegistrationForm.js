@@ -65,7 +65,7 @@ class LTIRegistrationForm extends Component {
     })
       .then(async res => {
         if (res.status === 201) {
-          this.props.enqueueSnackbar('Examen registrado creado', {
+          this.props.enqueueSnackbar('Primer paso enviado', {
             variant: 'success'
           })
 

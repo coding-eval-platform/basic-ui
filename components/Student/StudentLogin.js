@@ -27,8 +27,9 @@ class StudentLogin extends React.Component {
   }
 
   componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
-    const examID = new URL(window.location.href).searchParams.get('examID')
+    // const accessToken = await handleAccessToken();
+    const examID = new URL(window.location.href).searchParams.get('exam-id')
+    const jwt = new URL(window.location.href).searchParams.get('jwt')
     const url = `${process.env.API_HOST}/exams/${examID}`
 
     fetch(url, {
