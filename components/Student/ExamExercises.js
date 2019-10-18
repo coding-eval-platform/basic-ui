@@ -42,6 +42,37 @@ class ExamExercises extends React.Component {
     isLoaded: false
   }
 
+  submitExam = () => {
+    console.log('SubmissionID handed in is: ', this.state.submissionID)
+
+    fetch(
+      `${process.env.API_HOST}/solutions-submissions/${this.state.submissionID}/submit`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + store.get('accessToken')
+        }
+      }
+    )
+      .then(res => {
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Examen entregado.', {
+            variant: 'success'
+          })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Ya se entregó el examen.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Falló en crear el ejercicio.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
+  }
   componentDidMount = async () => {
     const accessToken = await handleAccessToken()
 
@@ -125,7 +156,7 @@ class ExamExercises extends React.Component {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                // onClick={this.sendCodeinSandBox}
+                onClick={this.submitExam}
               >
                 Entregar examen
                 <AssignmentIcon className={classes.rightIcon} />
