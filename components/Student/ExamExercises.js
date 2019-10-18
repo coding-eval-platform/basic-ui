@@ -138,22 +138,25 @@ class ExamExercises extends React.Component {
           />
           {this.state.exercises.map((exercise, index) => {
             // search for the corresponding solution
-            const solution = this.state.solutions.filter(solution => {
-              console.log(
-                'solution.exerciseId === exercise.id: ',
-                solution.exerciseId === exercise.id
-              )
-              if (solution.exerciseId === exercise.id) {
-                return solution
-              }
-            })
+            // const solution_ids = this.state.solutions.filter(solution => {
+            //   console.log(
+            //     "solution.exerciseId === exercise.id: ",
+            //     solution.exerciseId === exercise.id
+            //   );
+            //   if (solution.exerciseId === exercise.id) {
+            //     return solution.id;
+            //   }
+            // });
+
             return exercise.language.toString() === 'RUBY' ? (
               <div key={index}>
                 <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
                   Ejercicio: {index + 1}
                 </Typography>
                 <RubyExamExercise
-                  solutionID={solution.id}
+                  solutionID={this.state.solutions.find(solution => {
+                    return solution.exerciseId === exercise.id
+                  })}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -169,7 +172,9 @@ class ExamExercises extends React.Component {
                   Ejercicio: {index + 1}
                 </Typography>
                 <JavaExamExercise
-                  solutionID={solution.id}
+                  solutionID={this.state.solutions.find(solution => {
+                    return solution.exerciseId === exercise.id
+                  })}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -185,7 +190,9 @@ class ExamExercises extends React.Component {
                   Ejercicio: {index + 1}
                 </Typography>
                 <CExamExercise
-                  solutionID={solution.id}
+                  solutionID={this.state.solutions.find(solution => {
+                    return solution.exerciseId === exercise.id
+                  })}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}

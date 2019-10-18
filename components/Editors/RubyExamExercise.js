@@ -8,10 +8,12 @@ import SendIcon from '@material-ui/icons/Send'
 import DoneIcon from '@material-ui/icons/Done'
 import ClearIcon from '@material-ui/icons/Clear'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import store from 'store'
 
 const styles = theme => ({
   root: {
@@ -62,6 +64,38 @@ class RubyExamExercise extends Component {
     // timeout: "",
     language: 'RUBY'
     // programArguments: ""
+  }
+
+  modifySolution = solutionID => {
+    console.log('Solution ID is: ', solutionID)
+
+    fetch(`${process.env.API_HOST}/solutions/${solutionID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
+      body: JSON.stringify({
+        answer: this.state.code
+      })
+    })
+      .then(res => {
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Solución modificada.', {
+            variant: 'success'
+          })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Ya se entregó el examen.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Falló en crear el ejercicio.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   sendCodeinSandBox = () => {
@@ -195,7 +229,7 @@ class RubyExamExercise extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              // onClick={this.sendCodeinSandBox}
+              onClick={this.modifySolution.bind(this, this.props.solutionID.id)}
             >
               Entregar ejercicio
               <DoneIcon className={classes.rightIcon} />
@@ -338,4 +372,4 @@ RubyExamExercise.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(RubyExamExercise)
+export default withSnackbar(withStyles(styles)(RubyExamExercise))

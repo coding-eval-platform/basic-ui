@@ -10,9 +10,11 @@ import InfoIcon from '@material-ui/icons/Info'
 import DoneIcon from '@material-ui/icons/Done'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
+import { withSnackbar } from 'notistack'
 
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import store from 'store'
 
 import Typography from '@material-ui/core/Typography'
 
@@ -70,6 +72,38 @@ class JavaExamExercise extends Component {
     // timeout: "",
     language: 'JAVA'
     // programArguments: ""
+  }
+
+  modifySolution = solutionID => {
+    console.log('Solution ID is: ', solutionID)
+
+    fetch(`${process.env.API_HOST}/solutions/${solutionID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      },
+      body: JSON.stringify({
+        answer: this.state.code
+      })
+    })
+      .then(res => {
+        console.log('Response status is: ', res.status)
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Solución modificada.', {
+            variant: 'success'
+          })
+        } else if (res.status === 422) {
+          this.props.enqueueSnackbar('Ya se entregó el examen.', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Falló en crear el ejercicio.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   sendCodeinSandBox = () => {
@@ -194,7 +228,7 @@ class JavaExamExercise extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick={this.sendCodeinSandBox}
+              onClick={this.modifySolution.bind(this, this.props.solutionID.id)}
             >
               Entregar ejercicio
               <DoneIcon className={classes.rightIcon} />
@@ -362,4 +396,4 @@ JavaExamExercise.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(JavaExamExercise)
+export default withSnackbar(withStyles(styles)(JavaExamExercise))
