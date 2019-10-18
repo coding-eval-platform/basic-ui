@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 
 import store from 'store'
 import { handleAccessToken } from '../../auth'
+import axios from 'axios'
 
 const styles = theme => ({
   textField: {
@@ -21,37 +22,70 @@ const styles = theme => ({
 
 class LTIRegistrationForm extends Component {
   state = {
-    examID: ''
+    examID: '',
+    examCreationState: ''
+  }
+
+  componentDidMount = () => {
+    const examCreationState = new URL(window.location.href).searchParams.get(
+      'exam-creation-state'
+    )
+
+    this.setState({
+      examCreationState: examCreationState
+    })
   }
 
   onExamIdChange = examID => {
     this.setState({ examID: examID.target.value })
   }
 
-  registerExam = () => {
+  registerExam = async () => {
+    console.log(
+      'registrando: ',
+      JSON.stringify({
+        examID: this.state.examID,
+        examCreationState: this.state.examCreationState
+      })
+    )
     this.props.enqueueSnackbar('Registrando examen', { variant: 'info' })
-    const url = 'asdasdaasda'
+    const url = `${process.env.API_HOST}/lti/app/create-exam-finish`
+    // const url = `${process.env.JUAN_HOST}/lti/app/create-exam-finish`;
 
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + store.get('accessToken')
+        'Content-Type': 'application/json'
+        // Authorization: "Bearer " + store.get("accessToken")
       },
       body: JSON.stringify({
-        examID: this.state.examID
+        examID: this.state.examID,
+        examCreationState: this.state.examCreationState
       })
     })
-      .then(res => {
+      .then(async res => {
         if (res.status === 201) {
-          this.props.enqueueSnackbar('Usuario creado', { variant: 'success' })
-          // Router.push(`/users_dashboard`)
-        } else if (res.status === 422) {
-          this.props.enqueueSnackbar('Contraseña débil', {
-            variant: 'error'
+          this.props.enqueueSnackbar('Examen registrado creado', {
+            variant: 'success'
+          })
+
+          ltiResponse = await res.body.json()
+          console.log('JuanRESPONSE: ', res.body)
+
+          const options = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+
+          const data = {
+            jwt: ltiResponse.jwt
+          }
+
+          axios.post(`${ltiResponse.endpoint}`, data, options).then(res => {
+            console.log(res)
+            console.log(res.data)
           })
         } else {
-          this.props.enqueueSnackbar('Falló al crear un usuario', {
+          this.props.enqueueSnackbar('Falló al registrar el examen', {
             variant: 'error'
           })
         }
@@ -74,7 +108,7 @@ class LTIRegistrationForm extends Component {
               label="Insertar ID del examen"
               placeholder="123123123"
               style={{ margin: 20 }}
-              onChange={this.registerExam}
+              onChange={this.onExamIdChange}
               value={this.state.examID}
               fullWidth
               margin="normal"
@@ -88,7 +122,7 @@ class LTIRegistrationForm extends Component {
               style={{ margin: 20 }}
               variant="contained"
               color="primary"
-              onClick={this.createUser}
+              onClick={this.registerExam}
             >
               Registrar examen
             </Button>
