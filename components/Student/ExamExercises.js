@@ -2,13 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { withSnackbar } from 'notistack'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
 
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -60,6 +54,15 @@ class ExamExercises extends React.Component {
         if (res.status === 204) {
           this.props.enqueueSnackbar('Examen entregado.', {
             variant: 'success'
+          })
+
+          Router.push({
+            pathname: `/exam_finished`,
+            query: {
+              examID: `${this.state.examID}`,
+              submissionID: `${this.state.submissionID}`,
+              examDescription: `${this.state.examDescription}`
+            }
           })
         } else if (res.status === 422) {
           this.props.enqueueSnackbar('Ya se entregó el examen.', {
