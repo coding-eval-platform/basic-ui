@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import ClearIcon from '@material-ui/icons/Clear'
 import DoneIcon from '@material-ui/icons/Done'
+import NotesIcon from '@material-ui/icons/Notes'
 import { withStyles } from '@material-ui/core/styles'
 import { withSnackbar } from 'notistack'
 import store from 'store'
@@ -213,7 +214,7 @@ class CExamExercise extends Component {
               {this.props.question}
             </Typography>
             <Typography style={{ margin: 20 }} variant="subtitle1" gutterBottom>
-              El puntaje es de: {this.props.awardedScore}
+              El puntaje es de: {this.props.awardedScore} puntos
             </Typography>
           </Grid>
           <Grid item xs={3}>
@@ -225,6 +226,15 @@ class CExamExercise extends Component {
             >
               Entregar ejercicio
               <DoneIcon className={classes.rightIcon} />
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.button}
+              // onClick={this.modifySolution.bind(this, this.props.solutionID.id)}
+            >
+              Ver test cases
+              <NotesIcon className={classes.rightIcon} />
             </Button>
           </Grid>
         </Grid>
