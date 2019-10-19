@@ -174,6 +174,43 @@ class CExamExercise extends Component {
       .catch(err => console.log(err))
   }
 
+  runPublicTestCase = (timeout, programArguments, stdin) => {
+    console.log('runPublicTestCase params: ', timeout, programArguments, stdin)
+
+    this.setState({
+      output: {},
+      pending: true,
+      open: false
+    })
+
+    // const final_programArguments = programArguments
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
+
+    // const final_stdin = stdin
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
+
+    fetch(`${process.env.API_HOST}/execution-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        stdin: stdin,
+        code: this.state.code,
+        timeout: timeout,
+        language: this.state.language,
+        programArguments: programArguments,
+        compilerFlags: this.state.compilerFlags
+      })
+    })
+      .then(res => {
+        let result_id = res.headers.get('Location').split('/')
+        result_id = result_id[result_id.length - 1]
+        this.polling(result_id)
+      })
+      .catch(err => console.log(err))
+  }
+
   sendCodeinSandBox = () => {
     this.setState({ output: {} })
     this.setState({ pending: true })
@@ -384,7 +421,12 @@ class CExamExercise extends Component {
                           variant="outlined"
                           color="primary"
                           className={classes.button}
-                          // onClick={this.sendCodeinSandBox}
+                          onClick={this.runPublicTestCase.bind(
+                            this,
+                            testCase.timeout,
+                            testCase.programArguments,
+                            testCase.stdin
+                          )}
                         >
                           Correr test case
                           <SendIcon className={classes.rightIcon} />
