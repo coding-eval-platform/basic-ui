@@ -116,16 +116,16 @@ class ExamExercises extends React.Component {
           const exercisesJSONResponse = await exercises.data
           const solutionsJSONResponse = await solutions.data
 
-          console.log('Exercises: ', exercisesJSONResponse)
-          console.log('Solutions: ', solutionsJSONResponse)
+          // console.log("Exercises: ", exercisesJSONResponse);
+          // console.log("Solutions: ", solutionsJSONResponse);
 
           this.setState({
             exercises: exercisesJSONResponse,
             solutions: solutionsJSONResponse,
             isLoaded: true
           })
-          console.log('state ex', this.state.exercises)
-          console.log('state sol', this.state.solutions)
+          // console.log("state ex", this.state.exercises);
+          // console.log("state sol", this.state.solutions);
         })
       )
       .catch(function(error) {
@@ -191,6 +191,8 @@ class ExamExercises extends React.Component {
                   solutionID={this.state.solutions.find(solution => {
                     return solution.exerciseId === exercise.id
                   })}
+                  exerciseNumber={index + 1}
+                  exerciseID={exercise.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -209,6 +211,8 @@ class ExamExercises extends React.Component {
                   solutionID={this.state.solutions.find(solution => {
                     return solution.exerciseId === exercise.id
                   })}
+                  exerciseNumber={index + 1}
+                  exerciseID={exercise.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
@@ -227,6 +231,8 @@ class ExamExercises extends React.Component {
                   solutionID={this.state.solutions.find(solution => {
                     return solution.exerciseId === exercise.id
                   })}
+                  exerciseNumber={index + 1}
+                  exerciseID={exercise.id}
                   question={exercise.question}
                   solutionTemplate={exercise.solutionTemplate}
                   awardedScore={exercise.awardedScore}
