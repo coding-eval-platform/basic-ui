@@ -270,7 +270,7 @@ class JavaExamExercise extends Component {
               variant="outlined"
               color="primary"
               className={classes.button}
-              // onClick={this.sendCodeinSandBox}
+              onClick={this.sendCodeinSandBox}
             >
               Correr código
               <SendIcon className={classes.rightIcon} />

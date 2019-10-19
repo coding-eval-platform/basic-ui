@@ -337,35 +337,60 @@ class CExamExercise extends Component {
               return (
                 <div key={index}>
                   <ListItem button>
-                    <ListItemText
-                      primary={`Test case ${index + 1}`}
-                      secondary={
-                        <div>
-                          <Typography type="body2">
-                            * Timeout (ms):{' '}
-                            {testCase.timeout === '' ? ' - ' : testCase.timeout}
-                          </Typography>
-                          <Typography type="body2">
-                            * Argumentos del programa:{' '}
-                            {testCase.programArguments === []
-                              ? ' - '
-                              : testCase.programArguments.toString()}
-                          </Typography>
-                          <Typography type="body2">
-                            * Estandar input:{' '}
-                            {testCase.stdin.toString() === ''
-                              ? ' - '
-                              : testCase.stdin.toString()}
-                          </Typography>
-                          <Typography type="body2">
-                            * Salida esperada:{' '}
-                            {testCase.expectedOutputs === []
-                              ? ' - '
-                              : testCase.expectedOutputs.toString()}
-                          </Typography>
-                        </div>
-                      }
-                    />
+                    <Grid container spacing={24} alignItems="center">
+                      <ListItemText
+                        style={{ margin: 20 }}
+                        primary={`Test case ${index + 1}`}
+                        secondary={
+                          <div>
+                            <Grid item xs={12}>
+                              <Typography type="body2">
+                                * Timeout (ms):{' '}
+                                {testCase.timeout === ''
+                                  ? ' - '
+                                  : testCase.timeout}
+                              </Typography>
+                              <Typography type="body2">
+                                * Argumentos del programa:{' '}
+                                {testCase.programArguments === []
+                                  ? ' - '
+                                  : testCase.programArguments.toString()}
+                              </Typography>
+                              <Typography type="body2">
+                                * Estandar input:{' '}
+                                {testCase.stdin.toString() === ''
+                                  ? ' - '
+                                  : testCase.stdin.toString()}
+                              </Typography>
+                              <Typography type="body2">
+                                * Salida esperada:{' '}
+                                {testCase.expectedOutputs === []
+                                  ? ' - '
+                                  : testCase.expectedOutputs.toString()}
+                              </Typography>
+                            </Grid>
+                          </div>
+                        }
+                      />
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={24}
+                      justify="flex-end"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          className={classes.button}
+                          // onClick={this.sendCodeinSandBox}
+                        >
+                          Correr test case
+                          <SendIcon className={classes.rightIcon} />
+                        </Button>
+                      </Grid>
+                    </Grid>
                   </ListItem>
                   <Divider />
                 </div>
@@ -399,7 +424,7 @@ class CExamExercise extends Component {
               variant="outlined"
               color="primary"
               className={classes.button}
-              // onClick={this.sendCodeinSandBox}
+              onClick={this.sendCodeinSandBox}
             >
               Correr código
               <SendIcon className={classes.rightIcon} />
