@@ -83,6 +83,7 @@ class CExamExercise extends Component {
     open: false,
     pending: false,
     testCases: [],
+    testCaseBeingRun: '',
     // stdin: "",
     compilerFlags: '',
     code: this.props.solutionTemplate,
@@ -174,12 +175,13 @@ class CExamExercise extends Component {
       .catch(err => console.log(err))
   }
 
-  runPublicTestCase = (timeout, programArguments, stdin) => {
+  runPublicTestCase = (timeout, programArguments, stdin, testCaseBeingRun) => {
     console.log('runPublicTestCase params: ', timeout, programArguments, stdin)
 
     this.setState({
       output: {},
-      pending: true
+      pending: true,
+      testCaseBeingRun: testCaseBeingRun
       // open: false
     })
 
@@ -425,7 +427,8 @@ class CExamExercise extends Component {
                             this,
                             testCase.timeout,
                             testCase.programArguments,
-                            testCase.stdin
+                            testCase.stdin,
+                            testCase.id
                           )}
                         >
                           Correr
@@ -441,9 +444,12 @@ class CExamExercise extends Component {
                     >
                       <Grid item xs={12}>
                         <Typography type="h2">
-                          {!this.state.pending &&
-                          Object.keys(this.state.output).length === 0 &&
-                          this.state.output.constructor === Object
+                          {this.state.testCaseBeingRun === '' ||
+                          this.state.testCaseBeingRun != testCase.id.toString()
+                            ? ''
+                            : !this.state.pending &&
+                              Object.keys(this.state.output).length === 0 &&
+                              this.state.output.constructor === Object
                             ? ''
                             : this.state.pending &&
                               Object.keys(this.state.output).length === 0 &&
