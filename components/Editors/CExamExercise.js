@@ -179,8 +179,8 @@ class CExamExercise extends Component {
 
     this.setState({
       output: {},
-      pending: true,
-      open: false
+      pending: true
+      // open: false
     })
 
     // const final_programArguments = programArguments
@@ -380,7 +380,7 @@ class CExamExercise extends Component {
                         primary={`Test case ${index + 1}`}
                         secondary={
                           <div>
-                            <Grid item xs={12}>
+                            <Grid item xs={10}>
                               <Typography type="body2">
                                 * Timeout (ms):{' '}
                                 {testCase.timeout === ''
@@ -416,7 +416,7 @@ class CExamExercise extends Component {
                       justify="flex-end"
                       alignItems="center"
                     >
-                      <Grid item xs={12}>
+                      <Grid item xs={6}>
                         <Button
                           variant="outlined"
                           color="primary"
@@ -428,9 +428,55 @@ class CExamExercise extends Component {
                             testCase.stdin
                           )}
                         >
-                          Correr test case
+                          Correr
                           <SendIcon className={classes.rightIcon} />
                         </Button>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={24}
+                      justify="flex-end"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12}>
+                        <Typography type="h2">
+                          {!this.state.pending &&
+                          Object.keys(this.state.output).length === 0 &&
+                          this.state.output.constructor === Object
+                            ? ''
+                            : this.state.pending &&
+                              Object.keys(this.state.output).length === 0 &&
+                              this.state.output.constructor === Object
+                            ? 'Corriendo test...'
+                            : !this.state.pending &&
+                              this.state.output.stdout.toString() ===
+                                testCase.expectedOutputs.toString()
+                            ? 'Aprobado'
+                            : 'desaprobado'}
+                          {/* {!this.state.pending &&
+                          Object.keys(this.state.output).length === 0 &&
+                          this.state.output.constructor === Object
+                            ? ""
+                            : this.state.pending &&
+                              Object.keys(this.state.output).length === 0 &&
+                              this.state.output.constructor === Object
+                            ? "Corriendo test..."
+                            : "nose"} */}
+                          {/* {!this.state.pending &&
+                          Object.keys(this.state.output).length === 0 &&
+                          this.state.output.constructor === Object
+                            ? ""
+                            : "nose"} */}
+                          {/* {!this.state.pending && this.state.output === {} 
+                            ? ""
+                            : this.state.pending && this.state.output === {}
+                            ? "Corriendo test..."
+                            : !this.state.pending &&
+                              this.state.output === testCase.expectedOutputs
+                            ? "Pasa el test case"
+                            : "No pasa el test case."} */}
+                        </Typography>
                       </Grid>
                     </Grid>
                   </ListItem>
