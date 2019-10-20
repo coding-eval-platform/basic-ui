@@ -6,8 +6,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import ReplayIcon from '@material-ui/icons/Replay'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
@@ -19,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-function ResultRows(props) {
+function ResultRow(props) {
   return (
     <TableRow key={props.key}>
       <TableCell align="center">{props.testCaseId}</TableCell>
@@ -28,8 +27,8 @@ function ResultRows(props) {
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <Tooltip title="Ver los ejercicios de esta entrega">
-              <IconButton aria-label="See" onClick={props.viewExercisesEvent}>
-                <FormatListNumberedIcon />
+              <IconButton aria-label="Replay" onClick={props.replayTestCase}>
+                <ReplayIcon />
               </IconButton>
             </Tooltip>
           </Grid>
@@ -39,8 +38,8 @@ function ResultRows(props) {
   )
 }
 
-ResultRows.propTypes = {
+ResultRow.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ResultRows)
+export default withStyles(styles)(ResultRow)

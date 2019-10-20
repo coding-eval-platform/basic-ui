@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Router from 'next/router'
-import Modal from 'react-awesome-modal'
 import { withSnackbar } from 'notistack'
 import Divider from '@material-ui/core/Divider'
 
@@ -149,6 +148,37 @@ class SolutionDetails extends React.Component {
       })
   }
 
+  replayTestCase = (testCaseID, solutionID) => {
+    console.log('testCaseID: ', testCaseID)
+    console.log('solutionID: ', solutionID)
+
+    const url = `${process.env.API_HOST}/solutions/${solutionID}/retry/test-case/${testCaseID}`
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar('Se envió a ejecutar nuevamente.', {
+            variant: 'success'
+          })
+        } else if (res.status === 404) {
+          this.props.enqueueSnackbar('No encontrado', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Falló enviar la ejecución nuevamente', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     const { classes } = this.props
 
@@ -261,11 +291,11 @@ class SolutionDetails extends React.Component {
                         key={index}
                         testCaseId={result.testCaseId}
                         result={result.result}
-                        // viewSolutionDetail={this.viewSolutionDetail.bind(
-                        //   this,
-                        //   index,
-                        //   solution.exerciseID
-                        // )}
+                        replayTestCase={this.replayTestCase.bind(
+                          this,
+                          result.testCaseId,
+                          this.state.solution.id
+                        )}
                       />
                     ))}
                   </TableBody>
