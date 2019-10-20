@@ -19,6 +19,17 @@ import store from 'store'
 
 import Typography from '@material-ui/core/Typography'
 
+import Dialog from '@material-ui/core/Dialog'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import Slide from '@material-ui/core/Slide'
+
 const styles = theme => ({
   root: {
     background: '#202020'
@@ -60,13 +71,26 @@ const styles = theme => ({
   responseStylesNotOk: {
     background: '#f44336',
     color: 'white'
+  },
+  appBar: {
+    position: 'relative'
+  },
+  flex: {
+    flex: 1
   }
 })
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />
+}
 
 class JavaExamExercise extends Component {
   state = {
     output: {},
     pending: false,
+    testCases: [],
+    testCaseBeingRun: '',
+    open: false,
     // stdin: "",
     compilerFlags: '',
     code: this.props.solutionTemplate,
@@ -75,8 +99,59 @@ class JavaExamExercise extends Component {
     // programArguments: ""
   }
 
+  handleClickOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
+  }
+
+  viewTestCases = exerciseID => {
+    console.log('Exercise ID is: ', exerciseID)
+    this.handleClickOpen()
+
+    this.props.enqueueSnackbar('Buscando test cases públicos.', {
+      variant: 'info'
+    })
+
+    fetch(`${process.env.API_HOST}/exercises/${exerciseID}/test-cases/public`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(async res => {
+        console.log('Response status is: ', res.status)
+        if (res.status === 200) {
+          this.props.enqueueSnackbar('Test cases públicos encontrados.', {
+            variant: 'success'
+          })
+          const testCases = await res.json()
+          console.log('test cases are: ', testCases)
+
+          this.setState({
+            testCases: testCases
+          })
+        } else {
+          this.props.enqueueSnackbar(
+            'Falló en buscar los test cases públicos.',
+            {
+              variant: 'error'
+            }
+          )
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
   modifySolution = solutionID => {
     console.log('Solution ID is: ', solutionID)
+
+    this.props.enqueueSnackbar('Modificando solución.', {
+      variant: 'info'
+    })
 
     fetch(`${process.env.API_HOST}/solutions/${solutionID}`, {
       method: 'PUT',
@@ -103,6 +178,44 @@ class JavaExamExercise extends Component {
             variant: 'error'
           })
         }
+      })
+      .catch(err => console.log(err))
+  }
+
+  runPublicTestCase = (timeout, programArguments, stdin, testCaseBeingRun) => {
+    console.log('runPublicTestCase params: ', timeout, programArguments, stdin)
+
+    this.setState({
+      output: {},
+      pending: true,
+      testCaseBeingRun: testCaseBeingRun
+      // open: false
+    })
+
+    // const final_programArguments = programArguments
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
+
+    // const final_stdin = stdin
+    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+    //   .map(str => str.replace(/"/g, ""));
+
+    fetch(`${process.env.API_HOST}/execution-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        stdin: stdin,
+        code: this.state.code,
+        timeout: timeout,
+        language: this.state.language,
+        programArguments: programArguments,
+        compilerFlags: this.state.compilerFlags
+      })
+    })
+      .then(res => {
+        let result_id = res.headers.get('Location').split('/')
+        result_id = result_id[result_id.length - 1]
+        this.polling(result_id)
       })
       .catch(err => console.log(err))
   }
@@ -238,13 +351,132 @@ class JavaExamExercise extends Component {
               variant="outlined"
               color="primary"
               className={classes.button}
-              // onClick={this.modifySolution.bind(this, this.props.solutionID.id)}
+              onClick={this.viewTestCases.bind(this, this.props.exerciseID)}
             >
               Ver test cases
               <NotesIcon className={classes.rightIcon} />
             </Button>
           </Grid>
         </Grid>
+        <Dialog
+          fullScreen
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={Transition}
+        >
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                onClick={this.handleClose}
+                aria-label="Close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" className={classes.flex}>
+                Test cases públicos del ejercicio {this.props.exerciseNumber}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <List>
+            {this.state.testCases.map((testCase, index) => {
+              return (
+                <div key={index}>
+                  <ListItem button>
+                    <Grid container spacing={24} alignItems="center">
+                      <ListItemText
+                        style={{ margin: 20 }}
+                        primary={`Test case ${index + 1}`}
+                        secondary={
+                          <div>
+                            <Grid item xs={10}>
+                              <Typography type="body2">
+                                * Timeout (ms):{' '}
+                                {testCase.timeout === ''
+                                  ? ' - '
+                                  : testCase.timeout}
+                              </Typography>
+                              <Typography type="body2">
+                                * Argumentos del programa:{' '}
+                                {testCase.programArguments === []
+                                  ? ' - '
+                                  : testCase.programArguments.toString()}
+                              </Typography>
+                              <Typography type="body2">
+                                * Estandar input:{' '}
+                                {testCase.stdin.toString() === ''
+                                  ? ' - '
+                                  : testCase.stdin.toString()}
+                              </Typography>
+                              <Typography type="body2">
+                                * Salida esperada:{' '}
+                                {testCase.expectedOutputs === []
+                                  ? ' - '
+                                  : testCase.expectedOutputs.toString()}
+                              </Typography>
+                            </Grid>
+                          </div>
+                        }
+                      />
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={24}
+                      justify="flex-end"
+                      alignItems="center"
+                    >
+                      <Grid item xs={6}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          className={classes.button}
+                          onClick={this.runPublicTestCase.bind(
+                            this,
+                            testCase.timeout,
+                            testCase.programArguments,
+                            testCase.stdin,
+                            testCase.id
+                          )}
+                        >
+                          Correr
+                          <SendIcon className={classes.rightIcon} />
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={24}
+                      justify="flex-end"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12}>
+                        <Typography type="h2">
+                          {this.state.testCaseBeingRun === '' ||
+                          this.state.testCaseBeingRun != testCase.id.toString()
+                            ? ''
+                            : !this.state.pending &&
+                              Object.keys(this.state.output).length === 0 &&
+                              this.state.output.constructor === Object
+                            ? ''
+                            : this.state.pending &&
+                              Object.keys(this.state.output).length === 0 &&
+                              this.state.output.constructor === Object
+                            ? 'Corriendo test...'
+                            : !this.state.pending &&
+                              this.state.output.stdout.toString() ===
+                                testCase.expectedOutputs.toString()
+                            ? 'Aprobado ✅'
+                            : 'Desaprobado ❌'}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  <Divider />
+                </div>
+              )
+            })}
+          </List>
+        </Dialog>
         <Grid container spacing={24} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>

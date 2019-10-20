@@ -458,30 +458,8 @@ class CExamExercise extends Component {
                             : !this.state.pending &&
                               this.state.output.stdout.toString() ===
                                 testCase.expectedOutputs.toString()
-                            ? 'Aprobado'
-                            : 'desaprobado'}
-                          {/* {!this.state.pending &&
-                          Object.keys(this.state.output).length === 0 &&
-                          this.state.output.constructor === Object
-                            ? ""
-                            : this.state.pending &&
-                              Object.keys(this.state.output).length === 0 &&
-                              this.state.output.constructor === Object
-                            ? "Corriendo test..."
-                            : "nose"} */}
-                          {/* {!this.state.pending &&
-                          Object.keys(this.state.output).length === 0 &&
-                          this.state.output.constructor === Object
-                            ? ""
-                            : "nose"} */}
-                          {/* {!this.state.pending && this.state.output === {} 
-                            ? ""
-                            : this.state.pending && this.state.output === {}
-                            ? "Corriendo test..."
-                            : !this.state.pending &&
-                              this.state.output === testCase.expectedOutputs
-                            ? "Pasa el test case"
-                            : "No pasa el test case."} */}
+                            ? 'Aprobado ✅'
+                            : 'Desaprobado ❌'}
                         </Typography>
                       </Grid>
                     </Grid>
