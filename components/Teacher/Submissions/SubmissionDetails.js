@@ -22,7 +22,7 @@ import { handleAccessToken } from '../../../auth'
 
 const styles = theme => ({
   root: {
-    width: '80%',
+    width: '60%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto'
   }
@@ -34,7 +34,8 @@ class SubmissionDetails extends React.Component {
     isLoaded: false,
     // visibleDelete: false,
     // index: "",
-    submitter: ''
+    submitter: '',
+    submissionID: ''
   }
 
   componentWillMount = async () => {
@@ -63,42 +64,26 @@ class SubmissionDetails extends React.Component {
         this.setState({
           isLoaded: true,
           solutions: outputJSONResponse,
-          submitter: submitter
+          submitter: submitter,
+          submissionID: submissionID
         })
       })
       .catch(err => console.log(err))
   }
 
-  // viewExamExercises = index => {
-  //   const submissionID = this.state.solutions[index].id;
-  //   const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`;
+  viewSolutionDetail = (solutionID, exerciseID) => {
+    console.log('SolutionID: ', solutionID)
+    console.log('ExerciseID: ', exerciseID)
 
-  //   fetch(url, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + store.get("accessToken")
-  //     }
-  //   })
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         Router.push({
-  //           pathname: `/submission_details`,
-  //           query: {
-  //             submissionID: `${submissionID}`
-  //           }
-  //         });
-  //       } else {
-  //         this.props.enqueueSnackbar(
-  //           "Falló ver los ejercicios de ese examen.",
-  //           {
-  //             variant: "error"
-  //           }
-  //         );
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // };
+    Router.push({
+      pathname: `/solution-details`,
+      query: {
+        submissionID: `${this.state.submissionID}`,
+        solutionID: solutionID,
+        exerciseID: exerciseID
+      }
+    })
+  }
 
   render() {
     const { classes } = this.props
@@ -168,7 +153,6 @@ class SubmissionDetails extends React.Component {
                   </TableCell>
                   <TableCell align="center">ID del ejercicio</TableCell>
                   <TableCell align="center">Compiler Flags</TableCell>
-                  <TableCell align="center">Respuesta</TableCell>
                   <TableCell align="center">Comandos</TableCell>
                 </TableRow>
               </TableHead>
@@ -180,47 +164,14 @@ class SubmissionDetails extends React.Component {
                     exerciseID={solution.exerciseId}
                     answer={solution.answer}
                     compilerFlags={solution.compilerFlags || '-'}
-                    // viewSolutionDetail={this.viewSolutionDetail.bind(
-                    //   this,
-                    //   index
-                    // )}
+                    viewSolutionDetail={this.viewSolutionDetail.bind(
+                      this,
+                      solution.id,
+                      solution.exerciseId
+                    )}
                   />
                 ))}
               </TableBody>
-              {/* DELETE MODAL */}
-              {/* <Modal
-                visible={this.state.visibleDelete}
-                width="400"
-                height="200"
-                effect="fadeInUp"
-                onClickAway={() => this.closeDeleteModal()}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ margin: "20px 0px 0px 20px" }}
-                  gutterBottom
-                >
-                  Borrar usuario
-                </Typography>
-                <Typography
-                  variant="body1"
-                  style={{ margin: "20px" }}
-                  gutterBottom
-                >
-                  Está seguro que desea eliminar este usuario? Click SI para
-                  eliminarlo, click fuera del recuadro para no eliminarlo.
-                </Typography>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    this.deleteUser(this.state.index);
-                  }}
-                >
-                  Si, eliminar usuario
-                </Button>
-              </Modal> */}
             </Table>
           </Paper>
         </div>

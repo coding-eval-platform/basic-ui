@@ -69,7 +69,7 @@ class LTIRegistrationForm extends Component {
             variant: 'success'
           })
 
-          ltiResponse = await res.body.json()
+          ltiResponse = await res.json()
           console.log('JuanRESPONSE: ', res.body)
 
           const options = {

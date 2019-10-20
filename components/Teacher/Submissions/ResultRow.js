@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
@@ -18,17 +19,16 @@ const styles = theme => ({
   }
 })
 
-function SubmissionExerciseRow(props) {
+function ResultRows(props) {
   return (
-    <TableRow key={props.solutionID}>
-      <TableCell align="center">{props.solutionID}</TableCell>
-      <TableCell align="center">{props.exerciseID.toString()}</TableCell>
-      <TableCell align="center">{props.compilerFlags}</TableCell>
+    <TableRow key={props.key}>
+      <TableCell align="center">{props.testCaseId}</TableCell>
+      <TableCell align="center">{props.result}</TableCell>
       <TableCell align="center" style={{ maxWidth: '25px' }}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Tooltip title="Ver esta solución en detalle">
-              <IconButton aria-label="See" onClick={props.viewSolutionDetail}>
+            <Tooltip title="Ver los ejercicios de esta entrega">
+              <IconButton aria-label="See" onClick={props.viewExercisesEvent}>
                 <FormatListNumberedIcon />
               </IconButton>
             </Tooltip>
@@ -39,8 +39,8 @@ function SubmissionExerciseRow(props) {
   )
 }
 
-SubmissionExerciseRow.propTypes = {
+ResultRows.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SubmissionExerciseRow)
+export default withStyles(styles)(ResultRows)

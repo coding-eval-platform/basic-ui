@@ -30,14 +30,14 @@ function SubmitterRow(props) {
           {/* <Grid item xs={4}>
             <EditUserInRow username={props.username} active={props.active} />
           </Grid> */}
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Tooltip title="Ver los ejercicios de esta entrega">
               <IconButton aria-label="See" onClick={props.viewExercisesEvent}>
                 <FormatListNumberedIcon />
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Tooltip title="Puntuar el examen">
               <IconButton aria-label="Mark" onClick={props.markExamEvent}>
                 <CheckCircleOutlineIcon />
