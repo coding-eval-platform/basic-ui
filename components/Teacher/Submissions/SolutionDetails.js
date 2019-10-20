@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import SendIcon from '@material-ui/icons/Send'
 import Router from 'next/router'
 import { withSnackbar } from 'notistack'
 import Divider from '@material-ui/core/Divider'
@@ -149,8 +150,8 @@ class SolutionDetails extends React.Component {
   }
 
   replayTestCase = (testCaseID, solutionID) => {
-    console.log('testCaseID: ', testCaseID)
-    console.log('solutionID: ', solutionID)
+    // console.log("testCaseID: ", testCaseID);
+    // console.log("solutionID: ", solutionID);
 
     const url = `${process.env.API_HOST}/solutions/${solutionID}/retry/test-case/${testCaseID}`
 
@@ -166,6 +167,37 @@ class SolutionDetails extends React.Component {
           this.props.enqueueSnackbar('Se envió a ejecutar nuevamente.', {
             variant: 'success'
           })
+        } else if (res.status === 404) {
+          this.props.enqueueSnackbar('No encontrado', {
+            variant: 'warning'
+          })
+        } else {
+          this.props.enqueueSnackbar('Falló enviar la ejecución nuevamente', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  runAllTestsAgain = () => {
+    const url = `${process.env.API_HOST}/solutions/${this.state.solution.id}/retry`
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(res => {
+        if (res.status === 204) {
+          this.props.enqueueSnackbar(
+            'Se enviaron a ejecutar nuevamente todos los test cases.',
+            {
+              variant: 'success'
+            }
+          )
         } else if (res.status === 404) {
           this.props.enqueueSnackbar('No encontrado', {
             variant: 'warning'
@@ -274,6 +306,16 @@ class SolutionDetails extends React.Component {
               <Typography variant="h5" style={{ margin: 20 }} gutterBottom>
                 Resultados de los test cases:
               </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ margin: 20 }}
+                className={classes.button}
+                onClick={this.runAllTestsAgain}
+              >
+                Correr todos los tests nuevamente
+                <SendIcon className={classes.rightIcon} />
+              </Button>
               <Paper style={{ margin: 20 }} className={classes.root}>
                 <Table className={classes.table}>
                   <TableHead>
