@@ -81,7 +81,7 @@ class CreateExam extends Component {
           //   }
           // })
         } else if (res.status === 422) {
-          this.props.enqueueSnackbar('422 ???????.', {
+          this.props.enqueueSnackbar('El examen no puede estar en el pasado.', {
             variant: 'warning'
           })
         } else {
