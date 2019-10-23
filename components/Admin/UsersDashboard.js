@@ -325,6 +325,7 @@ class UsersDashboard extends React.Component {
                   color="secondary"
                   onClick={() => {
                     this.deleteUser(this.state.index)
+                    this.closeDeleteModal()
                   }}
                 >
                   Si, eliminar usuario

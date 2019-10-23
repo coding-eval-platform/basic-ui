@@ -72,6 +72,7 @@ class ModifyTestCase extends React.Component {
     })
       .then(async res => {
         const testCaseJSONResponse = await res.json()
+        console.log('testCaseJSONResponse', testCaseJSONResponse)
 
         this.setState({
           exerciseID: exerciseID,

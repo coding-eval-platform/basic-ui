@@ -26,7 +26,7 @@ function ResultRow(props) {
       <TableCell align="center" style={{ maxWidth: '25px' }}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Tooltip title="Ver los ejercicios de esta entrega">
+            <Tooltip title="Correr nuevamente el test case">
               <IconButton aria-label="Replay" onClick={props.replayTestCase}>
                 <ReplayIcon />
               </IconButton>

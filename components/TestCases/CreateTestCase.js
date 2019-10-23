@@ -93,6 +93,16 @@ class CreateTestCase extends React.Component {
 
     const url = `${process.env.API_HOST}/exercises/${this.state.exerciseID}/test-cases`
 
+    console.log(
+      'bobdy',
+      JSON.stringify({
+        visibility: this.state.visibility,
+        timeout: this.state.timeout,
+        programArguments: programArgumentsArray,
+        expectedOutputs: expectedOutputsArray
+      })
+    )
+
     this.props.enqueueSnackbar('Creating test case', { variant: 'info' })
     fetch(url, {
       method: 'POST',
