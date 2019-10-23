@@ -91,7 +91,6 @@ class SolutionDetails extends React.Component {
             results: results
           })
         } else if (res.status === 422) {
-          console.log('results', this.state.results.length === 0)
           this.props.enqueueSnackbar(
             'No se puede obtener los resultados de test cases. Examen no entregado.',
             {
@@ -129,18 +128,15 @@ class SolutionDetails extends React.Component {
           const exerciseJSONResponse = await exercise.data
           const submissionJSONResponse = await submission.data
           const solutionJSONResponse = await solution.data
-          // const resultsJSONResponse = await results.data;
 
           // console.log("Exercise: ", exerciseJSONResponse);
           // console.log("Submission: ", submissionJSONResponse);
           // console.log("Solution: ", solutionJSONResponse);
-          // console.log("Results: ", resultsJSONResponse);
 
           this.setState({
             exercise: exerciseJSONResponse,
             submission: submissionJSONResponse,
             solution: solutionJSONResponse,
-            // results: resultsJSONResponse,
             isLoaded: true
           })
         })
