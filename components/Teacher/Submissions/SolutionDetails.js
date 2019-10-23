@@ -91,6 +91,7 @@ class SolutionDetails extends React.Component {
             results: results
           })
         } else if (res.status === 422) {
+          console.log('results', this.state.results.length === 0)
           this.props.enqueueSnackbar(
             'No se puede obtener los resultados de test cases. Examen no entregado.',
             {
@@ -295,16 +296,17 @@ class SolutionDetails extends React.Component {
           )}
           <Divider />
 
-          {this.state.results === [] ? (
+          {this.state.results.length === 0 ? (
             <div>
               <Typography variant="h5" style={{ margin: 20 }} gutterBottom>
-                No se ha entregado el ejercicio aún 🤷‍♂️
+                🔹No se muestran sus test cases pues no se ha entregado el
+                examen aún.
               </Typography>
             </div>
           ) : (
             <div>
               <Typography variant="h5" style={{ margin: 20 }} gutterBottom>
-                Resultados de los test cases:
+                🔹Resultados de los test cases:
               </Typography>
               <Button
                 variant="contained"
