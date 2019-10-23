@@ -84,11 +84,11 @@ class RubyExamExercise extends Component {
     pending: false,
     testCases: [],
     testCaseBeingRun: '',
-    // stdin: "",
+    stdin: '',
     code: this.props.solutionTemplate,
-    // timeout: "",
-    language: 'RUBY'
-    // programArguments: ""
+    timeout: '',
+    language: 'RUBY',
+    programArguments: ''
   }
 
   handleClickOpen = () => {
@@ -184,14 +184,6 @@ class RubyExamExercise extends Component {
       // open: false
     })
 
-    // const final_programArguments = programArguments
-    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-    //   .map(str => str.replace(/"/g, ""));
-
-    // const final_stdin = stdin
-    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-    //   .map(str => str.replace(/"/g, ""));
-
     fetch(`${process.env.API_HOST}/execution-requests`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -216,23 +208,23 @@ class RubyExamExercise extends Component {
     this.setState({ output: {} })
     this.setState({ pending: true })
 
-    // const final_programArguments = this.state.programArguments
-    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-    //   .map(str => str.replace(/"/g, ""));
+    const final_programArguments = this.state.programArguments
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
 
-    // const final_stdin = this.state.stdin
-    //   .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-    //   .map(str => str.replace(/"/g, ""));
+    const final_stdin = this.state.stdin
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map(str => str.replace(/"/g, ''))
 
     fetch(`${process.env.API_HOST}/execution-requests`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        // stdin: final_stdin,
+        stdin: final_stdin,
         code: this.state.code,
-        // timeout: this.state.timeout,
-        language: this.state.language
-        // programArguments: final_programArguments
+        timeout: this.state.timeout,
+        language: this.state.language,
+        programArguments: final_programArguments
       })
     })
       .then(res => {
@@ -277,24 +269,24 @@ class RubyExamExercise extends Component {
 
   onCodeChange = code => this.setState({ code })
 
-  // onProgramArgumentsChange = programArguments => {
-  //   this.setState({ programArguments: programArguments.target.value });
-  // };
+  onProgramArgumentsChange = programArguments => {
+    this.setState({ programArguments: programArguments.target.value })
+  }
 
-  // onStdinChange = stdin => {
-  //   this.setState({ stdin: stdin.target.value });
-  // };
+  onStdinChange = stdin => {
+    this.setState({ stdin: stdin.target.value })
+  }
 
-  // onTimemoutChange = timeout => {
-  //   this.setState({ timeout: timeout.target.value });
-  // };
+  onTimemoutChange = timeout => {
+    this.setState({ timeout: timeout.target.value })
+  }
 
   clearAllFields = () => {
     this.setState({
       output: {},
-      // programArguments: "",
-      // stdin: "",
-      // timeout: "",
+      programArguments: '',
+      stdin: '',
+      timeout: '',
       compilerFlags: ''
     })
   }
@@ -479,6 +471,58 @@ class RubyExamExercise extends Component {
           </List>
         </Dialog>
         <Grid container spacing={24} alignItems="center">
+          {/* INPUTS */}
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar argumentos del programa"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="comma+space separated, ie: input1, input2, input3"
+              onChange={this.onProgramArgumentsChange}
+              value={this.state.programArguments}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar input del programa"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="El texto deseado"
+              onChange={this.onStdinChange}
+              value={this.state.stdin}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar timeout"
+              style={{ margin: 8 }}
+              rows="1"
+              placeholder="Example (ms): 1000"
+              onChange={this.onTimemoutChange}
+              value={this.state.timeout}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
           {/* EXECUTE */}
           <Grid item xs={3}>
             <Button
