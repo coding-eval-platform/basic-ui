@@ -94,6 +94,39 @@ class SubmissionsDashboard extends React.Component {
       .catch(err => console.log(err))
   }
 
+  getMarkFromSubmitter = (index, submissionID) => {
+    const url = `${process.env.API_HOST}/solutions-submissions/${submissionID}`
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(async res => {
+        if (res.status === 200) {
+          this.props.enqueueSnackbar('Puntuaje actualizado.', {
+            variant: 'success'
+          })
+
+          const submitterObtained = await res.json()
+          console.log('submitterObtained', submitterObtained)
+          // remove old one
+          this.state.submitters.splice(index, 1)
+          const newSubmitters = this.state.submitters
+          // add new one
+          newSubmitters.push(submitterObtained)
+          this.setState({ submitters: newSubmitters })
+        } else {
+          this.props.enqueueSnackbar('Falló puntuar el examen.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
   markExamHandler = index => {
     this.props.enqueueSnackbar('Puntuando examen', { variant: 'info' })
     const submissionID = this.state.submitters[index].id
@@ -108,9 +141,10 @@ class SubmissionsDashboard extends React.Component {
     })
       .then(res => {
         if (res.status === 204) {
-          this.props.enqueueSnackbar('Examen puntuado.', {
-            variant: 'success'
-          })
+          this.getMarkFromSubmitter(index, submissionID)
+          // this.props.enqueueSnackbar("Examen puntuado.", {
+          //   variant: "success"
+          // });
         } else if (res.status === 404) {
           this.props.enqueueSnackbar('Examen no encontrado', {
             variant: 'error'
@@ -220,40 +254,6 @@ class SubmissionsDashboard extends React.Component {
                   />
                 ))}
               </TableBody>
-              {/* DELETE MODAL */}
-              {/* <Modal
-                visible={this.state.visibleDelete}
-                width="400"
-                height="200"
-                effect="fadeInUp"
-                onClickAway={() => this.closeDeleteModal()}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ margin: "20px 0px 0px 20px" }}
-                  gutterBottom
-                >
-                  Borrar usuario
-                </Typography>
-                <Typography
-                  variant="body1"
-                  style={{ margin: "20px" }}
-                  gutterBottom
-                >
-                  Está seguro que desea eliminar este usuario? Click SI para
-                  eliminarlo, click fuera del recuadro para no eliminarlo.
-                </Typography>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    this.deleteUser(this.state.index);
-                  }}
-                >
-                  Si, eliminar usuario
-                </Button>
-              </Modal> */}
             </Table>
           </Paper>
         </div>
