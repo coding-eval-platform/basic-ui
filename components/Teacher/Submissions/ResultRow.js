@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import ReplayIcon from '@material-ui/icons/Replay'
+import GetAppIcon from '@material-ui/icons/GetApp'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
@@ -25,10 +26,17 @@ function ResultRow(props) {
       <TableCell align="center">{props.result}</TableCell>
       <TableCell align="center" style={{ maxWidth: '25px' }}>
         <Grid container spacing={24}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Tooltip title="Correr nuevamente el test case">
               <IconButton aria-label="Replay" onClick={props.replayTestCase}>
                 <ReplayIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid item xs={6}>
+            <Tooltip title="Obtener el resultado del test case">
+              <IconButton aria-label="GetTestCase" onClick={props.getTestCase}>
+                <GetAppIcon />
               </IconButton>
             </Tooltip>
           </Grid>

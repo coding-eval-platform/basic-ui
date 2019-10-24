@@ -79,7 +79,7 @@ class SolutionDetails extends React.Component {
         console.log('Response status is: ', res.status)
         if (res.status === 200) {
           this.props.enqueueSnackbar(
-            'Resultados de los test cases obtenidos.',
+            'Se obtuvieron los resultados de los test cases.',
             {
               variant: 'success'
             }
@@ -144,6 +144,41 @@ class SolutionDetails extends React.Component {
       .catch(function(error) {
         console.log(error)
       })
+  }
+
+  getTestCase = (testCaseId, index) => {
+    console.log('testCaseId', testCaseId)
+    console.log('solutionID', this.state.solution.id)
+
+    const url = `${process.env.API_HOST}/solutions/${this.state.solution.id}/results/test-case/${testCaseId}`
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + store.get('accessToken')
+      }
+    })
+      .then(async res => {
+        if (res.status === 200) {
+          this.props.enqueueSnackbar('Test case obtenido.', {
+            variant: 'success'
+          })
+          const testCaseObtained = await res.json()
+          console.log('testCaseObtained', testCaseObtained)
+          // remove old one
+          this.state.results.splice(index, 1)
+          const newResults = this.state.results
+          // add new one
+          newResults.push(testCaseObtained)
+          this.setState({ results: newResults })
+        } else {
+          this.props.enqueueSnackbar('Falló en obtener el test case.', {
+            variant: 'error'
+          })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   replayTestCase = (testCaseID, solutionID) => {
@@ -335,6 +370,11 @@ class SolutionDetails extends React.Component {
                           this,
                           result.testCaseId,
                           this.state.solution.id
+                        )}
+                        getTestCase={this.getTestCase.bind(
+                          this,
+                          result.testCaseId,
+                          index
                         )}
                       />
                     ))}

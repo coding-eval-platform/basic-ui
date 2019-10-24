@@ -32,8 +32,6 @@ class SubmissionsDashboard extends React.Component {
   state = {
     submitters: [],
     isLoaded: false
-    // visibleDelete: false,
-    // index: ""
   }
 
   componentWillMount = async () => {
@@ -204,18 +202,6 @@ class SubmissionsDashboard extends React.Component {
               </Button>
             </Grid>
           </Grid>
-          {/* <Grid container spacing={24} alignItems="center">
-            <Grid item xs={6}>
-              <Button
-                style={{ margin: 20 }}
-                variant="contained"
-                color="primary"
-                onClick={this.createUser}
-              >
-                Crear usuario
-              </Button>
-            </Grid>
-          </Grid> */}
           <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
             Los alumnos registrados son:
           </Typography>
