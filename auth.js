@@ -1,7 +1,7 @@
 import store from 'store'
 
 export async function handleAccessToken() {
-  const issueTokenURL = `${process.env.API_HOST}/tokens`
+  // const issueTokenURL = `${process.env.API_HOST}/tokens`;
 
   // first, try and get a token from the localStorage
   let accessToken = store.get('accessToken')
@@ -37,7 +37,7 @@ export async function handleAccessToken() {
     )
 
     const refreshTokenURL = `${process.env.API_HOST}/tokens/${store.get(
-      'tokenID'
+      'tokenId'
     )}/refresh`
 
     console.log('refreshtokenurl', refreshTokenURL)
@@ -50,6 +50,7 @@ export async function handleAccessToken() {
     })
       .then(async res => {
         const response = await res.json()
+        console.log('- Old accessToken: Overriding', response)
         store.set('accessToken', response.accessToken)
         store.set('refreshToken', response.refreshToken)
         store.set(
@@ -62,18 +63,18 @@ export async function handleAccessToken() {
         )
 
         // override old accessToken
-        accessToken = store.get('accessToken')
+        // accessToken = store.get("accessToken");
         // console.log("The new accessToken is: ", accessToken);
       })
       .then(() => {
-        console.log('I have a NEW accessToken: ', accessToken)
+        console.log('- I have a NEW accessToken: ', store.get('accessToken'))
         window.location.reload()
-        return accessToken
+        return store.get('accessToken')
       })
   } else {
-    console.log('NO REFRESH.')
+    console.log('* NO REFRESH.')
     console.log(
-      'Access token older than 5min?',
+      '* Access token older than 5min?',
       JSON.parse(atob(accessToken.split('.')[1])).exp -
         ((Date.now() / 1000) >> 0) >
         300

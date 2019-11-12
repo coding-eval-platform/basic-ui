@@ -26,17 +26,24 @@ class StudentLogin extends React.Component {
     startingAt: ''
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     // const accessToken = await handleAccessToken();
     const examID = new URL(window.location.href).searchParams.get('exam-id')
-    const jwt = new URL(window.location.href).searchParams.get('jwt')
+    const accessToken = new URL(window.location.href).searchParams.get(
+      'access-token'
+    )
+    const refreshToken = new URL(window.location.href).searchParams.get(
+      'refresh-token'
+    )
+    const tokenId = new URL(window.location.href).searchParams.get('token-id')
     const url = `${process.env.API_HOST}/exams/${examID}`
 
     fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + store.get('accessToken')
+        // Authorization: "Bearer " + store.get("accessToken")
+        Authorization: 'Bearer ' + accessToken.toString()
       }
     })
       .then(async res => {
@@ -48,6 +55,11 @@ class StudentLogin extends React.Component {
           startingAt: examJSONResponse.startingAt,
           duration: examJSONResponse.duration
         })
+
+        store.clearAll()
+        store.set('accessToken', accessToken)
+        store.set('refreshToken', refreshToken)
+        store.set('tokenId', tokenId)
       })
       .catch(err => console.log(err))
   }

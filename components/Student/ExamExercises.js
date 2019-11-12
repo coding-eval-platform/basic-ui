@@ -98,6 +98,11 @@ class ExamExercises extends React.Component {
     // get all the solutions of this submission
     const url_solutions = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`
 
+    console.log(
+      'ExamExercises.js: I have the accessToken',
+      store.get('accessToken')
+    )
+
     const headers = {
       headers: {
         'Content-Type': 'application/json',

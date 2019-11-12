@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
         if (res.status === 201) {
           console.log('Response status is: ', res.status)
           const response = await res.json()
-          store.set('tokenID', response.id)
+          store.set('tokenId', response.id)
           store.set('accessToken', response.accessToken)
           store.set('refreshToken', response.refreshToken)
           store.set(
