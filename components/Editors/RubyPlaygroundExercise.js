@@ -60,7 +60,8 @@ class RubyPlaygroundExercise extends Component {
     code: 'ARGV.each do |a|\n\tputs a\nend\n',
     timeout: '',
     language: 'RUBY',
-    programArguments: ''
+    programArguments: '',
+    mainFileName: ''
   }
 
   sendCodeinSandBox = () => {
@@ -88,7 +89,8 @@ class RubyPlaygroundExercise extends Component {
         code: this.state.code,
         timeout: this.state.timeout,
         language: this.state.language,
-        programArguments: final_programArguments
+        programArguments: final_programArguments,
+        mainFileName: this.state.mainFileName
       })
     })
       .then(res => {
@@ -141,6 +143,10 @@ class RubyPlaygroundExercise extends Component {
     this.setState({ stdin: stdin.target.value })
   }
 
+  onMainFileNameChange = mainFileName => {
+    this.setState({ mainFileName: mainFileName.target.value })
+  }
+
   onTimemoutChange = timeout => {
     this.setState({ timeout: timeout.target.value })
   }
@@ -184,8 +190,8 @@ class RubyPlaygroundExercise extends Component {
 
     return (
       <div>
+        {/* INPUTS */}
         <Grid container spacing={24} alignItems="center">
-          {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
@@ -223,6 +229,23 @@ class RubyPlaygroundExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
+              label="Insertar Nombre del archivo"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="Ejercicio1.rb"
+              onChange={this.onMainFileNameChange}
+              value={this.state.onMainFileNameChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
               label="Insertar timeout"
               style={{ margin: 8 }}
               rows="1"
@@ -237,8 +260,10 @@ class RubyPlaygroundExercise extends Component {
               }}
             />
           </Grid>
+        </Grid>
 
-          {/* EXECUTE */}
+        {/* EXECUTE */}
+        <Grid container spacing={24} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
               variant="contained"

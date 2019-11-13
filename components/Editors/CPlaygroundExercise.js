@@ -61,7 +61,8 @@ class CPlaygroundExercise extends Component {
       '#include <stdio.h>\n#include <unistd.h>\n\nint main(int argc, char *argv[]) {\n\tfor (int i = 0; i < argc; i++) {\n\t\tprintf("%s\\n", argv[i]);\n\t}\n\tsleep(1);\n\treturn 0;\n}',
     timeout: '',
     language: 'C',
-    programArguments: ''
+    programArguments: '',
+    mainFileName: ''
   }
 
   sendCodeinSandBox = () => {
@@ -85,7 +86,8 @@ class CPlaygroundExercise extends Component {
         timeout: this.state.timeout,
         language: this.state.language,
         programArguments: final_programArguments,
-        compilerFlags: this.state.compilerFlags
+        compilerFlags: this.state.compilerFlags,
+        mainFileName: this.state.mainFileName
       })
     })
       .then(res => {
@@ -136,6 +138,10 @@ class CPlaygroundExercise extends Component {
 
   onStdinChange = stdin => {
     this.setState({ stdin: stdin.target.value })
+  }
+
+  onMainFileNameChange = mainFileName => {
+    this.setState({ mainFileName: mainFileName.target.value })
   }
 
   onTimemoutChange = timeout => {
@@ -208,7 +214,24 @@ class CPlaygroundExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar Nombre del archivo"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="Ejercicio1.c"
+              onChange={this.onMainFileNameChange}
+              value={this.state.onMainFileNameChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar GCC Compile Flags"
@@ -225,7 +248,7 @@ class CPlaygroundExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar timeout"
