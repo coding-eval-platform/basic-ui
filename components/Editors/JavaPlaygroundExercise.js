@@ -166,7 +166,8 @@ class JavaPlaygroundExercise extends Component {
       programArguments: '',
       stdin: '',
       compilerFlags: '',
-      timeout: ''
+      timeout: '',
+      mainFileName: ''
     })
   }
 

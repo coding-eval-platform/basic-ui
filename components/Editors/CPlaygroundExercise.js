@@ -158,7 +158,8 @@ class CPlaygroundExercise extends Component {
       programArguments: '',
       stdin: '',
       compilerFlags: '',
-      timeout: ''
+      timeout: '',
+      mainFileName: ''
     })
   }
 
@@ -265,29 +266,29 @@ class CPlaygroundExercise extends Component {
               }}
             />
           </Grid>
+        </Grid>
 
-          {/* EXECUTES */}
-          <Grid container spacing={24} alignItems="center" justify="flex-end">
-            <Grid item xs={3}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={this.sendCodeinSandBox}
-              >
-                Correr código
-                <SendIcon className={classes.rightIcon} />
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
-                onClick={this.clearAllFields}
-              >
-                Clear
-                <ClearIcon className={classes.rightIcon} />
-              </Button>
-            </Grid>
+        {/* EXECUTES */}
+        <Grid container spacing={24} alignItems="center" justify="flex-end">
+          <Grid item xs={3}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={this.sendCodeinSandBox}
+            >
+              Correr código
+              <SendIcon className={classes.rightIcon} />
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={this.clearAllFields}
+            >
+              Clear
+              <ClearIcon className={classes.rightIcon} />
+            </Button>
           </Grid>
         </Grid>
 

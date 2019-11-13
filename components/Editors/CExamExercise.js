@@ -89,7 +89,8 @@ class CExamExercise extends Component {
     code: this.props.solutionTemplate,
     timeout: '',
     language: 'C',
-    programArguments: ''
+    programArguments: '',
+    mainFileName: ''
   }
 
   handleClickOpen = () => {
@@ -279,6 +280,10 @@ class CExamExercise extends Component {
     this.setState({ stdin: stdin.target.value })
   }
 
+  onMainFileNameChange = mainFileName => {
+    this.setState({ mainFileName: mainFileName.target.value })
+  }
+
   onTimemoutChange = timeout => {
     this.setState({ timeout: timeout.target.value })
   }
@@ -293,7 +298,8 @@ class CExamExercise extends Component {
       programArguments: '',
       stdin: '',
       timeout: '',
-      compilerFlags: ''
+      compilerFlags: '',
+      mainFileName: ''
     })
   }
 
@@ -498,7 +504,24 @@ class CExamExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar Nombre del archivo"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="Ejercicio1.c"
+              onChange={this.onMainFileNameChange}
+              value={this.state.onMainFileNameChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar GCC Compile Flags"
@@ -515,7 +538,7 @@ class CExamExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar timeout"
@@ -532,11 +555,13 @@ class CExamExercise extends Component {
               }}
             />
           </Grid>
+        </Grid>
 
-          {/* EXECUTES */}
+        {/* EXECUTES */}
+        <Grid container spacing={24} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               className={classes.button}
               onClick={this.sendCodeinSandBox}

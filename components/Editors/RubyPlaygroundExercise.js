@@ -156,7 +156,8 @@ class RubyPlaygroundExercise extends Component {
       output: {},
       programArguments: '',
       stdin: '',
-      timeout: ''
+      timeout: '',
+      mainFileName: ''
     })
   }
 

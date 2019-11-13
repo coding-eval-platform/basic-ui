@@ -88,7 +88,8 @@ class RubyExamExercise extends Component {
     code: this.props.solutionTemplate,
     timeout: '',
     language: 'RUBY',
-    programArguments: ''
+    programArguments: '',
+    mainFileName: ''
   }
 
   handleClickOpen = () => {
@@ -281,13 +282,18 @@ class RubyExamExercise extends Component {
     this.setState({ timeout: timeout.target.value })
   }
 
+  onMainFileNameChange = mainFileName => {
+    this.setState({ mainFileName: mainFileName.target.value })
+  }
+
   clearAllFields = () => {
     this.setState({
       output: {},
       programArguments: '',
       stdin: '',
       timeout: '',
-      compilerFlags: ''
+      compilerFlags: '',
+      mainFileName: ''
     })
   }
 
@@ -509,6 +515,23 @@ class RubyExamExercise extends Component {
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
+              label="Insertar Nombre del archivo"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="Ejercicio1.rb"
+              onChange={this.onMainFileNameChange}
+              value={this.state.onMainFileNameChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-full-width"
               label="Insertar timeout"
               style={{ margin: 8 }}
               rows="1"
@@ -523,10 +546,13 @@ class RubyExamExercise extends Component {
               }}
             />
           </Grid>
-          {/* EXECUTE */}
+        </Grid>
+
+        {/* EXECUTE */}
+        <Grid container spacing={24} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               className={classes.button}
               onClick={this.sendCodeinSandBox}

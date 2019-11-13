@@ -96,7 +96,8 @@ class JavaExamExercise extends Component {
     code: this.props.solutionTemplate,
     timeout: '',
     language: 'JAVA',
-    programArguments: ''
+    programArguments: '',
+    mainFileName: ''
   }
 
   handleClickOpen = () => {
@@ -233,7 +234,8 @@ class JavaExamExercise extends Component {
         timeout: this.state.timeout,
         language: this.state.language,
         programArguments: final_programArguments,
-        compilerFlags: this.state.compilerFlags
+        compilerFlags: this.state.compilerFlags,
+        mainFileName: this.state.mainFileName
       })
     })
       .then(res => {
@@ -290,6 +292,10 @@ class JavaExamExercise extends Component {
     this.setState({ timeout: timeout.target.value })
   }
 
+  onMainFileNameChange = mainFileName => {
+    this.setState({ mainFileName: mainFileName.target.value })
+  }
+
   onCompilerFlagsChange = compilerFlags => {
     this.setState({ compilerFlags: compilerFlags.target.value })
   }
@@ -300,7 +306,8 @@ class JavaExamExercise extends Component {
       programArguments: '',
       stdin: '',
       timeout: '',
-      compilerFlags: ''
+      compilerFlags: '',
+      mainFileName: ''
     })
   }
 
@@ -505,7 +512,24 @@ class JavaExamExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
+            <TextField
+              id="outlined-full-width"
+              label="Insertar Nombre del archivo"
+              style={{ margin: 1 }}
+              rows="1"
+              placeholder="Ejercicio1.java"
+              onChange={this.onMainFileNameChange}
+              value={this.state.onMainFileNameChange}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar Compile Flags"
@@ -522,7 +546,7 @@ class JavaExamExercise extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <TextField
               id="outlined-full-width"
               label="Insertar timeout"
@@ -539,10 +563,16 @@ class JavaExamExercise extends Component {
               }}
             />
           </Grid>
+        </Grid>
+
+        <Grid container spacing={24} alignItems="center" justify="flex-end">
+          <Tooltip title="Se está usando el paquete default de Java">
+            <InfoIcon className={classes.infoIcon}></InfoIcon>
+          </Tooltip>
 
           <Grid item xs={3}>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               className={classes.button}
               onClick={this.sendCodeinSandBox}
@@ -560,9 +590,6 @@ class JavaExamExercise extends Component {
               <ClearIcon className={classes.rightIcon} />
             </Button>
           </Grid>
-          <Tooltip title="Se está usando el paquete default de Java">
-            <InfoIcon className={classes.infoIcon}></InfoIcon>
-          </Tooltip>
         </Grid>
 
         {/* JAVA EDITOR */}
