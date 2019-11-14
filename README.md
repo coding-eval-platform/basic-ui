@@ -30,10 +30,10 @@ docker build -t docker-nextjs .
 Then, can be run from a terminal with:
 
 ```
- docker run -d -p 3333:3000 docker-nextjs:latest
+ docker run -d -p 3333:8000 docker-nextjs:latest
 ```
 
-and then would be accessible in `localhost:3333` for example, given that the container exposes port `3000`.
+and then would be accessible in `localhost:3333` for example, given that the container exposes port `8000`.
 
 ## License
 
