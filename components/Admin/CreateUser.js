@@ -24,8 +24,15 @@ class CreateUser extends Component {
     username: '',
     password: ''
   }
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onUsernameChange = username => {

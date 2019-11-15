@@ -14,3 +14,9 @@ module.exports = withProgressBar({
     profile: true
   }
 })
+
+exports.default = {
+  env: {
+    API_HOST: process.env.API_HOST
+  }
+}

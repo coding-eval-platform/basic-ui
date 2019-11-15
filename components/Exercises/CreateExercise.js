@@ -51,8 +51,8 @@ class CreateExercise extends React.Component {
     awardedScore: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onQuestionChange = question => {
@@ -72,6 +72,10 @@ class CreateExercise extends React.Component {
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const examID = new URL(window.location.href).searchParams.get('examID')
     const examDescription = new URL(window.location.href).searchParams.get(
       'examDescription'

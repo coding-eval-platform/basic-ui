@@ -25,9 +25,14 @@ class ChangePassword extends Component {
     newPassword: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
-    // console.log('Access token is: ', store.get('accessToken'))
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onCurrentPasswordChange = currentPassword => {

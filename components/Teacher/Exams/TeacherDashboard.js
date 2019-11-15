@@ -38,11 +38,15 @@ class TeacherDashboard extends React.Component {
     index: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const url = `${process.env.API_HOST}/exams?size=100&page=0&sort=description,asc`
 
     fetch(url, {

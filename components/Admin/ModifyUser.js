@@ -45,11 +45,16 @@ class ModifyUser extends Component {
     roles: [],
     active: ''
   }
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const username = new URL(window.location.href).searchParams.get('username')
     const url = `${process.env.API_HOST}/users/${username}`
 

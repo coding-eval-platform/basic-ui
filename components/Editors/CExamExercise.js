@@ -27,6 +27,8 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Slide from '@material-ui/core/Slide'
 
+import { handleAccessToken } from '../../auth'
+
 const styles = theme => ({
   root: {
     background: '#202020'
@@ -91,6 +93,16 @@ class CExamExercise extends Component {
     language: 'C',
     programArguments: '',
     mainFileName: ''
+  }
+
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   handleClickOpen = () => {

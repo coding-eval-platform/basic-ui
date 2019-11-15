@@ -76,8 +76,15 @@ class ExamExercises extends React.Component {
       })
       .catch(err => console.log(err))
   }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
+  }
+
   componentDidMount = async () => {
-    const accessToken = await handleAccessToken()
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
 
     const examID = new URL(window.location.href).searchParams.get('examID')
     const submissionID = new URL(window.location.href).searchParams.get(
@@ -97,11 +104,6 @@ class ExamExercises extends React.Component {
     const url_exercises = `${process.env.API_HOST}/exams/${examID}/exercises`
     // get all the solutions of this submission
     const url_solutions = `${process.env.API_HOST}/solutions-submissions/${submissionID}/solutions`
-
-    console.log(
-      'ExamExercises.js: I have the accessToken',
-      store.get('accessToken')
-    )
 
     const headers = {
       headers: {

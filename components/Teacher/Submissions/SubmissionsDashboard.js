@@ -34,11 +34,15 @@ class SubmissionsDashboard extends React.Component {
     isLoaded: false
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const examID = new URL(window.location.href).searchParams.get('examID')
     const url = `${process.env.API_HOST}/exams/${examID}/solutions-submissions`
 

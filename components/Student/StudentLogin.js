@@ -26,8 +26,15 @@ class StudentLogin extends React.Component {
     startingAt: ''
   }
 
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
+  }
+
   componentDidMount = async () => {
-    // const accessToken = await handleAccessToken();
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const examID = new URL(window.location.href).searchParams.get('exam-id')
     const accessToken = new URL(window.location.href).searchParams.get(
       'access-token'

@@ -48,8 +48,8 @@ class CreateTestCase extends React.Component {
     expectedOutputs: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onVisibilityChange = visibility => {
@@ -69,6 +69,10 @@ class CreateTestCase extends React.Component {
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const exerciseID = new URL(window.location.href).searchParams.get(
       'exerciseID'
     )

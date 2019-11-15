@@ -38,11 +38,15 @@ class SubmissionDetails extends React.Component {
     submissionID: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const submissionID = new URL(window.location.href).searchParams.get(
       'submissionID'
     )

@@ -40,11 +40,15 @@ class ExamDashboard extends React.Component {
     index: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const examID = new URL(window.location.href).searchParams.get('examID')
     const examState = new URL(window.location.href).searchParams.get(
       'examState'

@@ -29,8 +29,15 @@ class CreateExam extends Component {
     startingAt: '2019-10-06T15:00:00',
     duration: ''
   }
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onDescriptionChange = description => {

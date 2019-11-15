@@ -23,9 +23,14 @@ class SignUpForm extends React.Component {
     password2: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
-    console.log('Doing signup: ', store.get('accessToken'))
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   onUsernameChange = username => {

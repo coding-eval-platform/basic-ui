@@ -40,11 +40,15 @@ class ExerciseDashboard extends React.Component {
     index: ''
   }
 
-  componentWillMount = async () => {
-    const accessToken = await handleAccessToken()
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+
     const exerciseID = new URL(window.location.href).searchParams.get(
       'exerciseID'
     )

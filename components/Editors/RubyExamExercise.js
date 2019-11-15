@@ -26,6 +26,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Slide from '@material-ui/core/Slide'
+import fetch from 'fetch-retry'
+
+import { handleAccessToken } from '../../auth'
 
 const styles = theme => ({
   root: {
@@ -77,6 +80,15 @@ function Transition(props) {
   return <Slide direction="up" {...props} />
 }
 
+// function fetch_retry_1(url, options, n) {
+//   fetch(url, options).then(function(error) {
+//     if (n === 1) throw error;
+//     console.log("helolo");
+//     handleAccessToken();
+//     return fetch_retry_1(url, options, n - 1);
+//   });
+// }
+
 class RubyExamExercise extends Component {
   state = {
     output: {},
@@ -90,6 +102,16 @@ class RubyExamExercise extends Component {
     language: 'RUBY',
     programArguments: '',
     mainFileName: ''
+  }
+
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      handleAccessToken()
+    }, 15 * 1000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval)
   }
 
   handleClickOpen = () => {
@@ -166,6 +188,9 @@ class RubyExamExercise extends Component {
           this.props.enqueueSnackbar('Ya se entregó el examen.', {
             variant: 'warning'
           })
+        } else if (res.status === 401) {
+          console.log('helolo')
+          handleAccessToken()
         } else {
           this.props.enqueueSnackbar('Falló en crear el ejercicio.', {
             variant: 'error'
@@ -437,7 +462,7 @@ class RubyExamExercise extends Component {
                             testCase.id
                           )}
                         >
-                          Correr
+                          Correr 
                           <SendIcon className={classes.rightIcon} />
                         </Button>
                       </Grid>

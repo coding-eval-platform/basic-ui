@@ -1,4 +1,12 @@
 {
   "version": 2,
-  "builds": [{ "src": "package.json", "use": "@now/next" }]
+  "builds": [{ "src": "package.json", "use": "@now/next" }],
+  "env": {
+    "API_HOST": "@api-host"
+  },
+  "build": {
+    "env": {
+      "API_HOST": "@api-host"
+    }
+  }
 }
