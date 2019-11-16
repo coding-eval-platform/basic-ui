@@ -26,7 +26,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Slide from '@material-ui/core/Slide'
-import fetch from 'fetch-retry'
 
 import { handleAccessToken } from '../../auth'
 
