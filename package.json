@@ -7,6 +7,7 @@
     "dev": "next",
     "start": "next start -p 8000",
     "build": "next build",
+    "docker-build": "next build && next start -p 8000",
     "now-build": "next build",
     "precommit": "lint-staged"
   },
