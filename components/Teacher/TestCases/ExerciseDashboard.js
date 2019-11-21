@@ -330,6 +330,7 @@ class ExerciseDashboard extends React.Component {
                     color="secondary"
                     onClick={() => {
                       this.deletePublicTestCases(this.state.index)
+                      this.closeDeletePublicModal()
                     }}
                   >
                     Si, borrarlo
@@ -424,6 +425,7 @@ class ExerciseDashboard extends React.Component {
                     color="secondary"
                     onClick={() => {
                       this.deletePrivateTestCases(this.state.index)
+                      this.closeDeletePrivateModal()
                     }}
                   >
                     Si, borrarlo

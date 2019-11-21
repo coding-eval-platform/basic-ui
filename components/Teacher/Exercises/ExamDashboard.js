@@ -336,6 +336,7 @@ class ExamDashboard extends React.Component {
                   color="secondary"
                   onClick={() => {
                     this.deleteExercise(this.state.index)
+                    this.closeDeleteOneModal()
                   }}
                 >
                   Si, borrar ejercicio
@@ -371,6 +372,7 @@ class ExamDashboard extends React.Component {
                   color="secondary"
                   onClick={() => {
                     this.deleteAllExercises()
+                    this.closeDeleteAllModal()
                   }}
                 >
                   Si, borrar todos los ejercicios

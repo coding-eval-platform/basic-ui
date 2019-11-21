@@ -416,7 +416,7 @@ class TeacherDashboard extends React.Component {
                   color="secondary"
                   onClick={() => {
                     this.startExamHandler(this.state.index)
-                    this.closeDeleteModal()
+                    this.closeStartModal()
                   }}
                 >
                   Si, comenzar examen
@@ -452,6 +452,7 @@ class TeacherDashboard extends React.Component {
                   color="secondary"
                   onClick={() => {
                     this.finishExamHandler(this.state.index)
+                    this.closeStopModal()
                   }}
                 >
                   Si, finalizar examen
