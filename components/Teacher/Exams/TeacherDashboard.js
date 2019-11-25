@@ -47,7 +47,7 @@ class TeacherDashboard extends React.Component {
       handleAccessToken()
     }, 15 * 1000)
 
-    const url = `${process.env.API_HOST}/exams?size=100&page=0&sort=description,asc`
+    const url = `${process.env.API_HOST}/exams/mine?size=100&page=0&sort=description,asc`
 
     fetch(url, {
       method: 'GET',
