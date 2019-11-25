@@ -1,0 +1,154 @@
+version: 2.1
+
+# Define some constants
+working_dir_name: &workingDirName ~/workspace
+node_docker_image: &nodeDockerImage circleci/node:12-stretch
+
+# Define some configuration
+working_dir: &workingDirectory
+    working_directory: *workingDirName
+node_runtime: &nodeRuntime
+    docker:
+        - image: *nodeDockerImage
+
+# Define some reusable parameters names and types
+docker_namespace_parameter_definition: &dockerNamespaceParameterDefinition
+    namespace:
+        type: string
+docker_repository_parameter_definition: &dockerRepositoryParameterDefinition
+    repository:
+        type: string
+docker_tag_parameter_definition: &dockerTagParameterDefinition
+    tag:
+        type: string
+docker_username_parameter_definition: &dockerUsernameParameterDefinition
+    username:
+        type: string
+docker_password_parameter_definition: &dockerPasswordParameterDefinition
+    password:
+        type: string
+
+# Composition of parameters
+docker_image_stuff_parameters: &dockerImageStuffParametersDefinitions
+    <<: *dockerNamespaceParameterDefinition
+    <<: *dockerRepositoryParameterDefinition
+    <<: *dockerTagParameterDefinition
+docker_login_stuff_parameters: &dockerLoginStuffParametersDefinitions
+    <<: *dockerUsernameParameterDefinition
+    <<: *dockerPasswordParameterDefinition
+
+commands:
+    create_docker_image:
+        description: "Creates a Docker Image"
+        parameters:
+            <<: *dockerImageStuffParametersDefinitions
+        steps:
+            - run:
+                  name: Creating Docker Image
+                  command: docker build -t <<parameters.namespace>>/<<parameters.repository>>:<<parameters.tag>> .
+
+    push_docker_image:
+        description: "Pushes the Docker Image to DockerHub."
+        parameters:
+            <<: *dockerImageStuffParametersDefinitions
+            <<: *dockerLoginStuffParametersDefinitions
+        steps:
+            - run:
+                  name: Performing login to DockerHub
+                  command: echo <<parameters.password>> | docker login -u <<parameters.username>> --password-stdin
+            - run:
+                  name: Pushing Docker Image
+                  command: docker push <<parameters.namespace>>/<<parameters.repository>>:<<parameters.tag>>
+
+    notify_docker_build_via_slack:
+        description: "Sends a notification via Slack indicating that a Docker image has being built"
+        parameters:
+            <<: *dockerImageStuffParametersDefinitions
+            webhook:
+                type: string
+        steps:
+            - slack/notify:
+                  author_name: "CircleCI Robot"
+                  title: A new Docker image is available!
+                  title_link: "https://hub.docker.com/r/<<parameters.namespace>>/<<parameters.repository>>"
+                  message: >
+                      A new docker image for
+                      <<parameters.namespace>>/<<parameters.repository>> is available with tag <<parameters.tag>>.\n
+                      Check https://hub.docker.com/r/<<parameters.namespace>>/<<parameters.repository>>
+                  color: "#30cc30"
+                  include_visit_job_action: false
+                  include_project_field: false
+                  include_job_number_field: false
+                  webhook: <<parameters.webhook>>
+
+jobs:
+    build_and_push_snapshot_docker_image:
+        # Apply working directory and docker image
+        <<: *workingDirectory
+        <<: *nodeRuntime
+
+        steps:
+            - checkout
+            - setup_remote_docker
+            - create_docker_image:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_SHA1}
+            - push_docker_image:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_SHA1}
+                  username: ${DOCKER_USERNAME}
+                  password: ${DOCKER_PASSWORD}
+            - notify_docker_build_via_slack:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_SHA1}
+                  webhook: ${SLACK_SNAPSHOT_BUILD_WEBHOOK}
+
+    build_and_push_release_docker_image:
+        # Apply working directory and docker image
+        <<: *workingDirectory
+        <<: *nodeRuntime
+
+        steps:
+            - checkout
+            - setup_remote_docker
+            - create_docker_image:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_TAG}
+            - push_docker_image:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_TAG}
+                  username: ${DOCKER_USERNAME}
+                  password: ${DOCKER_PASSWORD}
+            - notify_docker_build_via_slack:
+                  namespace: ${DOCKER_NAMESPACE}
+                  repository: ${SERVICE_NAME}
+                  tag: ${CIRCLE_TAG}
+                  webhook: ${SLACK_RELEASE_BUILD_WEBHOOK}
+
+workflows:
+    version: 2.1
+    snapshots:
+        jobs:
+            - build_and_push_snapshot_docker_image:
+                  context: itbacep
+                  filters:
+                      branches:
+                          only: master
+
+    releases:
+        jobs:
+            - build_and_push_release_docker_image:
+                  context: itbacep
+                  filters:
+                      tags:
+                          only: /.*/
+                      branches:
+                          ignore: /.*/
+
+orbs:
+    slack: circleci/slack@2.5.0
