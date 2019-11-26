@@ -58,7 +58,6 @@ class ModifyTestCase extends React.Component {
     this.interval = setInterval(() => {
       handleAccessToken()
     }, 15 * 1000)
-    s
 
     const exerciseID = new URL(window.location.href).searchParams.get(
       'exerciseID'
