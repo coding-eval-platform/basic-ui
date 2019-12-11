@@ -94,6 +94,7 @@ class ModifyExercise extends React.Component {
     })
       .then(async res => {
         const examJSONResponse = await res.json()
+        console.log('examJSON', examJSONResponse)
 
         this.setState({
           exerciseID: examJSONResponse.id,
@@ -104,32 +105,6 @@ class ModifyExercise extends React.Component {
         })
       })
       .catch(err => console.log(err))
-  }
-
-  addTestCase = () => {
-    Router.push({
-      pathname: `/create_testcase`,
-      query: {
-        exerciseID: `${this.state.exerciseID}`,
-        exerciseQuestion: `${this.state.question}`,
-        exerciseLanguage: `${this.state.language}`,
-        exerciseSolutionTemplate: `${this.state.solutionTemplate}`,
-        exerciseAwardedScore: `${this.state.awardedScore}`
-      }
-    })
-  }
-
-  seeTestCases = () => {
-    Router.push({
-      pathname: `/exercise_dashboard`,
-      query: {
-        exerciseID: `${this.state.exerciseID}`,
-        exerciseQuestion: `${this.state.question}`,
-        exerciseLanguage: `${this.state.language}`,
-        exerciseSolutionTemplate: `${this.state.solutionTemplate}`,
-        exerciseAwardedScore: `${this.state.awardedScore}`
-      }
-    })
   }
 
   updateExercise = () => {
@@ -301,7 +276,7 @@ class ModifyExercise extends React.Component {
                   style={{ margin: 20 }}
                   variant="contained"
                   color="primary"
-                  onClick={this.createExercise}
+                  onClick={this.updateExercise}
                 >
                   Editar ejercicio
                 </Button>
@@ -332,7 +307,7 @@ class ModifyExercise extends React.Component {
                   style={{ margin: 20 }}
                   variant="contained"
                   color="primary"
-                  onClick={this.createExercise}
+                  onClick={this.updateExercise}
                 >
                   Editar ejercicio
                 </Button>
