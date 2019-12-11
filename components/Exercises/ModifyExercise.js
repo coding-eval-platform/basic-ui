@@ -270,7 +270,7 @@ class ModifyExercise extends React.Component {
                   style={{ margin: 20 }}
                   variant="contained"
                   color="primary"
-                  onClick={this.createExercise}
+                  onClick={this.updateExercise}
                 >
                   Editar ejercicio
                 </Button>
