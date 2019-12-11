@@ -46,6 +46,7 @@ class ModifyTestCase extends React.Component {
     exerciseQuestion: '',
     visibility: '',
     timeout: '',
+    stdin: '',
     programArguments: '',
     expectedOutputs: ''
   }
@@ -88,8 +89,9 @@ class ModifyTestCase extends React.Component {
           testCaseID: testCaseID,
           visibility: testCaseJSONResponse.visibility,
           timeout: testCaseJSONResponse.timeout,
-          programArguments: testCaseJSONResponse.programArguments,
-          expectedOutputs: testCaseJSONResponse.expectedOutputs
+          stdin: testCaseJSONResponse.stdin.join(),
+          programArguments: testCaseJSONResponse.programArguments.join(),
+          expectedOutputs: testCaseJSONResponse.expectedOutputs.join()
         })
       })
       .catch(err => console.log(err))
@@ -107,8 +109,12 @@ class ModifyTestCase extends React.Component {
     this.setState({ timeout: timeout.target.value })
   }
 
-  onInputsChange = programArguments => {
+  onProgramArgumentsChange = programArguments => {
     this.setState({ programArguments: programArguments.target.value })
+  }
+
+  onStdinChange = stdin => {
+    this.setState({ stdin: stdin.target.value })
   }
 
   onExpectedOutputsChange = expectedOutputs => {
@@ -116,6 +122,10 @@ class ModifyTestCase extends React.Component {
   }
 
   modifyTestCase = () => {
+    console.log('object1', this.state.programArguments)
+    console.log('object2', this.state.expectedOutputs)
+    console.log('object3', this.state.stdin)
+
     const programArgumentsArray =
       this.state.programArguments === []
         ? []
@@ -130,6 +140,11 @@ class ModifyTestCase extends React.Component {
             .split(',')
             .map(str => str.replace(/\s/g, ''))
 
+    const stdinArray =
+      this.state.stdin === []
+        ? []
+        : this.state.stdin.split(',').map(str => str.replace(/\s/g, ''))
+
     const url = `${process.env.API_HOST}/test-cases/${this.state.testCaseID}`
     this.props.enqueueSnackbar('Modificando test case', { variant: 'info' })
 
@@ -142,6 +157,7 @@ class ModifyTestCase extends React.Component {
       body: JSON.stringify({
         visibility: this.state.visibility,
         timeout: this.state.timeout,
+        stdin: stdinArray,
         programArguments: programArgumentsArray,
         expectedOutputs: expectedOutputsArray
       })
@@ -225,11 +241,27 @@ class ModifyTestCase extends React.Component {
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
-              label="Inputs"
+              label="Program Arguments"
               placeholder="input1, input2, input3"
               style={{ margin: 20 }}
-              onChange={this.onInputsChange}
+              onChange={this.onProgramArgumentsChange}
               value={this.state.programArguments}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={24} alignItems="center">
+          <Grid item xs={6}>
+            <TextField
+              id="outlined-name"
+              label="Stdin"
+              placeholder="one, two, three"
+              style={{ margin: 20 }}
+              onChange={this.onStdinChange}
+              value={this.state.stdin}
               fullWidth
               margin="normal"
               variant="outlined"
