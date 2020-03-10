@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 
 import Router from 'next/router'
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers'
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import moment from 'moment'
 
