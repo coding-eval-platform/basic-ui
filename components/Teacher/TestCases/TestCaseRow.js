@@ -13,10 +13,10 @@ import EditTestCaseInRow from './EditTestCaseInRow'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -29,7 +29,7 @@ function TestCaseRow(props) {
       <TableCell align="center">{props.visibility}</TableCell>
       <TableCell align="center">{props.timeout}</TableCell>
       <TableCell align="center">
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={6}>
             <EditTestCaseInRow
               exerciseID={props.exerciseID}

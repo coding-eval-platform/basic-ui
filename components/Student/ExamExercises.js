@@ -21,7 +21,7 @@ import axios from 'axios'
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   }
 })
@@ -155,7 +155,7 @@ class ExamExercises extends React.Component {
     } else {
       return (
         <div>
-          <Grid container spacing={24} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={10}>
               <Typography variant="h4" style={{ margin: 20 }} gutterBottom>
                 Examen: {this.state.examDescription}

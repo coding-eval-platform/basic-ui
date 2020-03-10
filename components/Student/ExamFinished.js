@@ -11,7 +11,7 @@ import { handleAccessToken } from '../../auth'
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   }
 })
@@ -46,7 +46,7 @@ class ExamFinished extends React.Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={10}>
             <Typography
               variant="h2"

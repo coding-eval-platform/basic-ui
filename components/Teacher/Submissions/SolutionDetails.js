@@ -30,7 +30,7 @@ const JavaEditor = dynamic(import('../../Editors/JavaEditor'), { ssr: false })
 const styles = theme => ({
   root: {
     width: '80%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   }
 })
@@ -255,7 +255,7 @@ class SolutionDetails extends React.Component {
     } else {
       return (
         <div>
-          <Grid container spacing={24} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
               <Button
                 style={{ margin: 20 }}
@@ -269,7 +269,7 @@ class SolutionDetails extends React.Component {
               </Button>
             </Grid>
           </Grid>
-          <Grid container spacing={24} alignItems="flex-start">
+          <Grid container spacing={2} alignItems="flex-start">
             <Grid item xs={4}>
               {/* ENTREGA */}
               <Typography variant="h5" style={{ margin: 20 }} gutterBottom>

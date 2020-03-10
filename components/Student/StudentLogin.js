@@ -11,10 +11,10 @@ import { handleAccessToken } from '../../auth'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(1) * 2
   },
   padding: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 })
 

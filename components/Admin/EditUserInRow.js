@@ -8,7 +8,7 @@ import Router from 'next/router'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   }
   // appBar: {
   //   position: 'relative'

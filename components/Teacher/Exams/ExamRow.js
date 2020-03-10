@@ -20,10 +20,10 @@ import SeeExercises from './SeeExercises'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -91,7 +91,7 @@ function ExamRow(props) {
           : convertHMS(props.actualDuration)}
       </TableCell>
       <TableCell align="center">
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={2}>
             <Tooltip title="Ver entregas">
               <IconButton

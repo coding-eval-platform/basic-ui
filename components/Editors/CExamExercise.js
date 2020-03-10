@@ -39,20 +39,20 @@ const styles = theme => ({
     fontSize: 15
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   multilineColor: {
     color: 'red',
@@ -331,7 +331,7 @@ class CExamExercise extends Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={9}>
             <Typography style={{ margin: 20 }} variant="body1" gutterBottom>
               {this.props.question}
@@ -386,7 +386,7 @@ class CExamExercise extends Component {
               return (
                 <div key={index}>
                   <ListItem button>
-                    <Grid container spacing={24} alignItems="center">
+                    <Grid container spacing={2} alignItems="center">
                       <ListItemText
                         style={{ margin: 20 }}
                         primary={`Test case ${index + 1}`}
@@ -424,7 +424,7 @@ class CExamExercise extends Component {
                     </Grid>
                     <Grid
                       container
-                      spacing={24}
+                      spacing={2}
                       justify="flex-end"
                       alignItems="center"
                     >
@@ -448,7 +448,7 @@ class CExamExercise extends Component {
                     </Grid>
                     <Grid
                       container
-                      spacing={24}
+                      spacing={2}
                       justify="flex-end"
                       alignItems="center"
                     >
@@ -480,7 +480,7 @@ class CExamExercise extends Component {
             })}
           </List>
         </Dialog>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
@@ -570,7 +570,7 @@ class CExamExercise extends Component {
         </Grid>
 
         {/* EXECUTES */}
-        <Grid container spacing={24} alignItems="center" justify="flex-end">
+        <Grid container spacing={2} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
               variant="contained"
@@ -594,14 +594,14 @@ class CExamExercise extends Component {
         </Grid>
 
         {/* C EDITOR */}
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <CEditor codeToRun={this.state.code} onChange={this.onCodeChange} />
           </Grid>
 
           {/* C OUPUT */}
           <Grid item xs={12} sm={6}>
-            <Grid container spacing={24}>
+            <Grid container spacing={2}>
               {this.state.output.result === undefined ? (
                 ''
               ) : this.state.output.result === 'COMPLETED' ? (

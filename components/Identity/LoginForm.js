@@ -9,10 +9,10 @@ import store from 'store'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   padding: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 })
 

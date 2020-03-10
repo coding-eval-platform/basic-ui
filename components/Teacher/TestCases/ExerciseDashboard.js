@@ -22,7 +22,7 @@ import Modal from 'react-awesome-modal'
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   }
 })
@@ -220,7 +220,7 @@ class ExerciseDashboard extends React.Component {
     const { classes } = this.props
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -237,7 +237,7 @@ class ExerciseDashboard extends React.Component {
         <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
           Todos sus test cases para el ejercicio: {this.state.exerciseQuestion}
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -256,7 +256,7 @@ class ExerciseDashboard extends React.Component {
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
               No tiene test cases públicos creados aún 🤷‍♂️
             </Typography>
-            {/* <Grid container spacing={24} alignItems="center">
+            {/* <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}
@@ -348,7 +348,7 @@ class ExerciseDashboard extends React.Component {
             <Typography variant="h6" style={{ margin: 20 }} gutterBottom>
               No tiene test cases privados creados aún 🤷‍♂️
             </Typography>
-            {/* <Grid container spacing={24} alignItems="center">
+            {/* <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}

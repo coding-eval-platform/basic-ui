@@ -14,10 +14,10 @@ import SeeTestCases from './SeeTestCases'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -31,7 +31,7 @@ function ExerciseRow(props) {
       <TableCell align="center">{props.language}</TableCell>
       <TableCell align="center">{props.awardedScore}</TableCell>
       <TableCell align="center">
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={4}>
             <SeeTestCases
               exerciseID={props.id}

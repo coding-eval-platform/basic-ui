@@ -18,8 +18,8 @@ import { handleAccessToken } from '../../auth'
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -155,7 +155,7 @@ class ModifyExam extends Component {
   render() {
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -175,7 +175,7 @@ class ModifyExam extends Component {
         <Typography style={{ margin: 20 }} variant="h6" gutterBottom>
           Estado del examen: {this.state.examState}
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
@@ -189,7 +189,7 @@ class ModifyExam extends Component {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
@@ -213,7 +213,7 @@ class ModifyExam extends Component {
             </MuiPickersUtilsProvider>
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -225,7 +225,7 @@ class ModifyExam extends Component {
             </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -237,7 +237,7 @@ class ModifyExam extends Component {
             </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}

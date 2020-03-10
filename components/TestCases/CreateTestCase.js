@@ -26,15 +26,15 @@ const styles = theme => ({
     color: 'white'
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '100%',
     align: 'center'
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   }
 })
 
@@ -161,7 +161,7 @@ class CreateTestCase extends React.Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -178,7 +178,7 @@ class CreateTestCase extends React.Component {
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Crear un test case para el ejercicio: {this.state.exerciseQuestion}
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
@@ -207,7 +207,7 @@ class CreateTestCase extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
@@ -223,7 +223,7 @@ class CreateTestCase extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
@@ -239,7 +239,7 @@ class CreateTestCase extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
@@ -255,7 +255,7 @@ class CreateTestCase extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}

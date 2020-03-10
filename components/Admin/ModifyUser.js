@@ -28,11 +28,11 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     minWidth: 120,
     maxWidth: 300
   }
@@ -254,7 +254,7 @@ class ModifyUser extends Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -282,7 +282,7 @@ class ModifyUser extends Component {
             label="Activar usuario"
           />
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={3} style={{ margin: 20 }}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="select-multiple-checkbox">
@@ -309,14 +309,14 @@ class ModifyUser extends Component {
           </Grid>
         </Grid>
         <div>
-          <Grid container spacing={24} style={{ margin: 20 }}>
+          <Grid container spacing={2} style={{ margin: 20 }}>
             {this.state.roles.map((role, index) => (
               <div key={role}>
-                <Grid container spacing={24} style={{ margin: 20 }}>
+                <Grid container spacing={2} style={{ margin: 20 }}>
                   <Grid item xs={2}>
                     <Typography variant="h6">{role}</Typography>
                   </Grid>
-                  <Grid container spacing={24}>
+                  <Grid container spacing={2}>
                     <Grid item xs={2}>
                       <Tooltip title="Agregar rol">
                         <IconButton

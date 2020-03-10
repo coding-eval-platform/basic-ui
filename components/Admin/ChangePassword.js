@@ -14,8 +14,8 @@ import { handleAccessToken } from '../../auth'
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -82,7 +82,7 @@ class ChangePassword extends Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -99,7 +99,7 @@ class ChangePassword extends Component {
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Cambiar c
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-currentpassword"
@@ -114,7 +114,7 @@ class ChangePassword extends Component {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-newpassword"
@@ -129,7 +129,7 @@ class ChangePassword extends Component {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}

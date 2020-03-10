@@ -21,20 +21,20 @@ const styles = theme => ({
     fontSize: 15
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   multilineColor: {
     color: 'red',
@@ -179,7 +179,7 @@ class CPlaygroundExercise extends Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           {/* INPUTS */}
           <Grid item xs={3}>
             <TextField
@@ -269,7 +269,7 @@ class CPlaygroundExercise extends Component {
         </Grid>
 
         {/* EXECUTES */}
-        <Grid container spacing={24} alignItems="center" justify="flex-end">
+        <Grid container spacing={2} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
               variant="contained"
@@ -293,14 +293,14 @@ class CPlaygroundExercise extends Component {
         </Grid>
 
         {/* C EDITOR */}
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <CEditor codeToRun={this.state.code} onChange={this.onCodeChange} />
           </Grid>
 
           {/* C OUPUT */}
           <Grid item xs={12} sm={6}>
-            <Grid container spacing={24}>
+            <Grid container spacing={2}>
               {this.state.output.result === undefined ? (
                 ''
               ) : this.state.output.result === 'COMPLETED' ? (

@@ -23,7 +23,7 @@ import { handleAccessToken } from '../../../auth'
 const styles = theme => ({
   root: {
     width: '60%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   }
 })
@@ -96,7 +96,7 @@ class SubmissionDetails extends React.Component {
     } else if (this.state.solutions < 1) {
       return (
         <div>
-          <Grid container spacing={24} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
               <Button
                 style={{ margin: 20 }}
@@ -119,7 +119,7 @@ class SubmissionDetails extends React.Component {
     } else {
       return (
         <div>
-          <Grid container spacing={24} alignItems="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
               <Button
                 style={{ margin: 20 }}
@@ -133,7 +133,7 @@ class SubmissionDetails extends React.Component {
               </Button>
             </Grid>
           </Grid>
-          {/* <Grid container spacing={24} alignItems="center">
+          {/* <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
               <Button
                 style={{ margin: 20 }}

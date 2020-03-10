@@ -15,8 +15,8 @@ import axios from 'axios'
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -101,7 +101,7 @@ class LTIRegistrationForm extends Component {
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Registrar examen con LTI
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-password"
@@ -116,7 +116,7 @@ class LTIRegistrationForm extends Component {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}

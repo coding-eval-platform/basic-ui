@@ -29,15 +29,15 @@ const styles = theme => ({
     color: 'white'
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '100%',
     align: 'center'
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   }
 })
 
@@ -152,7 +152,7 @@ class ModifyExercise extends React.Component {
 
     return (
       <div>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <Button
               style={{ margin: 20 }}
@@ -169,7 +169,7 @@ class ModifyExercise extends React.Component {
         <Typography style={{ margin: 20 }} variant="h5" gutterBottom>
           Editar el ejercicio: {this.state.question}
         </Typography>
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6}>
             <TextField
               id="outlined-name"
@@ -185,7 +185,7 @@ class ModifyExercise extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-name"
@@ -228,7 +228,7 @@ class ModifyExercise extends React.Component {
             </Typography>
             <Grid
               container
-              spacing={24}
+              spacing={2}
               style={{ margin: 15 }}
               alignItems="center"
             >
@@ -239,7 +239,7 @@ class ModifyExercise extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={24} alignItems="center">
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}
@@ -259,7 +259,7 @@ class ModifyExercise extends React.Component {
             </Typography>
             <Grid
               container
-              spacing={24}
+              spacing={2}
               style={{ margin: 15 }}
               alignItems="center"
             >
@@ -270,7 +270,7 @@ class ModifyExercise extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={24} alignItems="center">
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}
@@ -290,7 +290,7 @@ class ModifyExercise extends React.Component {
             </Typography>
             <Grid
               container
-              spacing={24}
+              spacing={2}
               style={{ margin: 15 }}
               alignItems="center"
             >
@@ -301,7 +301,7 @@ class ModifyExercise extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={24} alignItems="center">
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <Button
                   style={{ margin: 20 }}

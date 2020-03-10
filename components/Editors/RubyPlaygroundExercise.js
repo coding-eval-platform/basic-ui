@@ -22,20 +22,20 @@ const styles = theme => ({
     fontSize: 15
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   multilineColor: {
     color: 'red',
@@ -192,7 +192,7 @@ class RubyPlaygroundExercise extends Component {
     return (
       <div>
         {/* INPUTS */}
-        <Grid container spacing={24} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={3}>
             <TextField
               id="outlined-full-width"
@@ -264,7 +264,7 @@ class RubyPlaygroundExercise extends Component {
         </Grid>
 
         {/* EXECUTE */}
-        <Grid container spacing={24} alignItems="center" justify="flex-end">
+        <Grid container spacing={2} alignItems="center" justify="flex-end">
           <Grid item xs={3}>
             <Button
               variant="contained"
@@ -287,7 +287,7 @@ class RubyPlaygroundExercise extends Component {
           </Grid>
         </Grid>
 
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           {/* RUBY EDITOR */}
           <Grid item xs={12} sm={6}>
             <RubyEditor
@@ -296,7 +296,7 @@ class RubyPlaygroundExercise extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Grid container spacing={24}>
+            <Grid container spacing={2}>
               {this.state.output.result === undefined ? (
                 ''
               ) : this.state.output.result === 'COMPLETED' ? (

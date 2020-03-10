@@ -12,10 +12,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 })
 
@@ -25,7 +25,7 @@ function ResultRow(props) {
       <TableCell align="center">{props.testCaseId}</TableCell>
       <TableCell align="center">{props.result}</TableCell>
       <TableCell align="center" style={{ maxWidth: '25px' }}>
-        <Grid container spacing={24}>
+        <Grid container spacing={2}>
           <Grid item xs={6}>
             <Tooltip title="Correr nuevamente el test case">
               <IconButton aria-label="Replay" onClick={props.replayTestCase}>
